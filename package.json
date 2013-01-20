@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/michellebu/peerjs-server.git"
+  },
   "author": "Michelle Bu",
   "license": "BSD",
   "dependencies": {
