@@ -14,6 +14,7 @@
   "author": "Michelle Bu",
   "license": "BSD",
   "dependencies": {
-    "ws": "~0.4.25"
+    "ws": "~0.4.25",
+    "express": "~3.1.0"
   }
 }
