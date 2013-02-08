@@ -1,7 +1,7 @@
 {
   "name": "peer",
-  "version": "0.0.1",
-  "description": "Simple p2p file transfer",
+  "version": "0.1.0",
+  "description": "Peer-to-peer data in browsers",
   "main": "lib/server.js",
   "repository": {
     "type": "git",
