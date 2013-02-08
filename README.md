@@ -9,7 +9,7 @@ PeerServer helps broker connections between PeerJS clients. Data is not proxied 
 **If you prefer to use a cloud hosted PeerServer instead of running your own, [sign up for a free API key here](http://peerjs.com/peerserver)**
 
 
-##Run PeerServer
+### Run PeerServer
 
 Install the library
 
