@@ -3,16 +3,12 @@
   "version": "0.0.1",
   "description": "Simple p2p file transfer",
   "main": "lib/server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/michellebu/peerjs-server.git"
+    "url": "git://github.com/peers/peerjs-server.git"
   },
   "author": "Michelle Bu",
-  "license": "BSD",
+  "license": "MIT",
   "dependencies": {
     "ws": "~0.4.25",
     "express": "~3.1.0"
