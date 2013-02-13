@@ -21,6 +21,7 @@ Run the server
     
 Connecting to the server from PeerJS
     
-    // No API key requried when not using cloud server
-    var peer = new Peer('someid', {host: 'localhost', port: 9000});
-    
+    <script>
+        // No API key requried when not using cloud server
+        var peer = new Peer('someid', {host: 'localhost', port: 9000});
+    </script>
