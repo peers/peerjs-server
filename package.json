@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git://github.com/peers/peerjs-server.git"
   },
-  "author": "Michelle Bu",
+  "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "dependencies": {
     "ws": "~0.4.25",
