@@ -18,3 +18,9 @@ Run the server
 
     var PeerServer = require('peer-cloud').PeerServer;
     var server = new PeerServer({ port: 9000 });
+    
+Connecting to the server from PeerJS
+    
+    // No API key requried when not using cloud server
+    var peer = new Peer('someid', {host: 'localhost', port: 9000});
+    
