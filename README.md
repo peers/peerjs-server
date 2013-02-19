@@ -16,7 +16,7 @@ Install the library
 
 Run the server
 
-    var PeerServer = require('peer-cloud').PeerServer;
+    var PeerServer = require('peer').PeerServer;
     var server = new PeerServer({ port: 9000 });
     
 Connecting to the server from PeerJS
