@@ -12,5 +12,9 @@
   "dependencies": {
     "ws": "~0.4.25",
     "express": "~3.1.0"
+  },
+  "devDependencies": {
+    "expect.js": "*",
+    "mocha": "*"
   }
 }
