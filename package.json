@@ -10,7 +10,7 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "dependencies": {
-    "ws": "~0.4.25",
-    "express": "~3.1.0"
+    "restify": "~2.3.5",
+    "ws": "~0.4.25"
   }
 }
