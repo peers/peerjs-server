@@ -1,6 +1,6 @@
 {
   "name": "peer",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Peer-to-peer data in browsers",
   "main": "lib/server.js",
   "repository": {
