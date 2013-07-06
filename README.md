@@ -12,12 +12,22 @@ PeerServer helps broker connections between PeerJS clients. Data is not proxied 
 
 Install the library:
 
-    npm install peer
+```bash
+$> npm install peer
+```
 
 Run the server:
 
-    var PeerServer = require('peer').PeerServer;
-    var server = new PeerServer({ port: 9000 });
+```bash
+$> peerjs -p 9000 --key mykey
+```
+
+Or, create a custom server:
+
+```javascript
+var PeerServer = require('peer').PeerServer;
+var server = new PeerServer({ port: 9000 });
+```
 
 Connecting to the server from PeerJS:
 
