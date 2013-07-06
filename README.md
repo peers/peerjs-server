@@ -19,7 +19,7 @@ $> npm install peer
 Run the server:
 
 ```bash
-$> peerjs -p 9000 --key mykey
+$> peerjs --port 9000 --key peerjs
 ```
 
 Or, create a custom server:
@@ -31,23 +31,27 @@ var server = new PeerServer({ port: 9000 });
 
 Connecting to the server from PeerJS:
 
-    <script>
-        // No API key required when not using cloud server
-        var peer = new Peer('someid', {host: 'localhost', port: 9000});
-    </script>
+```html
+<script>
+    // No API key required when not using cloud server
+    var peer = new Peer('someid', {host: 'localhost', port: 9000});
+</script>
+```
 
 Using HTTPS: Simply pass in PEM-encoded certificate and key.
 
-    var fs = require('fs');
-    var PeerServer = require('peer').PeerServer;
+```javascript
+var fs = require('fs');
+var PeerServer = require('peer').PeerServer;
 
-    var server = new PeerServer({
-      port: 9000,
-      ssl: {
-        key: fs.readFileSync('/path/to/your/ssl/key/here.key'),
-        certificate: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
-      }
-    });
+var server = new PeerServer({
+  port: 9000,
+  ssl: {
+    key: fs.readFileSync('/path/to/your/ssl/key/here.key'),
+    certificate: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
+  }
+});
+```
 
 ## Problems?
 
