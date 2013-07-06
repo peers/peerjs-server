@@ -3,6 +3,7 @@
   "version": "0.1.6",
   "description": "Peer-to-peer data in browsers",
   "main": "lib/server.js",
+  "bin": { "peerjs": "./bin/peerjs" },
   "repository": {
     "type": "git",
     "url": "git://github.com/peers/peerjs-server.git"
