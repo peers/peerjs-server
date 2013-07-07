@@ -14,5 +14,10 @@
     "restify": "~2.3.5",
     "ws": "~0.4.25",
     "optimist": "*"
+  },
+  "devDependencies": {
+    "expect.js": "*",
+    "sinon": "*",
+    "mocha": "*"
   }
 }
