@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/peers/peerjs-server.png?branch=master)](https://travis-ci.org/peers/peerjs-server)
+
 # PeerJS Server: Server component for PeerJS #
 
 PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server.
