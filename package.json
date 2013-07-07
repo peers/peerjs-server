@@ -19,5 +19,8 @@
     "expect.js": "*",
     "sinon": "*",
     "mocha": "*"
+  },
+  "scripts": {
+    "test": "mocha test"
   }
 }
