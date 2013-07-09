@@ -20,6 +20,9 @@
     "sinon": "*",
     "mocha": "*"
   },
+  "engines": {
+    "node": ">=0.8"
+  },
   "scripts": {
     "test": "mocha test"
   }
