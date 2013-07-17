@@ -50,6 +50,10 @@ var path = require('path')
         demand: true,
         alias: 'p',
         description: 'port',
+      },
+      persist_interval: {
+        demand: false,
+        description: 'interval to persist data, in milliseconds'
       }
     }).argv;
 
