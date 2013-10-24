@@ -206,7 +206,7 @@ describe('PeerServer', function() {
     });
 
     it('should generate a 16-character ID', function() {
-      expect(p._generateClientId('anykey').length).to.be(16);
+      expect(p._generateClientId('anykey').length).to.be.within(15, 16);
     });
   });
 });
