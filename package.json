@@ -1,7 +1,7 @@
 {
   "name": "peer",
   "version": "0.2.0",
-  "description": "Peer-to-peer data in browsers",
+  "description": "PeerJS server component",
   "main": "lib/server.js",
   "bin": { "peerjs": "./bin/peerjs" },
   "repository": {
