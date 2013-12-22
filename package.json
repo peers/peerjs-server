@@ -3,7 +3,9 @@
   "version": "0.2.1",
   "description": "PeerJS server component",
   "main": "lib/server.js",
-  "bin": { "peerjs": "./bin/peerjs" },
+  "bin": {
+    "peerjs": "./bin/peerjs"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/peers/peerjs-server.git"
@@ -11,7 +13,7 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "dependencies": {
-    "restify": "~2.3.5",
+    "restify": "~2.6.0",
     "ws": "~0.4.25",
     "optimist": "*"
   },
