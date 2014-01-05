@@ -55,6 +55,21 @@ var server = new PeerServer({
 });
 ```
 
+### Events
+
+The `'connection'` event is emitted when a peer connects to the server.
+
+```javascript
+server.on('connection', function(id) { ... })
+```
+
+The `'disconnect'` event is emitted when a peer disconnects from the server or
+when the peer can no longer be reached.
+
+```javascript
+server.on('disconnect', function(id) { ... })
+```
+
 ## Problems?
 
 Discuss PeerJS on our Google Group:
