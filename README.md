@@ -28,7 +28,7 @@ Or, create a custom server:
 
 ```javascript
 var PeerServer = require('peer').PeerServer;
-var server = new PeerServer({ port: 9000 });
+var server = new PeerServer({port: 9000, path: '/myapp'});
 ```
 
 Connecting to the server from PeerJS:
@@ -36,7 +36,7 @@ Connecting to the server from PeerJS:
 ```html
 <script>
     // No API key required when not using cloud server
-    var peer = new Peer('someid', {host: 'localhost', port: 9000});
+    var peer = new Peer('someid', {host: 'localhost', port: 9000, path: '/myapp'});
 </script>
 ```
 

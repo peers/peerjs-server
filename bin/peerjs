@@ -49,7 +49,11 @@ var path = require('path')
       port: {
         demand: true,
         alias: 'p',
-        description: 'port',
+        description: 'port'
+      },
+      path: {
+        demand: false,
+        description: 'custom path'
       }
     }).argv;
 
@@ -67,5 +71,5 @@ process.on('uncaughtException', function(e) {
 
 var server = new PeerServer(opts);
 console.log(
-  "Started PeerServer, port: " + opts.port + (" (v. %s)"), version
+  'Started PeerServer, port: ' + opts.port + ', path: ' + (opts.path || '/') + (" (v. %s)"), version
 );
