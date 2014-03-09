@@ -54,8 +54,14 @@ var path = require('path')
       path: {
         demand: false,
         description: 'custom path'
+      },
+      allow_discovery: {
+        demand: false,
+        description: 'allow discovery of peers'
       }
-    }).argv;
+    })
+    .boolean('allow_discovery')
+    .argv;
 
 opts.version = version;
 
