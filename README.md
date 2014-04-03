@@ -53,6 +53,8 @@ var server = new PeerServer({
     certificate: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
   }
 });
+
+server.listen();
 ```
 
 ### Events
