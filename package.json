@@ -2,7 +2,7 @@
   "name": "peer",
   "version": "0.2.7",
   "description": "PeerJS server component",
-  "main": "lib/server.js",
+  "main": "lib/index.js",
   "bin": {
     "peerjs": "./bin/peerjs"
   },
@@ -13,9 +13,10 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "dependencies": {
-    "restify": "~2.6.0",
-    "ws": "~0.4.25",
-    "optimist": "*"
+    "express": "~3.5.1",
+    "optimist": "~0.6.1",
+    "utils-merge": "~1.0.0",
+    "ws": "~0.4.25"
   },
   "devDependencies": {
     "expect.js": "*",

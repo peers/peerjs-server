@@ -46,13 +46,14 @@ Using HTTPS: Simply pass in PEM-encoded certificate and key.
 var fs = require('fs');
 var PeerServer = require('peer').PeerServer;
 
-var server = new PeerServer({
-  port: 9000,
+var server = PeerServer({
   ssl: {
     key: fs.readFileSync('/path/to/your/ssl/key/here.key'),
     certificate: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
   }
 });
+
+server.listen(9000);
 ```
 
 ### Events
