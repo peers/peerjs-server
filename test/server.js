@@ -14,11 +14,16 @@ describe('PeerServer', function() {
 
     describe('#_checkKey', function() {
         var p;
-        before(function() {
+        before(function(done) {
             PeerServer.prototype._initializeHTTP = sinon.stub();
-            p = PeerServer({ port: 8000 });
+            p = PeerServer({ port: 8000 }, done);
             p._checkKey('peerjs', 'myip', function() {});
         });
+
+        after(function(done) {
+            p._server.close(done);
+        });
+
 
         it('should reject keys that are not the default', function(done) {
             p._checkKey('bad key', null, function(response) {
@@ -70,14 +75,18 @@ describe('PeerServer', function() {
 
     describe('#_removePeer', function() {
         var p;
-        before(function() {
+        before(function(done) {
             PeerServer.prototype._initializeHTTP = sinon.stub();
-            p = PeerServer({ port: 8000 });
+            p = new PeerServer({ port: 8000 }, done);
 
             var fake = {ip: '0.0.0.0'};
             p._ips[fake.ip] = 1;
             p._clients['peerjs'] = {};
             p._clients['peerjs']['test'] = fake;
+        });
+
+        after(function(done) {
+            p._server.close(done);
         });
 
         it('should decrement the number of ips being used and remove the connection', function() {
@@ -92,10 +101,14 @@ describe('PeerServer', function() {
         var p;
         var KEY = 'peerjs';
         var ID = 'test';
-        before(function() {
+        before(function(done) {
             PeerServer.prototype._initializeHTTP = sinon.stub();
-            p = PeerServer({ port: 8000 });
+            p = PeerServer({ port: 8000 }, done);
             p._clients[KEY] = {};
+        });
+
+        after(function(done) {
+            p._server.close(done);
         });
 
         it('should send to the socket when appropriate', function() {
@@ -177,9 +190,12 @@ describe('PeerServer', function() {
 
     describe('#_generateClientId', function() {
         var p;
-        before(function() {
-            PeerServer.prototype._initializeHTTP = sinon.stub();
-            p = PeerServer({ port: 8000 });
+        before(function(done) {
+            p = new PeerServer({ port: 8000 }, done);
+        });
+
+        after(function(done) {
+            p._server.close(done);
         });
 
         it('should generate a 16-character ID', function() {
