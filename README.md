@@ -28,7 +28,7 @@ Or, create a custom server:
 
 ```javascript
 var PeerServer = require('peer').PeerServer;
-var server = new PeerServer({port: 9000, path: '/myapp'});
+var server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
 Connecting to the server from PeerJS:
@@ -46,13 +46,29 @@ Using HTTPS: Simply pass in PEM-encoded certificate and key.
 var fs = require('fs');
 var PeerServer = require('peer').PeerServer;
 
-var server = new PeerServer({
+var server = PeerServer({
   port: 9000,
   ssl: {
     key: fs.readFileSync('/path/to/your/ssl/key/here.key'),
     certificate: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
   }
 });
+```
+
+### Combining with existing express app
+
+WebSocket server needs server instance to bootup, so we should create express app, then get server from `listen` method and only after that bind PeerServer to express application.
+
+```javascript
+var express = require('express');
+var app = express();
+var PeerServer = require('peer').PeerServer;
+
+app.get('/', function (req, res, next) { res.send('Hello world!'); });
+
+var server = app.listen(9000);
+
+app.use(PeerServer({ server: server, path: '/api' }));
 ```
 
 ### Events

@@ -1,81 +1,82 @@
 #!/usr/bin/env node
 
 var path = require('path')
-  , pkg = require('../package.json')
-  , fs = require('fs')
-  , version = pkg.version
-  , PeerServer = require('../lib/server').PeerServer
-  , opts = require('optimist')
-    .usage('Usage: $0')
-    .options({
-      debug: {
-        demand: false,
-        alias: 'd',
-        description: 'debug',
-        default: false
-      },
-      timeout: {
-        demand: false,
-        alias: 't',
-        description: 'timeout (milliseconds)',
+    , pkg = require('../package.json')
+    , fs = require('fs')
+    , version = pkg.version
+    , PeerServer = require('../lib')()
+    , opts = require('optimist')
+        .usage('Usage: $0')
+        .options({
+            debug: {
+                demand: false,
+                alias: 'd',
+                description: 'debug',
+            default: false
+        },
+        timeout: {
+            demand: false,
+            alias: 't',
+            description: 'timeout (milliseconds)',
         default: 5000
-      },
-      ip_limit: {
-        demand: false,
-        alias: 'i',
-        description: 'IP limit',
+        },
+        ip_limit: {
+            demand: false,
+            alias: 'i',
+            description: 'IP limit',
         default: 5000
-      },
-      concurrent_limit: {
-        demand: false,
-        alias: 'c',
-        description: 'concurrent limit',
+        },
+        concurrent_limit: {
+            demand: false,
+            alias: 'c',
+            description: 'concurrent limit',
         default: 5000
-      },
-      key: {
-        demand: false,
-        alias: 'k',
-        description: 'connection key',
+        },
+        key: {
+            demand: false,
+            alias: 'k',
+            description: 'connection key',
         default: 'peerjs'
-      },
-      sslkey: {
-        demand: false,
-        description: 'path to SSL key'
-      },
-      sslcert: {
-        demand: false,
-        description: 'path to SSL certificate'
-      },
-      port: {
-        demand: true,
-        alias: 'p',
-        description: 'port'
-      },
-      path: {
-        demand: false,
-        description: 'custom path'
-      },
-      allow_discovery: {
-        demand: false,
-        description: 'allow discovery of peers'
-      }
-    })
-    .boolean('allow_discovery')
-    .argv;
+        },
+        sslkey: {
+            demand: false,
+            description: 'path to SSL key'
+        },
+        sslcert: {
+            demand: false,
+            description: 'path to SSL certificate'
+        },
+        port: {
+            demand: true,
+            alias: 'p',
+            description: 'port'
+        },
+        path: {
+            demand: false,
+            description: 'custom path'
+        },
+        allow_discovery: {
+            demand: false,
+            description: 'allow discovery of peers'
+        }
+        })
+        .boolean('allow_discovery')
+        .argv;
 
 opts.version = version;
 
 if (opts.sslkey && opts.sslcert) {
-  opts['ssl'] = {};
-  opts.ssl['key'] = fs.readFileSync(path.resolve(opts.sslkey));
-  opts.ssl['certificate'] = fs.readFileSync(path.resolve(opts.sslcert));
+    opts['ssl'] = {};
+    opts.ssl['key'] = fs.readFileSync(path.resolve(opts.sslkey));
+    opts.ssl['certificate'] = fs.readFileSync(path.resolve(opts.sslcert));
 }
 
 process.on('uncaughtException', function(e) {
-  console.error('Error: ' + e);
+    console.error('Error: ' + e);
 });
 
 var server = new PeerServer(opts);
+server.listen(opts.port);
 console.log(
-  'Started PeerServer, port: ' + opts.port + ', path: ' + (opts.path || '/') + (" (v. %s)"), version
+    'Started PeerServer, port: ' + opts.port + ', path: ' + (opts.path || '/') + (" (v. %s)"), version
 );
