@@ -1,6 +1,6 @@
 # PeerServer Changelog
 
-### 0.2.4
+### 0.2.5
 
 * Takes a `path` option, which the peer server will append PeerJS routes to.
 * Add support for configurable server IP address.
