@@ -66,9 +66,9 @@ var path = require('path')
 opts.version = version;
 
 if (opts.sslkey && opts.sslcert) {
-  opts['ssl'] = {};
-  opts.ssl['key'] = fs.readFileSync(path.resolve(opts.sslkey));
-  opts.ssl['certificate'] = fs.readFileSync(path.resolve(opts.sslcert));
+  opts['.ssl'] = {};
+  opts.ssl['.key'] = fs.readFileSync(path.resolve(opts.sslkey));
+  opts.ssl['.certificate'] = fs.readFileSync(path.resolve(opts.sslcert));
 }
 
 process.on('uncaughtException', function(e) {
