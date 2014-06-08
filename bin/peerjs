@@ -58,6 +58,10 @@ var path = require('path')
       allow_discovery: {
         demand: false,
         description: 'allow discovery of peers'
+      },
+      memcached_hosts: {
+        demand: false,
+        description: 'memcached hosts'
       }
     })
     .boolean('allow_discovery')
@@ -69,6 +73,10 @@ if (opts.sslkey && opts.sslcert) {
   opts['ssl'] = {};
   opts.ssl['key'] = fs.readFileSync(path.resolve(opts.sslkey));
   opts.ssl['certificate'] = fs.readFileSync(path.resolve(opts.sslcert));
+}
+
+if (opts.memcached_hosts) {
+  opts.memcached_hosts = opts.memcached_hosts.split(',');
 }
 
 process.on('uncaughtException', function(e) {
