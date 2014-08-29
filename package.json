@@ -1,6 +1,6 @@
 {
   "name": "peer",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "PeerJS server component",
   "main": "lib/server.js",
   "bin": {
