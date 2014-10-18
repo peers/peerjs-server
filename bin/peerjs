@@ -4,7 +4,8 @@ var path = require('path')
     , pkg = require('../package.json')
     , fs = require('fs')
     , version = pkg.version
-    , PeerServer = require('../lib')()
+    , app = require('express')()
+    , PeerServer = require('../lib')
     , opts = require('optimist')
         .usage('Usage: $0')
         .options({
@@ -75,8 +76,10 @@ process.on('uncaughtException', function(e) {
     console.error('Error: ' + e);
 });
 
-var server = new PeerServer(opts);
-server.listen(opts.port);
+opts.server = app.listen(opts.port);
+
+app.use(PeerServer(opts));
+
 console.log(
     'Started PeerServer, port: ' + opts.port + ', path: ' + (opts.path || '/') + (" (v. %s)"), version
 );
