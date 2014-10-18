@@ -13,7 +13,8 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "dependencies": {
-    "express": "~3.5.1",
+    "body-parser": "^1.9.0",
+    "express": "^4.9.8",
     "optimist": "~0.6.1",
     "utils-merge": "~1.0.0",
     "ws": "~0.4.25"
