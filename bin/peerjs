@@ -4,8 +4,8 @@ var path = require('path')
     , pkg = require('../package.json')
     , fs = require('fs')
     , version = pkg.version
-    , app = require('express')()
-    , PeerServer = require('../lib')
+    , PeerServer = require('../lib').PeerServer
+    , util = require('../lib/util')
     , opts = require('optimist')
         .usage('Usage: $0')
         .options({
@@ -54,7 +54,8 @@ var path = require('path')
         },
         path: {
             demand: false,
-            description: 'custom path'
+            description: 'custom path',
+        default: '/'
         },
         allow_discovery: {
             demand: false,
@@ -64,22 +65,33 @@ var path = require('path')
         .boolean('allow_discovery')
         .argv;
 
-opts.version = version;
-
-if (opts.sslkey && opts.sslcert) {
-    opts['ssl'] = {};
-    opts.ssl['key'] = fs.readFileSync(path.resolve(opts.sslkey));
-    opts.ssl['certificate'] = fs.readFileSync(path.resolve(opts.sslcert));
-}
-
 process.on('uncaughtException', function(e) {
     console.error('Error: ' + e);
 });
 
-opts.server = app.listen(opts.port);
+if (opts.sslkey || opts.sslcert) {
+    if (opts.sslkey && opts.sslcert) {
+        opts.ssl = {
+            key: fs.readFileSync(path.resolve(opts.sslkey)),
+            cert: fs.readFileSync(path.resolve(opts.sslcert))
+        }
 
-app.use(PeerServer(opts));
+        delete opts.sslkey;
+        delete opts.sslcert;
+    } else {
+        util.prettyError('Warning: PeerServer will not run because either ' +
+            'the key or the certificate has not been provided.');
+        process.exit(1);
+    }
+}
 
-console.log(
-    'Started PeerServer, port: ' + opts.port + ', path: ' + (opts.path || '/') + (" (v. %s)"), version
-);
+var path = opts.path;
+var server = PeerServer(opts, function(server) {
+    var host = server.address().address;
+    var port = server.address().port;
+
+    console.log(
+        'Started PeerServer on ' + host + ', port: ' + port + ', path: ' +
+        path + (" (v. %s)"), version
+    );
+});
