@@ -55,6 +55,18 @@ var server = PeerServer({
 });
 ```
 
+#### Running PeerServer behind a reverse proxy
+
+Make sure to set the `proxied` option, otherwise IP based limiting will fail.
+The option is passed verbatim to the
+[expressjs `trust proxy` setting](http://expressjs.com/4x/api.html#app-settings)
+if it is truthy.
+
+```javascript
+var PeerServer = require('peer').PeerServer;
+var server = PeerServer({port: 9000, path: '/myapp', proxied: true});
+```
+
 ### Combining with existing express app
 
 ```javascript
