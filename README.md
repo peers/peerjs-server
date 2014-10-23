@@ -6,9 +6,11 @@ PeerServer helps broker connections between PeerJS clients. Data is not proxied 
 
 ##[http://peerjs.com](http://peerjs.com)
 
-
 **If you prefer to use a cloud hosted PeerServer instead of running your own, [sign up for a free API key here](http://peerjs.com/peerserver)**
 
+or
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ### Run PeerServer
 
