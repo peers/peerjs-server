@@ -85,12 +85,14 @@ if (opts.sslkey || opts.sslcert) {
   }
 }
 
+
+var userPath = opts.path;
 var server = PeerServer(opts, function(server) {
   var host = server.address().address;
   var port = server.address().port;
 
   console.log(
     'Started PeerServer on %s, port: %s, path: %s (v. %s)',
-    host, port, opts.path || '/', version
+    host, port, userPath || '/', version
   );
 });
