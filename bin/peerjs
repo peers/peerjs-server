@@ -13,54 +13,54 @@ var path = require('path')
         demand: false,
         alias: 'd',
         description: 'debug',
-      default: false
-    },
-    timeout: {
-      demand: false,
-      alias: 't',
-      description: 'timeout (milliseconds)',
-    default: 5000
-    },
-    ip_limit: {
-      demand: false,
-      alias: 'i',
-      description: 'IP limit',
-    default: 5000
-    },
-    concurrent_limit: {
-      demand: false,
-      alias: 'c',
-      description: 'concurrent limit',
-    default: 5000
-    },
-    key: {
-      demand: false,
-      alias: 'k',
-      description: 'connection key',
-    default: 'peerjs'
-    },
-    sslkey: {
-      demand: false,
-      description: 'path to SSL key'
-    },
-    sslcert: {
-      demand: false,
-      description: 'path to SSL certificate'
-    },
-    port: {
-      demand: true,
-      alias: 'p',
-      description: 'port'
-    },
-    path: {
-      demand: false,
-      description: 'custom path',
-    default: '/'
-    },
-    allow_discovery: {
-      demand: false,
-      description: 'allow discovery of peers'
-    }
+        default: false
+      },
+      timeout: {
+        demand: false,
+        alias: 't',
+        description: 'timeout (milliseconds)',
+        default: 5000
+      },
+      ip_limit: {
+        demand: false,
+        alias: 'i',
+        description: 'IP limit',
+        default: 5000
+      },
+      concurrent_limit: {
+        demand: false,
+        alias: 'c',
+        description: 'concurrent limit',
+        default: 5000
+      },
+      key: {
+        demand: false,
+        alias: 'k',
+        description: 'connection key',
+        default: 'peerjs'
+      },
+      sslkey: {
+        demand: false,
+        description: 'path to SSL key'
+      },
+      sslcert: {
+        demand: false,
+        description: 'path to SSL certificate'
+      },
+      port: {
+        demand: true,
+        alias: 'p',
+        description: 'port'
+      },
+      path: {
+        demand: false,
+        description: 'custom path',
+        default: '/'
+      },
+      allow_discovery: {
+        demand: false,
+        description: 'allow discovery of peers'
+      }
     })
     .boolean('allow_discovery')
     .argv;
