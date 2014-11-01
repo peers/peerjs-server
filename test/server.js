@@ -72,10 +72,10 @@ describe('ExpressPeerServer', function() {
         var message = {dst: ID};
         p._clients[KEY][ID] = {
           socket: {
-            send: send
+          send: send
           },
           res: {
-            write: write
+          write: write
           }
         }
         p._handleTransmission(KEY, message);
@@ -88,7 +88,7 @@ describe('ExpressPeerServer', function() {
         var message = {dst: ID};
         p._clients[KEY][ID] = {
           res: {
-            write: write
+          write: write
           }
         }
         p._handleTransmission(KEY, message);
@@ -135,7 +135,7 @@ describe('ExpressPeerServer', function() {
         };
         p._clients[KEY][ID] = {
           socket: {
-            send: send
+          send: send
           }
         }
         p._handleTransmission(KEY, message);
@@ -145,7 +145,7 @@ describe('ExpressPeerServer', function() {
 
     describe('#_generateClientId', function() {
       it('should generate a 16-character ID', function() {
-        expect(p._generateClientId('anykey').length).to.be(16);
+      expect(p._generateClientId('anykey').length).to.be(16);
       });
     });
   });
