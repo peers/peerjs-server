@@ -30,7 +30,7 @@ Or, create a custom server:
 
 ```javascript
 var PeerServer = require('peer').PeerServer;
-var server = new PeerServer({port: 9000, path: '/myapp'});
+var server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
 Connecting to the server from PeerJS:
@@ -48,13 +48,51 @@ Using HTTPS: Simply pass in PEM-encoded certificate and key.
 var fs = require('fs');
 var PeerServer = require('peer').PeerServer;
 
-var server = new PeerServer({
+var server = PeerServer({
   port: 9000,
   ssl: {
     key: fs.readFileSync('/path/to/your/ssl/key/here.key'),
-    certificate: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
+    cert: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
   }
 });
+```
+
+#### Running PeerServer behind a reverse proxy
+
+Make sure to set the `proxied` option, otherwise IP based limiting will fail.
+The option is passed verbatim to the
+[expressjs `trust proxy` setting](http://expressjs.com/4x/api.html#app-settings)
+if it is truthy.
+
+```javascript
+var PeerServer = require('peer').PeerServer;
+var server = PeerServer({port: 9000, path: '/myapp', proxied: true});
+```
+
+### Combining with existing express app
+
+```javascript
+var express = require('express');
+var app = express();
+var ExpressPeerServer = require('peer').ExpressPeerServer;
+
+app.get('/', function (req, res, next) { res.send('Hello world!'); });
+
+var server = app.listen(9000);
+
+var options = {
+    debug: true
+}
+
+app.use('/api', ExpressPeerServer(server, options));
+
+// OR
+
+var server = require('http').createServer(app);
+
+app.use('/api', ExpressPeerServer(server, options));
+
+server.listen(9000);
 ```
 
 ### Events
