@@ -76,7 +76,7 @@ var express = require('express');
 var app = express();
 var ExpressPeerServer = require('peer').ExpressPeerServer;
 
-app.get('/', function (req, res, next) { res.send('Hello world!'); });
+app.get('/', function(req, res, next) { res.send('Hello world!'); });
 
 var server = app.listen(9000);
 
@@ -90,7 +90,7 @@ app.use('/api', ExpressPeerServer(server, options));
 
 var server = require('http').createServer(app);
 
-app.use('/api', ExpressPeerServer(server, options));
+app.use('/peerjs', ExpressPeerServer(server, options));
 
 server.listen(9000);
 ```
@@ -100,14 +100,14 @@ server.listen(9000);
 The `'connection'` event is emitted when a peer connects to the server.
 
 ```javascript
-server.on('connection', function(id) { ... })
+server.on('connection', function(id) { ... });
 ```
 
 The `'disconnect'` event is emitted when a peer disconnects from the server or
 when the peer can no longer be reached.
 
 ```javascript
-server.on('disconnect', function(id) { ... })
+server.on('disconnect', function(id) { ... });
 ```
 
 ## Problems?
