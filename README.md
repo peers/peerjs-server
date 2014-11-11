@@ -17,13 +17,13 @@ or
 Install the library:
 
 ```bash
-$> npm install peer
+$> npm install
 ```
 
 Run the server:
 
 ```bash
-$> peerjs --port 9000 --key peerjs
+$> bin/peerjs --port 9000 --key peerjs
 ```
 
 Or, create a custom server:
