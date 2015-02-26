@@ -52,6 +52,11 @@ var path = require('path')
         alias: 'p',
         description: 'port'
       },
+      host: {
+        demand: false,
+        alias: 'h',
+        description: 'IP to listen on'
+      },
       path: {
         demand: false,
         description: 'custom path',
