@@ -109,6 +109,7 @@ when the peer can no longer be reached.
 ```javascript
 server.on('disconnect', function(id) { ... });
 
+
 ## Docker
 
 You can build this image simply by calling:  
