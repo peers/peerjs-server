@@ -108,6 +108,18 @@ when the peer can no longer be reached.
 
 ```javascript
 server.on('disconnect', function(id) { ... });
+
+## Docker
+
+You can build this image simply by calling:  
+
+    docker build -t peerjs https://github.com/peers/peerjs-server.git
+
+To run the image execute this:  
+
+    docker run --name peerjs -d -p 9000:9000 peerjs
+
+This will start a peerjs server on port 9000 exposed on port 9000.
 ```
 
 ## Problems?
