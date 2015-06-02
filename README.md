@@ -108,6 +108,7 @@ when the peer can no longer be reached.
 
 ```javascript
 server.on('disconnect', function(id) { ... });
+```
 
 
 ## Docker
@@ -121,7 +122,6 @@ To run the image execute this:
     docker run --name peerjs -d -p 9000:9000 peerjs
 
 This will start a peerjs server on port 9000 exposed on port 9000.
-```
 
 ## Problems?
 
