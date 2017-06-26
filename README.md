@@ -2,7 +2,7 @@
 
 # PeerServer: A server for PeerJS #
 
-PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server.
+PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server. Showing list of Online Users.
 
 ##[http://peerjs.com](http://peerjs.com)
 
