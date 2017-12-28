@@ -2,7 +2,7 @@
 
 # PeerServer: A server for PeerJS #
 
-PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server.
+PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server. Showing list of Online Users.
 
 ##[http://peerjs.com](http://peerjs.com)
 
@@ -10,7 +10,7 @@ PeerServer helps broker connections between PeerJS clients. Data is not proxied 
 
 or
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://www.heroku.com/deploy/?template=https://github.com/peers/peerjs-server)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://www.heroku.com/deploy/?template=https://github.com/valarpirai/peerjs-server)
 
 ### Run PeerServer
 
