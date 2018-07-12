@@ -1,6 +1,6 @@
 {
   "name": "peer",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "PeerJS server component",
   "main": "lib/index.js",
   "bin": {
@@ -13,11 +13,11 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.9.0",
-    "express": "^4.9.8",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
     "optimist": "~0.6.1",
-    "ws": "~0.4.25",
-    "cors": "~2.5.0"
+    "ws": "~5.2.0",
+    "cors": "~2.8.4"
   },
   "devDependencies": {
     "expect.js": "*",
