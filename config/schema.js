@@ -32,7 +32,7 @@ module.exports = convict({
   path: {
     doc: '',
     format: String,
-    default: '/'
+    default: '/myapp'
   },
   ip_limit: {
     doc: 'Max connections per ip',

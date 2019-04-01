@@ -29,42 +29,6 @@ if (config.get('proxied')) {
   app.set('trust proxy', config.get('proxied'));
 }
 
-app.on('mount', () => {
-  if (!server) {
-    throw new Error('Server is not passed to constructor - ' +
-        'can\'t start PeerServer');
-  }
-
-  // TODO
-  app._setCleanupIntervals();
-
-  const wss = new WebSocketServer(server, app.mountpath);
-
-  wss.on('connection', client => {
-    const messages = realm.getMessageQueueById(client.getId());
-
-    messages.forEach(message => messageHandler(client, message));
-
-    realm.clearMessageQueue(client.getId());
-
-    logger.info(`client ${client.getId()} was connected`);
-  });
-
-  wss.on('message', (client, message) => {
-    messageHandler(client, message);
-  });
-
-  wss.on('close', client => {
-    logger.info(`client ${client.getId()} was disconnected`);
-  });
-
-  wss.on('error', error => {
-    logger.error(error);
-  });
-
-  app._wss = wss;
-});
-
 let server;
 
 if (config.get('ssl.key_path') && config.get('ssl.cert_path')) {
@@ -82,6 +46,31 @@ if (config.get('ssl.key_path') && config.get('ssl.cert_path')) {
 }
 
 app.use(path, api);
+
+const wss = new WebSocketServer(server, app.mountpath);
+
+wss.on('connection', client => {
+  const messages = realm.getMessageQueueById(client.getId());
+
+  if (messages) {
+    messages.forEach(message => messageHandler(client, message));
+    realm.clearMessageQueue(client.getId());
+  }
+
+  logger.info(`client ${client.getId()} was connected`);
+});
+
+wss.on('message', (client, message) => {
+  messageHandler(client, message);
+});
+
+wss.on('close', client => {
+  logger.info(`client ${client.getId()} was disconnected`);
+});
+
+wss.on('error', error => {
+  logger.error(error);
+});
 
 server.listen(port, () => {
   const host = server.address().address;

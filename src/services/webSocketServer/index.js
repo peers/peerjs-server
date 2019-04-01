@@ -8,26 +8,26 @@ const realm = require('../realm');
 const Client = require('../../models/client');
 
 class WebSocketServer extends EventEmitter {
-  constructor (server, mountpath) {
+  constructor (server) {
     super();
     this.setMaxListeners(0);
 
     this._ips = {};
 
-    if (mountpath instanceof Array) {
-      throw new Error('This app can only be mounted on a single path');
-    }
-
-    let path = mountpath;
+    let path = config.get('path');
     path = path + (path[path.length - 1] !== '/' ? '/' : '') + 'peerjs';
+
+    logger.info(`ws opened on path:${path}`);
 
     this._wss = new WSS({ path, server });
 
-    this._wss.on('connection', this._onSocketConnection);
-    this._wss.on('error', this._onSocketError);
+    this._wss.on('connection', (socket, req) => this._onSocketConnection(socket, req));
+    this._wss.on('error', (error) => this._onSocketError(error));
   }
 
   _onSocketConnection (socket, req) {
+    logger.debug(`[WSS] on new connection:${req}`);
+
     const { query = {} } = url.parse(req.url, true);
 
     const { id, token, key } = query;
@@ -60,6 +60,7 @@ class WebSocketServer extends EventEmitter {
   }
 
   _onSocketError (error) {
+    logger.debug(`[WSS] on error:${error}`);
     // handle error
     this.emit('error', error);
   }
