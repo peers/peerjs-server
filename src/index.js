@@ -11,6 +11,10 @@ const messageHandler = require('./messageHandler');
 const realm = require('./services/realm');
 const { MessageType } = require('./enums');
 
+process.on('uncaughtException', (e) => {
+  logger.error('Error: ' + e);
+});
+
 // parse config
 let path = config.get('path');
 const port = config.get('port');

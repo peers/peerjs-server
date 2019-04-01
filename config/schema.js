@@ -34,11 +34,6 @@ module.exports = convict({
     format: String,
     default: '/myapp'
   },
-  ip_limit: {
-    doc: 'Max connections per ip',
-    format: 'duration',
-    default: 100
-  },
   concurrent_limit: {
     doc: 'Max connections',
     format: 'duration',

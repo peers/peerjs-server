@@ -1,13 +1,12 @@
 const config = require('../../../../config');
 const realm = require('../../../services/realm');
+const { Errors } = require('../../../enums');
 
 module.exports = (req, res, next) => {
   const { id, token, key } = req.params;
 
-  const sendAuthError = () => res.sendStatus(401);
-
   if (key !== config.get('key')) {
-    return sendAuthError();
+    return res.status(401).send(Errors.INVALID_KEY);
   }
 
   if (!id) {
@@ -17,11 +16,11 @@ module.exports = (req, res, next) => {
   const client = realm.getClientById(id);
 
   if (!client) {
-    return sendAuthError();
+    return res.sendStatus(401);
   }
 
   if (client.getToken() && token !== client.getToken()) {
-    return sendAuthError();
+    return res.status(401).send(Errors.INVALID_TOKEN);
   }
 
   next();

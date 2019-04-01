@@ -1,8 +1,7 @@
 class Client {
-  constructor ({ id, token, ip }) {
+  constructor ({ id, token }) {
     this.id = id;
     this.token = token;
-    this.ip = ip;
     this.socket = null;
   }
 
@@ -12,10 +11,6 @@ class Client {
 
   getToken () {
     return this.token;
-  }
-
-  getIp () {
-    return this.ip;
   }
 
   setSocket (socket) {

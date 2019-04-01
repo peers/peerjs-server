@@ -2,7 +2,7 @@ const WSS = require('ws').Server;
 const url = require('url');
 const EventEmitter = require('events');
 const logger = require('../logger');
-
+const { MessageType, Errors } = require('../../enums');
 const config = require('../../../config');
 const realm = require('../realm');
 const Client = require('../../models/client');
@@ -11,8 +11,6 @@ class WebSocketServer extends EventEmitter {
   constructor (server) {
     super();
     this.setMaxListeners(0);
-
-    this._ips = {};
 
     let path = config.get('path');
     path = path + (path[path.length - 1] !== '/' ? '/' : '') + 'peerjs';
@@ -33,11 +31,11 @@ class WebSocketServer extends EventEmitter {
     const { id, token, key } = query;
 
     if (!id || !token || !key) {
-      return this._sendErrorAndClose(socket, 'No id, token, or key supplied to websocket server');
+      return this._sendErrorAndClose(socket, Errors.INVALID_WS_PARAMETERS);
     }
 
     if (key !== config.get('key')) {
-      return this._sendErrorAndClose(socket, 'Invalid key provided');
+      return this._sendErrorAndClose(socket, Errors.INVALID_KEY);
     }
 
     const client = realm.getClientById(id);
@@ -46,7 +44,7 @@ class WebSocketServer extends EventEmitter {
       if (token !== client.getToken()) {
         // ID-taken, invalid token
         socket.send(JSON.stringify({
-          type: 'ID-TAKEN',
+          type: MessageType.ID_TAKEN,
           payload: { msg: 'ID is taken' }
         }));
 
@@ -66,58 +64,26 @@ class WebSocketServer extends EventEmitter {
   }
 
   _registerClient ({ socket, id, token }) {
-    const ip = socket.remoteAddress;
-
-    if (!this._ips[ip]) {
-      this._ips[ip] = 0;
-    }
-
     // Check concurrent limit
     const clientsCount = realm.getClientsIds().length;
 
     if (clientsCount >= config.get('concurrent_limit')) {
-      return this._sendErrorAndClose(socket, 'Server has reached its concurrent user limit');
+      return this._sendErrorAndClose(socket, Errors.CONNECTION_LIMIT_EXCEED);
     }
 
-    const connectionsPerIP = this._ips[ip];
-
-    if (connectionsPerIP >= config.get('ip_limit')) {
-      return this._sendErrorAndClose(socket, `${ip} has reached its concurrent user limit`);
-    }
-
-    const oldClient = realm.getClientById(id);
-
-    if (oldClient) {
-      return this._sendErrorAndClose(socket, `${id} already registered`);
-    }
-
-    const newClient = new Client({ id, token, ip });
+    const newClient = new Client({ id, token });
     realm.setClient(newClient, id);
-    socket.send(JSON.stringify({ type: 'OPEN' }));
-    this._ips[ip]++;
+    socket.send(JSON.stringify({ type: MessageType.OPEN }));
+
     this._configureWS(socket, newClient);
   }
 
   _configureWS (socket, client) {
-    if (client.socket && socket !== client.socket) {
-      // TODO remove old ip, add new ip
-    }
-
     client.setSocket(socket);
 
     // Cleanup after a socket closes.
     socket.on('close', () => {
       logger.info('Socket closed:', client.getId());
-
-      const ip = socket.remoteAddress;
-
-      if (this._ips[ip]) {
-        this._ips[ip]--;
-
-        if (this._ips[ip] === 0) {
-          delete this._ips[ip];
-        }
-      }
 
       if (client.socket === socket) {
         realm.removeClientById(client.getId());
@@ -145,7 +111,7 @@ class WebSocketServer extends EventEmitter {
   _sendErrorAndClose (socket, msg) {
     socket.send(
       JSON.stringify({
-        type: 'ERROR',
+        type: MessageType.ERROR,
         payload: { msg }
       })
     );
