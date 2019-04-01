@@ -1,10 +1,11 @@
 const logger = require('../services/logger');
-const MessageType = require('../enums');
+const { MessageType } = require('../enums');
 const transmissionHandler = require('./handlers/transmission');
 
 const handlers = {};
 
 const registerHandler = (messageType, handler) => {
+  logger.info(`[MSGHANDLER] register handler for ${messageType}`);
   handlers[messageType] = handler;
 };
 
@@ -14,7 +15,7 @@ module.exports = (client, message) => {
   const handler = handlers[type];
 
   if (!handler) {
-    return logger.error(`Message unrecognized:${type}`);
+    return logger.error(`[MSGHANDLER] Message unrecognized:${type}`);
   }
 
   handler(client, message);

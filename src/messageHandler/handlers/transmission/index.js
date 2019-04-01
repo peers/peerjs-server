@@ -1,6 +1,6 @@
 const realm = require('../../../services/realm');
 const logger = require('../../../services/logger');
-const MessageType = require('../../../enums');
+const { MessageType } = require('../../../enums');
 
 const handler = (client, message) => {
   const type = message.type;

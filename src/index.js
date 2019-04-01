@@ -9,7 +9,7 @@ const logger = require('./services/logger');
 const api = require('./api');
 const messageHandler = require('./messageHandler');
 const realm = require('./services/realm');
-const MessageType = require('./enums');
+const { MessageType } = require('./enums');
 
 // parse config
 let path = config.get('path');
