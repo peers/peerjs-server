@@ -9,9 +9,9 @@ module.exports = (req, res, next) => {
     return next();
   }
 
-  const client = realm.getRealmByKey(id);
+  const client = realm.getClientById(id);
 
-  if (!realm) {
+  if (!client) {
     return sendAuthError();
   }
 
