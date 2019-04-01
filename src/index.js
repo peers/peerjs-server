@@ -6,10 +6,10 @@ const fs = require('fs');
 const config = require('../config');
 const WebSocketServer = require('./services/webSocketServer');
 const logger = require('./services/logger');
+const realm = require('./services/realm');
+const { startMessagesExpiration } = require('./services/messagesExpire');
 const api = require('./api');
 const messageHandler = require('./messageHandler');
-const realm = require('./services/realm');
-const { MessageType } = require('./enums');
 
 process.on('uncaughtException', (e) => {
   logger.error('Error: ' + e);
@@ -53,10 +53,13 @@ app.use(path, api);
 const wss = new WebSocketServer(server, app.mountpath);
 
 wss.on('connection', client => {
-  const messages = realm.getMessageQueueById(client.getId());
+  const messageQueue = realm.getMessageQueueById(client.getId());
 
-  if (messages) {
-    messages.forEach(message => messageHandler(client, message));
+  if (messageQueue) {
+    let message;
+    while (message = messageQueue.readMessage()) {
+      messageHandler(client, message);
+    }
     realm.clearMessageQueue(client.getId());
   }
 
@@ -86,34 +89,6 @@ server.listen(port, host, () => {
     'Started PeerServer on %s, port: %s',
     host, port
   );
+
+  startMessagesExpiration();
 });
-
-const pruneOutstanding = () => {
-  const destinationClientsIds = realm.messageQueue.keys();
-
-  for (const destinationClientId of destinationClientsIds) {
-    const messages = realm.getMessageQueueById(destinationClientId);
-
-    const seen = {};
-
-    for (const message of messages) {
-      if (!seen[message.src]) {
-        messageHandler(null, {
-          type: MessageType.EXPIRE,
-          src: message.dst,
-          dst: message.src
-        });
-        seen[message.src] = true;
-      }
-    }
-  }
-
-  realm.messageQueue.clear();
-
-  logger.debug(`message queue was cleared`);
-};
-
-// Clean up outstanding messages
-setInterval(() => {
-  pruneOutstanding();
-}, config.get('cleanup_out_msgs'));

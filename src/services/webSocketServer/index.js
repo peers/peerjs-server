@@ -24,8 +24,6 @@ class WebSocketServer extends EventEmitter {
   }
 
   _onSocketConnection (socket, req) {
-    logger.debug(`[WSS] on new connection:${req}`);
-
     const { query = {} } = url.parse(req.url, true);
 
     const { id, token, key } = query;

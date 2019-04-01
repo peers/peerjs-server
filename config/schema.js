@@ -40,10 +40,11 @@ module.exports = convict({
     env: 'PORT',
     arg: 'port'
   },
-  timeout: {
-    doc: '',
+  expire_timeout: {
+    doc: 'The timeout before EXPIRE message send',
     format: 'duration',
-    default: 5000
+    default: 5000,
+    arg: 'expireTimeout'
   },
   key: {
     doc: 'The key to check incoming clients',
@@ -79,9 +80,9 @@ module.exports = convict({
     arg: 'proxied'
   },
   cleanup_out_msgs: {
-    doc: '',
+    doc: 'The period in ms to check expired messages',
     format: 'duration',
-    default: 5000
+    default: 1000
   },
   ssl: {
     key_path: {

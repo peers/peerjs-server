@@ -1,19 +1,21 @@
+const MessageQueue = require('./messageQueue');
+
 class Realm {
   constructor () {
-    this.clients = new Map();
-    this.messageQueue = new Map();
+    this._clients = new Map();
+    this._messageQueues = new Map();
   }
 
   getClientsIds () {
-    return [...this.clients.keys()];
+    return [...this._clients.keys()];
   }
 
   getClientById (clientId) {
-    return this.clients.get(clientId);
+    return this._clients.get(clientId);
   }
 
   setClient (client, id) {
-    this.clients.set(id, client);
+    this._clients.set(id, client);
   }
 
   removeClientById (id) {
@@ -21,23 +23,23 @@ class Realm {
 
     if (!client) return false;
 
-    this.clients.delete(id);
+    this._clients.delete(id);
   }
 
   getMessageQueueById (id) {
-    return this.messageQueue.get(id);
+    return this._messageQueues.get(id);
   }
 
   addMessageToQueue (id, message) {
     if (!this.getMessageQueueById(id)) {
-      this.messageQueue.set(id, []);
+      this._messageQueues.set(id, new MessageQueue(id));
     }
 
-    this.getMessageQueueById(id).push(message);
+    this.getMessageQueueById(id).addMessage(message);
   }
 
   clearMessageQueue (id) {
-    this.messageQueue.delete(id);
+    this._messageQueues.delete(id);
   }
 
   generateClientId () {

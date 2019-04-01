@@ -5,7 +5,7 @@ const transmissionHandler = require('./handlers/transmission');
 const handlers = {};
 
 const registerHandler = (messageType, handler) => {
-  logger.info(`[MSGHANDLER] register handler for ${messageType}`);
+  logger.debug(`[MSGHANDLER] register handler for ${messageType}`);
   handlers[messageType] = handler;
 };
 
