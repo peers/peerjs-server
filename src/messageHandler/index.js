@@ -24,7 +24,7 @@ module.exports = (client, message) => {
 const handleTransmission = (client, message) => {
   transmissionHandler(client, {
     type: message.type,
-    src: client.getId(),
+    src: message.src,
     dst: message.dst,
     payload: message.payload
   });

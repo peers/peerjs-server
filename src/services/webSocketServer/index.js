@@ -130,6 +130,8 @@ class WebSocketServer extends EventEmitter {
       try {
         const message = JSON.parse(data);
 
+        message.src = client.getId();
+
         this.emit('message', client, message);
       } catch (e) {
         logger.error('Invalid message', data);
