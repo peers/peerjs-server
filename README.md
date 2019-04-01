@@ -10,17 +10,17 @@ PeerServer helps broker connections between PeerJS clients. Data is not proxied 
 
 1. Clone app:
 ```bash
-$> git clone https://github.com/peers/peerjs-server.git
+git clone https://github.com/peers/peerjs-server.git
 ```
 
 2. Install dependencies:
 ```bash
-$> npm install
+npm install
 ```
 
 3. Run the server:
 ```bash
-$> node ./src/index.js --port 9000 --path /myapp
+npm run start
 ```
 
 Connecting to the server from PeerJS:
@@ -34,7 +34,7 @@ Connecting to the server from PeerJS:
 Using HTTPS: Simply pass in paths to PEM-encoded certificate and key.
 
 ```bash
-$> node ./src/index.js --port 9000 --path /myapp --sslKeyPath /path/to/your/ssl/key/here.key --sslCertPath /path/to/your/ssl/certificate/here.crt
+node ./src/index.js --port 9000 --path /myapp --sslKeyPath /path/to/your/ssl/key/here.key --sslCertPath /path/to/your/ssl/certificate/here.crt
 ```
 
 #### Running PeerServer behind a reverse proxy
@@ -45,8 +45,28 @@ The option is passed verbatim to the
 if it is truthy.
 
 ```bash
-$> node ./src/index.js --port 9000 --path /myapp --proxied true
+node ./src/index.js --port 9000 --path /myapp --proxied true
 ```
+
+## Running tests
+
+```bash
+npm test
+```
+
+## Docker
+
+You can build this image simply by calling:
+```bash
+docker build -t peerjs https://github.com/peers/peerjs-server.git
+```
+
+To run the image execute this:  
+```bash
+docker run -p 9000:9000 -d peerjs
+```
+
+This will start a peerjs server on port 9000 exposed on port 9000.
 
 ## Problems?
 
