@@ -2,33 +2,32 @@
   "name": "peer",
   "version": "0.2.9",
   "description": "PeerJS server component",
-  "main": "lib/index.js",
-  "bin": {
-    "peerjs": "./bin/peerjs"
-  },
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/peers/peerjs-server.git"
   },
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha test/**/*.js",
+    "start": "node ./src/index.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "convict": "^4.4.1",
+    "cors": "~2.8.4",
     "express": "^4.16.3",
-    "optimist": "~0.6.1",
-    "ws": "6.0.0",
-    "cors": "~2.8.4"
+    "log4js": "^4.1.0",
+    "ws": "6.0.0"
   },
   "devDependencies": {
-    "expect.js": "*",
-    "sinon": "*",
-    "mocha": "*"
+    "mocha": "^6.0.2",
+    "chai": "^4.2.0",
+    "semistandard": "^13.0.1",
+    "sinon": "^7.3.1"
   },
   "engines": {
-    "node": ">=0.8"
-  },
-  "scripts": {
-    "test": "mocha test",
-    "start": "bin/peerjs --port ${PORT:=9000}"
+    "node": "^10"
   }
 }
