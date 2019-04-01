@@ -14,7 +14,7 @@ module.exports = (client, message) => {
   const handler = handlers[type];
 
   if (!handler) {
-    return logger.error('Message unrecognized');
+    return logger.error(`Message unrecognized:${type}`);
   }
 
   handler(client, message);
