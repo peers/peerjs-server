@@ -23,6 +23,7 @@ const handler = (client, message) => {
         throw new Error('Peer dead');
       }
     } catch (e) {
+      logger.error(e);
       // This happens when a peer disconnects without closing connections and
       // the associated WebSocket has not closed.
       // Tell other side to stop trying.
@@ -42,8 +43,10 @@ const handler = (client, message) => {
     // Wait for this client to connect/reconnect (XHR) for important
     // messages.
     if (type !== MessageType.LEAVE && type !== MessageType.EXPIRE && dstId) {
+      logger.debug(`[HANDLER] dst client ${dstId} not found, add msg to queue`);
       realm.addMessageToQueue(dstId, message);
     } else if (type === MessageType.LEAVE && !dstId) {
+      logger.debug(`[HANDLER] remove client ${srcId}`);
       realm.removeClientById(srcId);
     } else {
       // Unavailable destination specified with message LEAVE or EXPIRE
