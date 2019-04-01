@@ -43,10 +43,10 @@ const handler = (client, message) => {
     // Wait for this client to connect/reconnect (XHR) for important
     // messages.
     if (type !== MessageType.LEAVE && type !== MessageType.EXPIRE && dstId) {
-      logger.debug(`[HANDLER] dst client ${dstId} not found, add msg to queue`);
+      logger.debug(`[transmission] dst client ${dstId} not found, add msg ${type} to queue`);
       realm.addMessageToQueue(dstId, message);
     } else if (type === MessageType.LEAVE && !dstId) {
-      logger.debug(`[HANDLER] remove client ${srcId}`);
+      logger.debug(`[transmission] remove client ${srcId}`);
       realm.removeClientById(srcId);
     } else {
       // Unavailable destination specified with message LEAVE or EXPIRE
