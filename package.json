@@ -10,7 +10,7 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "scripts": {
-    "test": "mocha test",
+    "test": "mocha test/**/*.js",
     "start": "node ./src/index.js"
   },
   "dependencies": {

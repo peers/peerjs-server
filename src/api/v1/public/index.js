@@ -4,24 +4,10 @@ const config = require('../../../../config');
 
 const app = module.exports = express.Router();
 
-const randomId = () => {
-  return (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
-};
-
-const generateClientId = () => {
-  let clientId = randomId();
-
-  while (realm.getClientById(clientId)) {
-    clientId = randomId();
-  }
-
-  return clientId;
-};
-
 // Retrieve guaranteed random ID.
 app.get('/id', (req, res, next) => {
   res.contentType = 'text/html';
-  res.send(generateClientId());
+  res.send(realm.generateClientId());
 });
 
 // Get a list of all peers for a key, enabled by the `allowDiscovery` flag.
