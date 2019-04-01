@@ -39,3 +39,4 @@ registerHandler(MessageType.OFFER, handleTransmission);
 registerHandler(MessageType.ANSWER, handleTransmission);
 registerHandler(MessageType.CANDIDATE, handleTransmission);
 registerHandler(MessageType.LEAVE, handleTransmission);
+registerHandler(MessageType.EXPIRE, handleTransmission);
