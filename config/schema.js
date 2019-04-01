@@ -26,6 +26,13 @@ module.exports = convict({
     default: 'dev',
     env: 'NODE_ENV'
   },
+  host: {
+    doc: 'The host to bind.',
+    format: '*',
+    default: '0.0.0.0',
+    env: 'HOST',
+    arg: 'host'
+  },
   port: {
     doc: 'The port to bind.',
     format: 'port',

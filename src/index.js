@@ -17,7 +17,6 @@ process.on('uncaughtException', (e) => {
 
 // parse config
 let path = config.get('path');
-const port = config.get('port');
 
 if (path[0] !== '/') {
   path = '/' + path;
@@ -76,7 +75,10 @@ wss.on('error', error => {
   logger.error(error);
 });
 
-server.listen(port, () => {
+const port = config.get('port');
+const host = config.get('host');
+
+server.listen(port, host, () => {
   const host = server.address().address;
   const port = server.address().port;
 
