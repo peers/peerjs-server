@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   }
 
   if (!id) {
-    return next();
+    return res.sendStatus(401);
   }
 
   const client = realm.getClientById(id);

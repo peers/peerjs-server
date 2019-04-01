@@ -14,5 +14,5 @@ app.get('/', (req, res, next) => {
   res.send(publicContent);
 });
 
-app.use('/:key', authMiddleware, require('./v1/public'));
+app.use('/:key', require('./v1/public'));
 app.use('/:key/:id/:token', authMiddleware, jsonParser, require('./v1/calls'));

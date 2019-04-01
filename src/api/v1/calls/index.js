@@ -1,42 +1,34 @@
 const express = require('express');
-// const realm = require('../../../realm');
+const realm = require('../../../services/realm');
+const messageHandler = require('../../../messageHandler');
 
 const app = module.exports = express.Router();
 
-// const handle = (req, res, next) => {
-//   var id = req.params.id;
+const handle = (req, res, next) => {
+  const { id } = req.params;
 
-//   let client;
-//   if (!(client = realm.getClientById(id))) {
-//     if (req.params.retry) {
-//       res.sendStatus(401);
-//       return;
-//     } else {
-//       // Retry this request
-//       req.params.retry = true;
-//       setTimeout(handle, 25, req, res);
-//       return;
-//     }
-//   }
+  if (!id) return next();
 
-//   // Auth the req
-//   if (client.token && req.params.token !== client.token) {
-//     res.sendStatus(401);
-//   } else {
-//     self._handleTransmission(key, {
-//       type: req.body.type,
-//       src: id,
-//       dst: req.body.dst,
-//       payload: req.body.payload
-//     });
-//     res.sendStatus(200);
-//   }
-// };
+  const client = realm.getClientById(id);
 
-// app.post('/:key/:id/:token/offer', jsonParser, handle);
+  const { type, dst, payload } = req.body;
 
-// app.post('/:key/:id/:token/candidate', jsonParser, handle);
+  const message = {
+    type,
+    src: id,
+    dst,
+    payload
+  };
 
-// app.post('/:key/:id/:token/answer', jsonParser, handle);
+  messageHandler(client, message);
 
-// app.post('/:key/:id/:token/leave', jsonParser, handle);
+  res.sendStatus(200);
+};
+
+app.post('/offer', handle);
+
+app.post('/candidate', handle);
+
+app.post('/answer', handle);
+
+app.post('/leave', handle);
