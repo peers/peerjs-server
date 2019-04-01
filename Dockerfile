@@ -2,10 +2,9 @@ FROM node:alpine
 RUN mkdir /peer-server
 WORKDIR /peer-server
 COPY package.json .
-COPY bin ./bin
-COPY lib ./lib
+COPY src ./src
 COPY app.json .
 RUN npm install
 EXPOSE 9000
-ENTRYPOINT ["node", "bin/peerjs"]
+ENTRYPOINT ["node", "index.js"]
 CMD [ "--port", "9000" ]
