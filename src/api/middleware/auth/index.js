@@ -1,9 +1,14 @@
+const config = require('../../../../config');
 const realm = require('../../../services/realm');
 
 module.exports = (req, res, next) => {
-  const { id, token } = req.params;
+  const { id, token, key } = req.params;
 
   const sendAuthError = () => res.sendStatus(401);
+
+  if (key !== config.get('key')) {
+    return sendAuthError();
+  }
 
   if (!id) {
     return next();
