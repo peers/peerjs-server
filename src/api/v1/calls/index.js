@@ -1,34 +1,36 @@
 const express = require('express');
-const realm = require('../../../services/realm');
-const messageHandler = require('../../../messageHandler');
 
-const app = module.exports = express.Router();
+module.exports = ({ realm, messageHandler }) => {
+  const app = express.Router();
 
-const handle = (req, res, next) => {
-  const { id } = req.params;
+  const handle = (req, res, next) => {
+    const { id } = req.params;
 
-  if (!id) return next();
+    if (!id) return next();
 
-  const client = realm.getClientById(id);
+    const client = realm.getClientById(id);
 
-  const { type, dst, payload } = req.body;
+    const { type, dst, payload } = req.body;
 
-  const message = {
-    type,
-    src: id,
-    dst,
-    payload
+    const message = {
+      type,
+      src: id,
+      dst,
+      payload
+    };
+
+    messageHandler(client, message);
+
+    res.sendStatus(200);
   };
 
-  messageHandler(client, message);
+  app.post('/offer', handle);
 
-  res.sendStatus(200);
+  app.post('/candidate', handle);
+
+  app.post('/answer', handle);
+
+  app.post('/leave', handle);
+
+  return app;
 };
-
-app.post('/offer', handle);
-
-app.post('/candidate', handle);
-
-app.post('/answer', handle);
-
-app.post('/leave', handle);

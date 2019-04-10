@@ -3,6 +3,9 @@
   "version": "0.2.9",
   "description": "PeerJS server component",
   "main": "src/index.js",
+  "bin": {
+    "peerjs": "./bin/peerjs"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/peers/peerjs-server.git"
@@ -11,19 +14,18 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha test/**/*.js",
-    "start": "node ./src/index.js"
+    "start": "bin/peerjs --port ${PORT:=9000}"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "convict": "^4.4.1",
     "cors": "~2.8.4",
     "express": "^4.16.3",
-    "log4js": "^4.1.0",
-    "ws": "6.0.0"
+    "ws": "6.0.0",
+    "optimist": "~0.6.1"
   },
   "devDependencies": {
-    "mocha": "^6.0.2",
     "chai": "^4.2.0",
+    "mocha": "^6.1.2",
     "semistandard": "^13.0.1",
     "sinon": "^7.3.1"
   },

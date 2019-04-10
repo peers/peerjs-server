@@ -1,8 +1,6 @@
-const realm = require('../../../services/realm');
-const logger = require('../../../services/logger');
 const { MessageType } = require('../../../enums');
 
-const handler = (client, message) => {
+module.exports = ({ realm }) => (client, message) => {
   const type = message.type;
   const srcId = message.src;
   const dstId = message.dst;
@@ -12,8 +10,6 @@ const handler = (client, message) => {
   // User is connected!
   if (destinationClient) {
     try {
-      logger.debug(type, 'from', srcId, 'to', dstId);
-
       if (destinationClient.socket) {
         const data = JSON.stringify(message);
 
@@ -23,7 +19,6 @@ const handler = (client, message) => {
         throw new Error('Peer dead');
       }
     } catch (e) {
-      logger.error(e);
       // This happens when a peer disconnects without closing connections and
       // the associated WebSocket has not closed.
       // Tell other side to stop trying.
@@ -33,7 +28,7 @@ const handler = (client, message) => {
         realm.removeClientById(destinationClient.getId());
       }
 
-      handler(client, {
+      module.exports({ realm })(client, {
         type: MessageType.LEAVE,
         src: dstId,
         dst: srcId
@@ -43,10 +38,8 @@ const handler = (client, message) => {
     // Wait for this client to connect/reconnect (XHR) for important
     // messages.
     if (type !== MessageType.LEAVE && type !== MessageType.EXPIRE && dstId) {
-      logger.debug(`[transmission] dst client ${dstId} not found, add msg ${type} to queue`);
       realm.addMessageToQueue(dstId, message);
     } else if (type === MessageType.LEAVE && !dstId) {
-      logger.debug(`[transmission] remove client ${srcId}`);
       realm.removeClientById(srcId);
     } else {
       // Unavailable destination specified with message LEAVE or EXPIRE
@@ -54,5 +47,3 @@ const handler = (client, message) => {
     }
   }
 };
-
-module.exports = handler;
