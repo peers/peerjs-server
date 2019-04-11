@@ -19,8 +19,16 @@ npm install
 ```
 
 3. Run the server:
+
 ```bash
-npm run start
+$> peerjs --port 9000 --key peerjs --path /mypapp
+```
+
+Or, create a custom server:
+
+```javascript
+const PeerServer = require('peer').PeerServer;
+const server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
 Connecting to the server from PeerJS:
@@ -31,21 +39,79 @@ Connecting to the server from PeerJS:
 </script>
 ```
 
-Using HTTPS: Simply pass in paths to PEM-encoded certificate and key.
+Using HTTPS: Simply pass in PEM-encoded certificate and key.
 
-```bash
-node ./src/index.js --port 9000 --path /myapp --sslKeyPath /path/to/your/ssl/key/here.key --sslCertPath /path/to/your/ssl/certificate/here.crt
+```javascript
+const fs = require('fs');
+const PeerServer = require('peer').PeerServer;
+
+const server = PeerServer({
+  port: 9000,
+  ssl: {
+    key: fs.readFileSync('/path/to/your/ssl/key/here.key'),
+    cert: fs.readFileSync('/path/to/your/ssl/certificate/here.crt')
+  }
+});
 ```
 
 #### Running PeerServer behind a reverse proxy
 
-Make sure to set the `proxied` option.
+Make sure to set the `proxied` option, otherwise IP based limiting will fail.
 The option is passed verbatim to the
 [expressjs `trust proxy` setting](http://expressjs.com/4x/api.html#app-settings)
 if it is truthy.
 
-```bash
-node ./src/index.js --port 9000 --path /myapp --proxied true
+```javascript
+const PeerServer = require('peer').PeerServer;
+const server = PeerServer({port: 9000, path: '/myapp', proxied: true});
+```
+
+### Combining with existing express app
+
+```javascript
+const express = require('express');
+const app = express();
+const ExpressPeerServer = require('peer').ExpressPeerServer;
+
+app.get('/', (req, res, next) => { res.send('Hello world!'); });
+
+// =======
+
+const server = app.listen(9000);
+
+const options = {
+    debug: true
+}
+
+const peerserver = ExpressPeerServer(server, options);
+
+app.use('/api', peerserver);
+
+// == OR ==
+
+const server = require('http').createServer(app);
+const peerserver = ExpressPeerServer(server, options);
+
+app.use('/peerjs', peerserver);
+
+server.listen(9000);
+
+// ========
+```
+
+### Events
+
+The `'connection'` event is emitted when a peer connects to the server.
+
+```javascript
+peerserver.on('connection', (client) => { ... });
+```
+
+The `'disconnect'` event is emitted when a peer disconnects from the server or
+when the peer can no longer be reached.
+
+```javascript
+peerserver.on('disconnect', (client) => { ... });
 ```
 
 ## Running tests

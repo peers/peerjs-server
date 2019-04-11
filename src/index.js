@@ -44,7 +44,7 @@ const init = ({ app, server, options }) => {
   });
 
   wss.on('close', client => {
-    app.emit('disconnected', client);
+    app.emit('disconnect', client);
   });
 
   wss.on('error', error => {

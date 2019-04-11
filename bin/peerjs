@@ -85,7 +85,7 @@ if (opts.sslkey || opts.sslcert) {
 }
 
 const userPath = opts.path;
-const server = PeerServer(opts, (server) => {
+const server = PeerServer(opts, server => {
   var host = server.address().address;
   var port = server.address().port;
 
@@ -93,4 +93,12 @@ const server = PeerServer(opts, (server) => {
     'Started PeerServer on %s, port: %s, path: %s (v. %s)',
     host, port, userPath || '/', version
   );
+});
+
+server.on('connection', client => {
+  console.log(`Client connected: ${client.getId()}`);
+});
+
+server.on('disconnect', client => {
+  console.log(`Client disconnected: ${client.getId()}`);
 });
