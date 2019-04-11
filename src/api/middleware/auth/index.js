@@ -1,11 +1,9 @@
-const config = require('../../../../config');
-const realm = require('../../../services/realm');
 const { Errors } = require('../../../enums');
 
-module.exports = (req, res, next) => {
+module.exports = ({ config, realm }) => (req, res, next) => {
   const { id, token, key } = req.params;
 
-  if (key !== config.get('key')) {
+  if (key !== config.key) {
     return res.status(401).send(Errors.INVALID_KEY);
   }
 

@@ -1,42 +1,50 @@
-const logger = require('../services/logger');
 const { MessageType } = require('../enums');
-const transmissionHandler = require('./handlers/transmission');
 
-const handlers = {};
-
-const registerHandler = (messageType, handler) => {
-  logger.debug(`[MSGHANDLER] register handler for ${messageType}`);
-  handlers[messageType] = handler;
-};
-
-module.exports = (client, message) => {
-  const { type } = message;
-
-  const handler = handlers[type];
-
-  if (!handler) {
-    return logger.error(`[MSGHANDLER] Message unrecognized:${type}`);
+class MessageHandlers {
+  constructor ({ realm }) {
+    this.handlers = {};
   }
 
-  handler(client, message);
+  registerHandler (messageType, handler) {
+    this.handlers[messageType] = handler;
+  }
+
+  handle (client, message) {
+    const { type } = message;
+
+    const handler = this.handlers[type];
+
+    if (!handler) {
+      return;
+    }
+
+    handler(client, message);
+  }
+}
+module.exports = ({ realm }) => {
+  const transmissionHandler = require('./handlers/transmission')({ realm });
+
+  const messageHandlers = new MessageHandlers({ realm });
+
+  const handleTransmission = (client, message) => {
+    transmissionHandler(client, {
+      type: message.type,
+      src: message.src,
+      dst: message.dst,
+      payload: message.payload
+    });
+  };
+
+  const handleHeartbeat = (client, message) => {
+
+  };
+
+  messageHandlers.registerHandler(MessageType.HEARTBEAT, handleHeartbeat);
+  messageHandlers.registerHandler(MessageType.OFFER, handleTransmission);
+  messageHandlers.registerHandler(MessageType.ANSWER, handleTransmission);
+  messageHandlers.registerHandler(MessageType.CANDIDATE, handleTransmission);
+  messageHandlers.registerHandler(MessageType.LEAVE, handleTransmission);
+  messageHandlers.registerHandler(MessageType.EXPIRE, handleTransmission);
+
+  return (client, message) => messageHandlers.handle(client, message);
 };
-
-const handleTransmission = (client, message) => {
-  transmissionHandler(client, {
-    type: message.type,
-    src: message.src,
-    dst: message.dst,
-    payload: message.payload
-  });
-};
-
-const handleHeartbeat = (client, message) => {
-
-};
-
-registerHandler(MessageType.HEARTBEAT, handleHeartbeat);
-registerHandler(MessageType.OFFER, handleTransmission);
-registerHandler(MessageType.ANSWER, handleTransmission);
-registerHandler(MessageType.CANDIDATE, handleTransmission);
-registerHandler(MessageType.LEAVE, handleTransmission);
-registerHandler(MessageType.EXPIRE, handleTransmission);
