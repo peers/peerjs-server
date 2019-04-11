@@ -34,11 +34,6 @@ const opts = require('optimist')
       demand: false,
       description: 'path to SSL certificate'
     },
-    host: {
-      demand: false,
-      description: 'ip',
-      default: '0.0.0.0'
-    },
     port: {
       demand: true,
       alias: 'p',
@@ -84,8 +79,8 @@ if (opts.sslkey || opts.sslcert) {
 
 const userPath = opts.path;
 const server = PeerServer(opts, server => {
-  var host = server.address().address;
-  var port = server.address().port;
+  const host = server.address().address;
+  const port = server.address().port;
 
   console.log(
     'Started PeerServer on %s, port: %s, path: %s (v. %s)',

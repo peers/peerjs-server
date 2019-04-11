@@ -1,5 +1,4 @@
 module.exports = {
-  host: '0.0.0.0',
   port: 9000,
   expire_timeout: 5000,
   key: 'peerjs',
