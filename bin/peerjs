@@ -8,22 +8,10 @@ const PeerServer = require('../src').PeerServer;
 const opts = require('optimist')
   .usage('Usage: $0')
   .options({
-    debug: {
-      demand: false,
-      alias: 'd',
-      description: 'debug',
-      default: false
-    },
-    timeout: {
+    expire_timeout: {
       demand: false,
       alias: 't',
       description: 'timeout (milliseconds)',
-      default: 5000
-    },
-    ip_limit: {
-      demand: false,
-      alias: 'i',
-      description: 'IP limit',
       default: 5000
     },
     concurrent_limit: {
@@ -59,6 +47,11 @@ const opts = require('optimist')
     allow_discovery: {
       demand: false,
       description: 'allow discovery of peers'
+    },
+    proxied: {
+      demand: false,
+      description: 'Set true if PeerServer stays behind a reverse proxy',
+      default: false
     }
   })
   .boolean('allow_discovery')
