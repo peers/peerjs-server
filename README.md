@@ -21,7 +21,7 @@ npm install
 3. Run the server:
 
 ```bash
-$> peerjs --port 9000 --key peerjs --path /mypapp
+$> peerjs --port 9000 --key peerjs --path /myapp
 ```
 
 Or, create a custom server:
