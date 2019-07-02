@@ -63,7 +63,7 @@ function ExpressPeerServer (server, options) {
   };
 
   if (options.proxied) {
-    app.set('trust proxy', options.proxied);
+    app.set('trust proxy', options.proxied === 'false' ? false : options.proxied);
   }
 
   app.on('mount', () => {
