@@ -1,16 +1,16 @@
 {
-  "name": "peer",
+  "name": "peer-vpa-mod",
   "version": "0.2.9",
-  "description": "PeerJS server component",
+  "description": "PeerJS server component - Virtual Private Address (VPA) mod",
   "main": "src/index.js",
   "bin": {
     "peerjs": "./bin/peerjs"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/peers/peerjs-server.git"
+    "url": "git://github.com/hemanth-manoharan/peerjs-server.git"
   },
-  "author": "Michelle Bu, Eric Zhang",
+  "author": "Michelle Bu, Eric Zhang, Hemanth Manoharan",
   "license": "MIT",
   "scripts": {
     "test": "mocha test/**/*.js",
