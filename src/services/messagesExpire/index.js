@@ -20,7 +20,7 @@ module.exports = ({ realm, config }) => {
 
       for (const message of messages) {
         if (!seen[message.src]) {
-          messageHandler(null, {
+          messageHandler({ realm }, {
             type: MessageType.EXPIRE,
             src: message.dst,
             dst: message.src
