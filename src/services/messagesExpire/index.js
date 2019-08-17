@@ -1,7 +1,7 @@
-const messageHandler = require('../../messageHandler');
 const { MessageType } = require('../../enums');
 
 module.exports = ({ realm, config }) => {
+  const messageHandler = require('../../messageHandler')({ realm });
   const pruneOutstanding = () => {
     const destinationClientsIds = realm._messageQueues.keys();
 
