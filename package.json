@@ -13,7 +13,7 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "scripts": {
-    "test": "eslint . && mocha test/**/*.js",
+    "test": "eslint . && mocha \"test/**/*.js\"",
     "start": "bin/peerjs --port ${PORT:=9000}"
   },
   "dependencies": {

@@ -11,7 +11,13 @@ const init = ({ app, server, options }) => {
   const realm = new Realm();
   const messageHandler = require('./messageHandler')({ realm });
   const api = require('./api')({ config, realm, messageHandler });
+
   const { startMessagesExpiration } = require('./services/messagesExpire')({ realm, config, messageHandler });
+  const checkBrokenConnections = require('./services/checkBrokenConnections')({
+    realm, config, onClose: (client) => {
+      app.emit('disconnect', client);
+    }
+  });
 
   app.use(options.path, api);
 
@@ -52,6 +58,8 @@ const init = ({ app, server, options }) => {
   });
 
   startMessagesExpiration();
+
+  checkBrokenConnections.start();
 };
 
 function ExpressPeerServer(server, options) {
