@@ -5,7 +5,7 @@ const { MessageType, Errors } = require('../../enums');
 const Client = require('../../models/client');
 
 class WebSocketServer extends EventEmitter {
-  constructor ({ server, realm, config }) {
+  constructor({ server, realm, config }) {
     super();
     this.setMaxListeners(0);
     this.realm = realm;
@@ -20,7 +20,7 @@ class WebSocketServer extends EventEmitter {
     this._wss.on('error', (error) => this._onSocketError(error));
   }
 
-  _onSocketConnection (socket, req) {
+  _onSocketConnection(socket, req) {
     const { query = {} } = url.parse(req.url, true);
 
     const { id, token, key } = query;
@@ -52,12 +52,12 @@ class WebSocketServer extends EventEmitter {
     this._registerClient({ socket, id, token });
   }
 
-  _onSocketError (error) {
+  _onSocketError(error) {
     // handle error
     this.emit('error', error);
   }
 
-  _registerClient ({ socket, id, token }) {
+  _registerClient({ socket, id, token }) {
     // Check concurrent limit
     const clientsCount = this.realm.getClientsIds().length;
 
@@ -72,7 +72,7 @@ class WebSocketServer extends EventEmitter {
     this._configureWS(socket, newClient);
   }
 
-  _configureWS (socket, client) {
+  _configureWS(socket, client) {
     client.setSocket(socket);
 
     // Cleanup after a socket closes.
@@ -92,14 +92,14 @@ class WebSocketServer extends EventEmitter {
 
         this.emit('message', client, message);
       } catch (e) {
-        throw e;
+        this.emit('error', e);
       }
     });
 
     this.emit('connection', client);
   }
 
-  _sendErrorAndClose (socket, msg) {
+  _sendErrorAndClose(socket, msg) {
     socket.send(
       JSON.stringify({
         type: MessageType.ERROR,

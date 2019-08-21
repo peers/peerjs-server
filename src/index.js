@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const https = require('https');
 
-const config = require('../config');
+const defaultConfig = require('../config');
 const WebSocketServer = require('./services/webSocketServer');
 const Realm = require('./models/realm');
 
@@ -28,6 +28,7 @@ const init = ({ app, server, options }) => {
 
     if (messageQueue) {
       let message;
+      // eslint-disable-next-line no-cond-assign
       while (message = messageQueue.readMessage()) {
         messageHandler(client, message);
       }
@@ -53,11 +54,11 @@ const init = ({ app, server, options }) => {
   startMessagesExpiration();
 };
 
-function ExpressPeerServer (server, options) {
+function ExpressPeerServer(server, options) {
   const app = express();
 
   options = {
-    ...config,
+    ...defaultConfig,
     ...options
   };
 
@@ -77,11 +78,11 @@ function ExpressPeerServer (server, options) {
   return app;
 }
 
-function PeerServer (options = {}, callback) {
+function PeerServer(options = {}, callback) {
   const app = express();
 
   options = {
-    ...config,
+    ...defaultConfig,
     ...options
   };
 

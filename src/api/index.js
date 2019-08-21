@@ -12,7 +12,7 @@ module.exports = ({ config, realm, messageHandler }) => {
 
   app.use(cors());
 
-  app.get('/', (req, res, next) => {
+  app.get('/', (req, res) => {
     res.send(publicContent);
   });
 

@@ -1,7 +1,7 @@
 const { MessageType } = require('../enums');
 
 class MessageHandlers {
-  constructor ({ realm }) {
+  constructor () {
     this.handlers = {};
   }
 
@@ -24,7 +24,7 @@ class MessageHandlers {
 module.exports = ({ realm }) => {
   const transmissionHandler = require('./handlers/transmission')({ realm });
 
-  const messageHandlers = new MessageHandlers({ realm });
+  const messageHandlers = new MessageHandlers();
 
   const handleTransmission = (client, message) => {
     transmissionHandler(client, {
@@ -35,7 +35,7 @@ module.exports = ({ realm }) => {
     });
   };
 
-  const handleHeartbeat = (client, message) => {
+  const handleHeartbeat = () => {
 
   };
 
