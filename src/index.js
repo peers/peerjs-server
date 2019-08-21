@@ -11,7 +11,7 @@ const init = ({ app, server, options }) => {
   const realm = new Realm();
   const messageHandler = require('./messageHandler')({ realm });
   const api = require('./api')({ config, realm, messageHandler });
-  const { startMessagesExpiration } = require('./services/messagesExpire')({ realm, config });
+  const { startMessagesExpiration } = require('./services/messagesExpire')({ realm, config, messageHandler });
 
   app.use(options.path, api);
 
