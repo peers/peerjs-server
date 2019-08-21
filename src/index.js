@@ -20,7 +20,6 @@ const init = ({ app, server, options }) => {
     realm,
     config: {
       ...config,
-      path: app.mountpath
     }
   });
 
@@ -89,8 +88,6 @@ function PeerServer (options = {}, callback) {
   let path = options.path;
   const port = options.port;
 
-  delete options.path;
-
   if (path[0] !== '/') {
     path = '/' + path;
   }
@@ -109,7 +106,7 @@ function PeerServer (options = {}, callback) {
   }
 
   const peerjs = ExpressPeerServer(server, options);
-  app.use(path, peerjs);
+  app.use(peerjs);
 
   if (callback) {
     server.listen(port, () => {
