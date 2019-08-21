@@ -1,5 +1,10 @@
 # PeerServer Changelog
 
+### vNEXT 0.3.0
+
+* refactoring (add ESLint, split code into small unit) Thanks to @d07RiV @zhou-yg
+* update deps
+
 ### 0.2.6
 
 * Ensure 16 character IDs.
