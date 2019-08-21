@@ -32,5 +32,7 @@ module.exports = ({ realm, messageHandler }) => {
 
   app.post('/leave', handle);
 
+  app.post('/data', handle)
+
   return app;
 };

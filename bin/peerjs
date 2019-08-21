@@ -35,9 +35,10 @@ const opts = require('optimist')
       description: 'path to SSL certificate'
     },
     port: {
-      demand: true,
+      demand: false,
       alias: 'p',
-      description: 'port'
+      description: 'port',
+      default: 9090,
     },
     path: {
       demand: false,

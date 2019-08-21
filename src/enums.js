@@ -14,5 +14,6 @@ module.exports.MessageType = {
   EXPIRE: 'EXPIRE',
   HEARTBEAT: 'HEARTBEAT',
   ID_TAKEN: 'ID-TAKEN',
-  ERROR: 'ERROR'
+  ERROR: 'ERROR',
+  'DATA': 'DATA'
 };

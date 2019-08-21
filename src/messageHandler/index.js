@@ -39,12 +39,21 @@ module.exports = ({ realm }) => {
 
   };
 
+  const handleInit = (client, message) => {
+    transmissionHandler(client, {
+      type: message.type,
+      src: message.src,
+      dst: message.dst,
+      payload: message.payload
+    })
+  }
+
   messageHandlers.registerHandler(MessageType.HEARTBEAT, handleHeartbeat);
   messageHandlers.registerHandler(MessageType.OFFER, handleTransmission);
   messageHandlers.registerHandler(MessageType.ANSWER, handleTransmission);
   messageHandlers.registerHandler(MessageType.CANDIDATE, handleTransmission);
   messageHandlers.registerHandler(MessageType.LEAVE, handleTransmission);
   messageHandlers.registerHandler(MessageType.EXPIRE, handleTransmission);
-
+  messageHandlers.registerHandler(MessageType.DATA, handleInit)
   return (client, message) => messageHandlers.handle(client, message);
 };
