@@ -1,6 +1,6 @@
 {
   "name": "peer",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "PeerJS server component",
   "main": "src/index.js",
   "bin": {
@@ -17,18 +17,18 @@
     "start": "bin/peerjs --port ${PORT:=9000}"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "cors": "~2.8.4",
-    "express": "^4.16.3",
-    "ws": "6.0.0",
-    "optimist": "~0.6.1"
+    "express": "^4.17.1",
+    "optimist": "~0.6.1",
+    "ws": "^7.1.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.2.1",
     "mocha": "^6.2.0",
-    "semistandard": "^13.0.1",
-    "sinon": "^7.3.1"
+    "semistandard": "^14.0.1",
+    "sinon": "^7.4.1"
   },
   "engines": {
     "node": "^10"
