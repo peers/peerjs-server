@@ -20,6 +20,11 @@ const opts = require('optimist')
       description: 'concurrent limit',
       default: 5000
     },
+    alive_timeout: {
+      demand: false,
+      description: 'broken connection check timeout (milliseconds)',
+      default: 60000
+    },
     key: {
       demand: false,
       alias: 'k',
