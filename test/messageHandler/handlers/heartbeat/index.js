@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+import { expect } from 'chai';
 const Client = require('../../../../src/models/client');
 const heartbeatHandler = require('../../../../src/messageHandler/handlers/heartbeat');
 

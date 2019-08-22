@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es5",
+            "es6",
+            "es7",
+            "es2017"
+        ],
+        "target": "es2016",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "downlevelIteration": true,
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "outDir": "dist",
+        "sourceMap": false,
+    },
+    "include": [
+        "./src/**/*",
+        "./config/**/*",
+    ],
+    "exclude": [
+        "./test/",
+        "./node_modules/",
+        "./bin/"
+    ]
+}
