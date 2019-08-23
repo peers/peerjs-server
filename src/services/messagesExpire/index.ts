@@ -1,4 +1,4 @@
-import { IConfig } from "../../../config";
+import { IConfig } from "../../config";
 import { MessageType } from "../../enums";
 import { IMessageHandler } from "../../messageHandler";
 import { IRealm } from "../../models/realm";

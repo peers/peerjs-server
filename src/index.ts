@@ -5,8 +5,8 @@ import http from "http";
 import https from "https";
 
 import { Server } from "net";
-import defaultConfig, { IConfig } from "../config";
 import { Api } from "./api";
+import defaultConfig, { IConfig } from "./config";
 import { MessageHandler } from "./messageHandler";
 import { IClient } from "./models/client";
 import { IMessage } from "./models/message";
@@ -39,9 +39,7 @@ const init = ({ app, server, options }: {
   const wss: IWebSocketServer = new WebSocketServer({
     server,
     realm,
-    config: {
-      ...config,
-    }
+    config
   });
 
   wss.on("connection", (client: IClient) => {

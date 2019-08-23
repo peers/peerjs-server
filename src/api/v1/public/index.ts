@@ -1,5 +1,5 @@
 import express from "express";
-import { IConfig } from "../../../../config";
+import { IConfig } from "../../../config";
 import { IRealm } from "../../../models/realm";
 
 export default ({ config, realm }: {

@@ -2,7 +2,7 @@ import EventEmitter from "events";
 import { IncomingMessage } from "http";
 import url from "url";
 import WebSocketLib from "ws";
-import { IConfig } from "../../../config";
+import { IConfig } from "../../config";
 import { Errors, MessageType } from "../../enums";
 import { Client, IClient } from "../../models/client";
 import { IRealm } from "../../models/realm";

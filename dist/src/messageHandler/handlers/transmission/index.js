@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const enums_1 = require("../../../enums");
-function default_1({ realm }) {
+exports.TransmissionHandler = ({ realm }) => {
     const handle = (client, message) => {
         const type = message.type;
         const srcId = message.src;
@@ -53,5 +53,4 @@ function default_1({ realm }) {
         return true;
     };
     return handle;
-}
-exports.default = default_1;
+};

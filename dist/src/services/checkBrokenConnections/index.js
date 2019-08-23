@@ -27,7 +27,7 @@ class CheckBrokenConnections {
     checkConnections() {
         const clientsIds = this.realm.getClientsIds();
         const now = new Date().getTime();
-        const aliveTimeout = this.config.alive_timeout;
+        const { alive_timeout: aliveTimeout } = this.config;
         for (const clientId of clientsIds) {
             const client = this.realm.getClientById(clientId);
             const timeSinceLastPing = now - client.getLastPing();

@@ -21,11 +21,10 @@
     },
     "include": [
         "./src/**/*",
-        "./config/**/*",
     ],
     "exclude": [
         "./test/",
         "./node_modules/",
-        "./bin/"
+        "./bin/",
     ]
 }

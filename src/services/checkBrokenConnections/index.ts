@@ -1,4 +1,4 @@
-import { IConfig } from "../../../config";
+import { IConfig } from "../../config";
 import { IClient } from "../../models/client";
 import { IRealm } from "../../models/realm";
 
@@ -37,17 +37,19 @@ export class CheckBrokenConnections {
       this.start();
     }, this.checkInterval);
   }
+
   public stop(): void {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
       this.timeoutId = null;
     }
   }
+
   private checkConnections(): void {
     const clientsIds = this.realm.getClientsIds();
 
     const now = new Date().getTime();
-    const aliveTimeout = this.config.alive_timeout;
+    const { alive_timeout: aliveTimeout } = this.config;
 
     for (const clientId of clientsIds) {
       const client = this.realm.getClientById(clientId);

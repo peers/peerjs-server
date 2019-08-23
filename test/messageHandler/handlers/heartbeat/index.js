@@ -1,6 +1,6 @@
-import { expect } from 'chai';
-const Client = require('../../../../src/models/client');
-const heartbeatHandler = require('../../../../src/messageHandler/handlers/heartbeat');
+const { expect } = require('chai');
+const { Client } = require('../../../../dist/src/models/client');
+const { HeartbeatHandler } = require('../../../../dist/src/messageHandler/handlers');
 
 describe('Heartbeat handler', () => {
     it('should update last ping time', () => {
@@ -9,7 +9,7 @@ describe('Heartbeat handler', () => {
 
         const nowTime = new Date().getTime();
 
-        heartbeatHandler(client);
+        HeartbeatHandler(client);
 
         expect(client.getLastPing()).to.be.closeTo(nowTime, 2);
     });

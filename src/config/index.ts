@@ -8,7 +8,7 @@ export interface IConfig {
   readonly allow_discovery: boolean;
   readonly proxied: boolean | string;
   readonly cleanup_out_msgs: number;
-  readonly ssl: {
+  readonly ssl?: {
     key: string;
     cert: string;
   };

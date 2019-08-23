@@ -1,5 +1,5 @@
 import express from "express";
-import { IConfig } from "../../../../config";
+import { IConfig } from "../../../config";
 import { Errors } from "../../../enums";
 import { IRealm } from "../../../models/realm";
 import { IMiddleware } from "../middleware";

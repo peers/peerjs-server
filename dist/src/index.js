@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const https_1 = __importDefault(require("https"));
-const config_1 = __importDefault(require("../config"));
 const api_1 = require("./api");
+const config_1 = __importDefault(require("./config"));
 const messageHandler_1 = require("./messageHandler");
 const realm_1 = require("./models/realm");
 const checkBrokenConnections_1 = require("./services/checkBrokenConnections");
@@ -30,7 +30,7 @@ const init = ({ app, server, options }) => {
     const wss = new webSocketServer_1.WebSocketServer({
         server,
         realm,
-        config: Object.assign({}, config)
+        config
     });
     wss.on("connection", (client) => {
         const messageQueue = realm.getMessageQueueById(client.getId());

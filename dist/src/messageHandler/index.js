@@ -1,17 +1,13 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const enums_1 = require("../enums");
-const heartbeat_1 = __importDefault(require("./handlers/heartbeat"));
-const transmission_1 = __importDefault(require("./handlers/transmission"));
+const handlers_1 = require("./handlers");
 const messageHandlers_1 = require("./messageHandlers");
 class MessageHandler {
     constructor(realm) {
         this.messageHandlers = new messageHandlers_1.MessageHandlers();
-        const transmissionHandler = transmission_1.default({ realm });
-        const heartbeatHandler = heartbeat_1.default;
+        const transmissionHandler = handlers_1.TransmissionHandler({ realm });
+        const heartbeatHandler = handlers_1.HeartbeatHandler;
         const handleTransmission = (client, message) => {
             return transmissionHandler(client, {
                 type: message.type,

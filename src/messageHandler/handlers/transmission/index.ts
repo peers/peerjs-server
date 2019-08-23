@@ -3,7 +3,7 @@ import { IClient } from "../../../models/client";
 import { IMessage } from "../../../models/message";
 import { IRealm } from "../../../models/realm";
 
-export default function({ realm }: { realm: IRealm }): (client: IClient, message: IMessage) => boolean {
+export const TransmissionHandler = ({ realm }: { realm: IRealm }): (client: IClient, message: IMessage) => boolean => {
   const handle = (client: IClient, message: IMessage) => {
     const type = message.type;
     const srcId = message.src;
@@ -55,4 +55,4 @@ export default function({ realm }: { realm: IRealm }): (client: IClient, message
   };
 
   return handle;
-}
+};

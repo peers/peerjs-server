@@ -3,8 +3,7 @@ import { IClient } from "../models/client";
 import { IMessage } from "../models/message";
 import { IRealm } from "../models/realm";
 import { Handler } from "./handler";
-import HeartbeatHandler from "./handlers/heartbeat";
-import TransmissionHandler from "./handlers/transmission";
+import { HeartbeatHandler, TransmissionHandler } from "./handlers";
 import { IMessageHandlers, MessageHandlers } from "./messageHandlers";
 
 export interface IMessageHandler {

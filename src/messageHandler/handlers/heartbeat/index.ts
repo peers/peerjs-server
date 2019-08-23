@@ -1,7 +1,7 @@
 import { IClient } from "../../../models/client";
 
-export default function(client: IClient): boolean {
+export const HeartbeatHandler = (client: IClient): boolean => {
   const nowTime = new Date().getTime();
   client.setLastPing(nowTime);
   return true;
-}
+};

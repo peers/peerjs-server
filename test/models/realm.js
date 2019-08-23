@@ -1,6 +1,6 @@
 const { expect } = require('chai');
-const Realm = require('../../src/models/realm');
-const Client = require('../../src/models/client');
+const { Realm } = require('../../dist/src/models/realm');
+const { Client } = require('../../dist/src/models/client');
 
 describe('Realm', () => {
   describe('#generateClientId', () => {
