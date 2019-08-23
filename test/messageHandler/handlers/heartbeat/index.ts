@@ -1,6 +1,6 @@
-const { expect } = require('chai');
-const { Client } = require('../../../../dist/src/models/client');
-const { HeartbeatHandler } = require('../../../../dist/src/messageHandler/handlers');
+import { expect } from 'chai';
+import { Client } from '../../../../src/models/client';
+import { HeartbeatHandler } from '../../../../src/messageHandler/handlers';
 
 describe('Heartbeat handler', () => {
     it('should update last ping time', () => {

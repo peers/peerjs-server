@@ -1,7 +1,7 @@
-const { expect } = require('chai');
-const { Client } = require('../../../dist/src/models/client');
-const { Realm } = require('../../../dist/src/models/realm');
-const { CheckBrokenConnections } = require('../../../dist/src/services/checkBrokenConnections');
+import { expect } from 'chai';
+import { Client } from '../../../src/models/client';
+import { Realm } from '../../../src/models/realm';
+import { CheckBrokenConnections } from '../../../src/services/checkBrokenConnections';
 
 describe('checkBrokenConnections service', () => {
     it('should remove client after 2 checks', (done) => {

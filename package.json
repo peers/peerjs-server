@@ -15,10 +15,10 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf ./dist",
-    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "lint": "eslint --ext .js,.ts .",
     "tsc": "tsc",
     "prebuild": "npm run lint",
-    "test": "npm run lint && npm run build && mocha \"test/**/*.js\"",
+    "test": "npm run lint && mocha -r ts-node/register \"test/**/*\"",
     "start": "bin/peerjs --port ${PORT:=9000}",
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts --exec npm run dev:start"
@@ -40,14 +40,16 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/node": "^10.14.16",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "chai": "^4.2.0",
+    "eslint": "^6.2.1",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.0",
     "sinon": "^7.4.1",
     "ts-node": "^8.3.0",
-    "tslint": "^5.19.0",
     "typescript": "^3.5.3"
   },
   "engines": {
