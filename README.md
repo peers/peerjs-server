@@ -31,7 +31,8 @@ $> npm install peerjs-server
 ```
 
 ```javascript
-const PeerServer = require('peer').PeerServer;
+import {PeerServer} from 'peerjs-server';
+
 const server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
@@ -46,8 +47,8 @@ Connecting to the server from PeerJS:
 Using HTTPS: Simply pass in PEM-encoded certificate and key.
 
 ```javascript
-const fs = require('fs');
-const PeerServer = require('peer').PeerServer;
+import fs from 'fs';
+import {PeerServer} from 'peerjs-server';
 
 const server = PeerServer({
   port: 9000,
@@ -66,17 +67,18 @@ The option is passed verbatim to the
 if it is truthy.
 
 ```javascript
-const PeerServer = require('peer').PeerServer;
+import {PeerServer} from 'peerjs-server';
+
 const server = PeerServer({port: 9000, path: '/myapp', proxied: true});
 ```
 
 ### Combining with existing express app
 
 ```javascript
-const express = require('express');
-const app = express();
-const ExpressPeerServer = require('peer').ExpressPeerServer;
+import express from 'express';
+import {ExpressPeerServer} from 'peerjs-server';
 
+const app = express();
 app.get('/', (req, res, next) => { res.send('Hello world!'); });
 
 // =======
@@ -93,7 +95,9 @@ app.use('/api', peerserver);
 
 // == OR ==
 
-const server = require('http').createServer(app);
+import http from 'http';
+
+const server = http.createServer(app);
 const peerserver = ExpressPeerServer(server, options);
 
 app.use('/peerjs', peerserver);
