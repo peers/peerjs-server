@@ -26,6 +26,10 @@ $> peerjs --port 9000 --key peerjs --path /myapp
 
 Or, create a custom server:
 
+```bash
+$> npm install peerjs-server
+```
+
 ```javascript
 const PeerServer = require('peer').PeerServer;
 const server = PeerServer({port: 9000, path: '/myapp'});
