@@ -6,11 +6,11 @@ const defaultConfig = require('../config');
 const WebSocketServer = require('./services/webSocketServer');
 const Realm = require('./models/realm');
 
-const init = ({ app, server, options }) => {
+const init = ({ app, server, options, randomId }) => {
   const config = options;
   const realm = new Realm();
   const messageHandler = require('./messageHandler')({ realm });
-  const api = require('./api')({ config, realm, messageHandler });
+  const api = require('./api')({ config, realm, messageHandler, randomId });
 
   const { startMessagesExpiration } = require('./services/messagesExpire')({ realm, config, messageHandler });
   const checkBrokenConnections = require('./services/checkBrokenConnections')({
@@ -62,7 +62,7 @@ const init = ({ app, server, options }) => {
   checkBrokenConnections.start();
 };
 
-function ExpressPeerServer(server, options) {
+function ExpressPeerServer(server, options, randomId) {
   const app = express();
 
   options = {
@@ -80,13 +80,13 @@ function ExpressPeerServer(server, options) {
         'can\'t start PeerServer');
     }
 
-    init({ app, server, options });
+    init({ app, server, options, randomId });
   });
 
   return app;
 }
 
-function PeerServer(options = {}, callback) {
+function PeerServer(options = {}, callback, randomId) {
   const app = express();
 
   options = {
@@ -114,7 +114,7 @@ function PeerServer(options = {}, callback) {
     server = http.createServer(app);
   }
 
-  const peerjs = ExpressPeerServer(server, options);
+  const peerjs = ExpressPeerServer(server, options, randomId);
   app.use(peerjs);
 
   if (callback) {

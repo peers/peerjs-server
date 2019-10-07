@@ -42,10 +42,12 @@ class Realm {
     this._messageQueues.delete(id);
   }
 
-  generateClientId () {
-    const randomId = () => (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
+  generateClientId (_randomId) {
+    const randomId = typeof _randomId === 'function' ?
+      () => _randomId :
+      () => (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
 
-    let clientId = randomId();
+    let clientId = randomId(randomId)();
 
     while (this.getClientById(clientId)) {
       clientId = randomId();

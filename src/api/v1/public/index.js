@@ -1,12 +1,13 @@
 const express = require('express');
 
-module.exports = ({ config, realm }) => {
+module.exports = ({ config, realm, randomId }) => {
   const app = express.Router();
 
   // Retrieve guaranteed random ID.
   app.get('/id', (req, res) => {
     res.contentType = 'text/html';
-    res.send(realm.generateClientId());
+    console.error('src/api/v1/public/index.js', randomId);
+    res.send(realm.generateClientId(randomId));
   });
 
   // Get a list of all peers for a key, enabled by the `allowDiscovery` flag.
