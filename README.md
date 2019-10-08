@@ -2,6 +2,8 @@
 
 # PeerServer: A server for PeerJS #
 
+This fork of peerjs-server adds functionality to set a custom ID generation fucntion. [Commit](https://github.com/ajmar/peerjs-server/commit/2552e9d)
+
 PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server.
 
 ## [https://peerjs.com](https://peerjs.com)
