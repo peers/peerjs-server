@@ -6,7 +6,6 @@ module.exports = ({ config, realm, randomId }) => {
   // Retrieve guaranteed random ID.
   app.get('/id', (req, res) => {
     res.contentType = 'text/html';
-    console.error('src/api/v1/public/index.js', randomId);
     res.send(realm.generateClientId(randomId));
   });
 
