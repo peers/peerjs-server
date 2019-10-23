@@ -43,9 +43,13 @@ class Realm {
   }
 
   generateClientId (_randomId) {
+    const originalRandomId = () => {
+      return (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
+    }
+
     const randomId = typeof _randomId === 'function' ?
       () => _randomId :
-      () => (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
+      () => originalRandomId;
 
     let clientId = randomId(randomId)();
 
