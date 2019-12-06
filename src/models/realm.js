@@ -1,3 +1,4 @@
+const uuidv4 = require('uuid/v4');
 const MessageQueue = require('./messageQueue');
 
 class Realm {
@@ -43,16 +44,13 @@ class Realm {
   }
 
   generateClientId () {
-    const randomId = () => (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
-
-    let clientId = randomId();
-
+    let clientId = uuidv4();
     while (this.getClientById(clientId)) {
-      clientId = randomId();
+      clientId = uuidv4();
     }
-
     return clientId;
   }
+
 }
 
 module.exports = Realm;
