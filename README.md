@@ -10,17 +10,21 @@ PeerServer helps broker connections between PeerJS clients. Data is not proxied 
 
 ### Run PeerServer
 
-1. Clone app:
+1. Install PeerServer from npm or github:
+
+#### NPM
 ```bash
-git clone https://github.com/peers/peerjs-server.git
+npm install peer
 ```
 
-2. Install dependencies:
+#### github
+
 ```bash
+git clone https://github.com/peers/peerjs-server.git#master
 npm install
 ```
 
-3. Run the server:
+2. Run the server:
 
 ```bash
 $> peerjs --port 9000 --key peerjs --path /myapp
@@ -56,7 +60,7 @@ const server = PeerServer({
 });
 ```
 
-#### Running PeerServer behind a reverse proxy
+### Running PeerServer behind a reverse proxy
 
 Make sure to set the `proxied` option, otherwise IP based limiting will fail.
 The option is passed verbatim to the
