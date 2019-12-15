@@ -21,6 +21,7 @@
     "cors": "~2.8.4",
     "express": "^4.17.1",
     "optimist": "~0.6.1",
+    "uuid4": "^1.1.4",
     "ws": "^7.1.2"
   },
   "devDependencies": {
