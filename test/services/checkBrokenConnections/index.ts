@@ -17,7 +17,7 @@ describe('checkBrokenConnections service', () => {
             expect(realm.getClientById('id')).to.be.undefined;
             checkBrokenConnections.stop();
             done();
-        }, checkBrokenConnections.checkInterval * 2 + 10);
+        }, checkBrokenConnections.checkInterval * 2 + 30);
     });
 
     it('should remove client after 1 ping', (done) => {

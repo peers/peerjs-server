@@ -4,9 +4,9 @@ import { Client } from '../../src/models/client';
 
 describe('Realm', () => {
   describe('#generateClientId', () => {
-    it('should generate a 16-character ID', () => {
+    it('should generate a 36-character UUID', () => {
       const realm = new Realm();
-      expect(realm.generateClientId().length).to.eq(16);
+      expect(realm.generateClientId().length).to.eq(36);
     });
   });
 

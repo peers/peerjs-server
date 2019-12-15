@@ -1,0 +1,7 @@
+tasks:
+  - init: npm i
+    command: npm start
+
+ports:
+  - port: 9000
+    onOpen: open-preview
