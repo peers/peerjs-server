@@ -18,26 +18,32 @@ interface IAuthParams {
   key?: string;
 }
 
+type CustomConfig = Pick<IConfig, 'path' | 'key' | 'concurrent_limit'>;
+
+const WS_PATH = 'peerjs';
+
 export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 
   public readonly path: string;
   private readonly realm: IRealm;
-  private readonly config: IConfig;
-  private readonly webSocketServer: WebSocketLib.Server;
+  private readonly config: CustomConfig;
+  public readonly socketServer: WebSocketLib.Server;
 
-  constructor({ server, realm, config }: { server: any, realm: IRealm, config: IConfig; }) {
+  constructor({ server, realm, config }: { server: any, realm: IRealm, config: CustomConfig; }) {
     super();
+
     this.setMaxListeners(0);
+
     this.realm = realm;
     this.config = config;
 
     const path = this.config.path;
-    this.path = path + (path[path.length - 1] !== "/" ? "/" : "") + "peerjs";
+    this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
 
-    this.webSocketServer = new WebSocketLib.Server({ path, server });
+    this.socketServer = new WebSocketLib.Server({ path, server });
 
-    this.webSocketServer.on("connection", (socket: MyWebSocket, req) => this._onSocketConnection(socket, req));
-    this.webSocketServer.on("error", (error: Error) => this._onSocketError(error));
+    this.socketServer.on("connection", (socket: MyWebSocket, req) => this._onSocketConnection(socket, req));
+    this.socketServer.on("error", (error: Error) => this._onSocketError(error));
   }
 
   private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {

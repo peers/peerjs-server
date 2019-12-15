@@ -18,6 +18,19 @@
         "no-var": "error",
         "no-console": "off",
         "@typescript-eslint/camelcase": "off",
-        "@typescript-eslint/interface-name-prefix": "off"
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/member-delimiter-style": [
+            "error",
+            {
+                "multiline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "singleline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                }
+            }
+        ]
     }
 }

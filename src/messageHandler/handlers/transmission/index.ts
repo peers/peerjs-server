@@ -42,7 +42,9 @@ export const TransmissionHandler = ({ realm }: { realm: IRealm; }): (client: ICl
     } else {
       // Wait for this client to connect/reconnect (XHR) for important
       // messages.
-      if (type !== MessageType.LEAVE && type !== MessageType.EXPIRE && dstId) {
+      const ignoredTypes = [MessageType.LEAVE, MessageType.EXPIRE];
+
+      if (!ignoredTypes.includes(type) && dstId) {
         realm.addMessageToQueue(dstId, message);
       } else if (type === MessageType.LEAVE && !dstId) {
         realm.removeClientById(srcId);
