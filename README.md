@@ -29,7 +29,7 @@ $> peerjs --port 9000 --key peerjs --path /myapp
 Or, create a custom server:
 
 ```javascript
-const PeerServer = require('peer').PeerServer;
+const { PeerServer } = require('peer');
 const server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
@@ -45,7 +45,7 @@ Using HTTPS: Simply pass in PEM-encoded certificate and key.
 
 ```javascript
 const fs = require('fs');
-const PeerServer = require('peer').PeerServer;
+const { PeerServer } = require('peer');
 
 const server = PeerServer({
   port: 9000,
@@ -64,7 +64,7 @@ The option is passed verbatim to the
 if it is truthy.
 
 ```javascript
-const PeerServer = require('peer').PeerServer;
+const { PeerServer } = require('peer');
 const server = PeerServer({port: 9000, path: '/myapp', proxied: true});
 ```
 
@@ -73,7 +73,7 @@ const server = PeerServer({port: 9000, path: '/myapp', proxied: true});
 ```javascript
 const express = require('express');
 const app = express();
-const ExpressPeerServer = require('peer').ExpressPeerServer;
+const { ExpressPeerServer } = require('peer');
 
 app.get('/', (req, res, next) => { res.send('Hello world!'); });
 
@@ -138,7 +138,7 @@ This will start a peerjs server on port 9000 exposed on port 9000.
 
 ## Problems?
 
-Discuss PeerJS on our Google Group:
-https://groups.google.com/forum/?fromgroups#!forum/peerjs
+Discuss PeerJS on our Telegram chat:
+https://t.me/joinchat/ENhPuhTvhm8WlIxTjQf7Og
 
 Please post any bugs as a Github issue.
