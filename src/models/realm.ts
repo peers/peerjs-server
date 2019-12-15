@@ -1,3 +1,4 @@
+import uuidv4 from "uuid/v4";
 import { IClient } from "./client";
 import { IMessage } from "./message";
 import { IMessageQueue, MessageQueue } from "./messageQueue";
@@ -69,12 +70,10 @@ export class Realm implements IRealm {
   }
 
   public generateClientId(): string {
-    const randomId = () => (Math.random().toString(36) + "0000000000000000000").substr(2, 16);
-
-    let clientId = randomId();
+    let clientId = uuidv4();
 
     while (this.getClientById(clientId)) {
-      clientId = randomId();
+      clientId = uuidv4();
     }
 
     return clientId;

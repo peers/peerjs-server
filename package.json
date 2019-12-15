@@ -34,13 +34,14 @@
     "cors": "~2.8.4",
     "express": "^4.17.1",
     "optimist": "~0.6.1",
-    "uuid4": "^1.1.4",
+    "uuid": "3.3.3",
     "ws": "^7.1.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/node": "^10.14.16",
+    "@types/uuid": "^3.4.6",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "chai": "^4.2.0",
