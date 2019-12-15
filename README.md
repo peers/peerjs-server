@@ -37,7 +37,9 @@ const { PeerServer } = require('peer');
 const server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
-Connecting to the server from PeerJS:
+3. Check that server works: open browser with [http://localhost:9000/myapp](http://localhost:9000/myapp) It should returns JSON with name, description and website fields.
+
+### Connecting to the server from PeerJS:
 
 ```html
 <script>
@@ -45,7 +47,7 @@ Connecting to the server from PeerJS:
 </script>
 ```
 
-Using HTTPS: Simply pass in PEM-encoded certificate and key.
+### Using HTTPS: Simply pass in PEM-encoded certificate and key.
 
 ```javascript
 const fs = require('fs');
