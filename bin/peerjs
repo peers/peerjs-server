@@ -1,69 +1,70 @@
 #!/usr/bin/env node
+// tslint:disable
 
-const path = require('path');
-const pkg = require('../package.json');
-const fs = require('fs');
+const path = require("path");
+const pkg = require("../package.json");
+const fs = require("fs");
 const version = pkg.version;
-const PeerServer = require('../src').PeerServer;
-const opts = require('optimist')
-  .usage('Usage: $0')
+const { PeerServer } = require("../dist/src");
+const opts = require("optimist")
+  .usage("Usage: $0")
   .options({
     expire_timeout: {
       demand: false,
-      alias: 't',
-      description: 'timeout (milliseconds)',
+      alias: "t",
+      description: "timeout (milliseconds)",
       default: 5000
     },
     concurrent_limit: {
       demand: false,
-      alias: 'c',
-      description: 'concurrent limit',
+      alias: "c",
+      description: "concurrent limit",
       default: 5000
     },
     alive_timeout: {
       demand: false,
-      description: 'broken connection check timeout (milliseconds)',
+      description: "broken connection check timeout (milliseconds)",
       default: 60000
     },
     key: {
       demand: false,
-      alias: 'k',
-      description: 'connection key',
-      default: 'peerjs'
+      alias: "k",
+      description: "connection key",
+      default: "peerjs"
     },
     sslkey: {
       demand: false,
-      description: 'path to SSL key'
+      description: "path to SSL key"
     },
     sslcert: {
       demand: false,
-      description: 'path to SSL certificate'
+      description: "path to SSL certificate"
     },
     port: {
       demand: true,
-      alias: 'p',
-      description: 'port'
+      alias: "p",
+      description: "port"
     },
     path: {
       demand: false,
-      description: 'custom path',
-      default: '/'
+      description: "custom path",
+      default: "/"
     },
     allow_discovery: {
       demand: false,
-      description: 'allow discovery of peers'
+      description: "allow discovery of peers"
     },
     proxied: {
       demand: false,
-      description: 'Set true if PeerServer stays behind a reverse proxy',
+      description: "Set true if PeerServer stays behind a reverse proxy",
       default: false
     }
   })
-  .boolean('allow_discovery')
+  .boolean("allow_discovery")
   .argv;
 
-process.on('uncaughtException', function (e) {
-  console.error('Error: ' + e);
+process.on("uncaughtException", function (e) {
+  console.error("Error: " + e);
 });
 
 if (opts.sslkey || opts.sslcert) {
@@ -76,8 +77,8 @@ if (opts.sslkey || opts.sslcert) {
     delete opts.sslkey;
     delete opts.sslcert;
   } else {
-    console.error('Warning: PeerServer will not run because either ' +
-      'the key or the certificate has not been provided.');
+    console.error("Warning: PeerServer will not run because either " +
+      "the key or the certificate has not been provided.");
     process.exit(1);
   }
 }
@@ -88,15 +89,15 @@ const server = PeerServer(opts, server => {
   const port = server.address().port;
 
   console.log(
-    'Started PeerServer on %s, port: %s, path: %s (v. %s)',
-    host, port, userPath || '/', version
+    "Started PeerServer on %s, port: %s, path: %s (v. %s)",
+    host, port, userPath || "/", version
   );
 });
 
-server.on('connection', client => {
+server.on("connection", client => {
   console.log(`Client connected: ${client.getId()}`);
 });
 
-server.on('disconnect', client => {
+server.on("disconnect", client => {
   console.log(`Client disconnected: ${client.getId()}`);
 });

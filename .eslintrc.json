@@ -1,6 +1,9 @@
 {
+    "parser": "@typescript-eslint/parser",
     "extends": [
-        "eslint:recommended"
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
     "env": {
         "node": true,
@@ -9,11 +12,12 @@
     },
     "parserOptions": {
         "ecmaVersion": 2018,
-        "sourceType": "module",
-        "allowImportExportEverywhere": true
+        "sourceType": "module"
     },
     "rules": {
         "no-var": "error",
-        "no-console": "off"
+        "no-console": "off",
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/interface-name-prefix": "off"
     }
 }
