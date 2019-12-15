@@ -5,17 +5,15 @@ class MessageHandlers {
         this.handlers = new Map();
     }
     registerHandler(messageType, handler) {
-        if (this.handlers.has(messageType)) {
+        if (this.handlers.has(messageType))
             return;
-        }
         this.handlers.set(messageType, handler);
     }
     handle(client, message) {
         const { type } = message;
         const handler = this.handlers.get(type);
-        if (!handler) {
+        if (!handler)
             return false;
-        }
         return handler(client, message);
     }
 }

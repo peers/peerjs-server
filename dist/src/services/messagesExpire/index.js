@@ -33,13 +33,12 @@ class MessagesExpire {
         for (const destinationClientId of destinationClientsIds) {
             const messageQueue = this.realm.getMessageQueueById(destinationClientId);
             const lastReadDiff = now - messageQueue.getLastReadAt();
-            if (lastReadDiff < maxDiff) {
+            if (lastReadDiff < maxDiff)
                 continue;
-            }
             const messages = messageQueue.getMessages();
             for (const message of messages) {
                 if (!seen[message.src]) {
-                    this.messageHandler.handle(null, {
+                    this.messageHandler.handle(undefined, {
                         type: enums_1.MessageType.EXPIRE,
                         src: message.dst,
                         dst: message.src

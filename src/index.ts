@@ -18,7 +18,7 @@ import { IWebSocketServer, WebSocketServer } from "./services/webSocketServer";
 const init = ({ app, server, options }: {
   app: express.Express,
   server: Server,
-  options: IConfig
+  options: IConfig;
 }) => {
   const config = options;
   const realm: IRealm = new Realm();
@@ -125,7 +125,7 @@ function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server)
   let server: Server;
 
   if (newOptions.ssl && newOptions.ssl.key && newOptions.ssl.cert) {
-    server = https.createServer(options.ssl, app);
+    server = https.createServer(options.ssl!, app);
     // @ts-ignore
     delete newOptions.ssl;
   } else {
@@ -135,11 +135,7 @@ function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server)
   const peerjs = ExpressPeerServer(server, newOptions);
   app.use(peerjs);
 
-  if (callback) {
-    server.listen(port, () => callback(server));
-  } else {
-    server.listen(port);
-  }
+  server.listen(port, () => callback?.(server));
 
   return peerjs;
 }

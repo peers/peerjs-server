@@ -8,10 +8,12 @@ exports.default = ({ realm, messageHandler }) => {
     const app = express_1.default.Router();
     const handle = (req, res, next) => {
         const { id } = req.params;
-        if (!id) {
+        if (!id)
             return next();
-        }
         const client = realm.getClientById(id);
+        if (!client) {
+            throw new Error(`client not found:${id}`);
+        }
         const { type, dst, payload } = req.body;
         const message = {
             type,

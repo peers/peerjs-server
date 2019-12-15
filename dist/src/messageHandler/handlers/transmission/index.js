@@ -9,10 +9,11 @@ exports.TransmissionHandler = ({ realm }) => {
         const destinationClient = realm.getClientById(dstId);
         // User is connected!
         if (destinationClient) {
+            const socket = destinationClient.getSocket();
             try {
-                if (destinationClient.getSocket()) {
+                if (socket) {
                     const data = JSON.stringify(message);
-                    destinationClient.getSocket().send(data);
+                    socket.send(data);
                 }
                 else {
                     // Neither socket no res available. Peer dead?
@@ -23,8 +24,8 @@ exports.TransmissionHandler = ({ realm }) => {
                 // This happens when a peer disconnects without closing connections and
                 // the associated WebSocket has not closed.
                 // Tell other side to stop trying.
-                if (destinationClient.getSocket()) {
-                    destinationClient.getSocket().close();
+                if (socket) {
+                    socket.close();
                 }
                 else {
                     realm.removeClientById(destinationClient.getId());

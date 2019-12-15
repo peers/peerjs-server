@@ -13,7 +13,7 @@ export class MessagesExpire implements IMessagesExpire {
   private readonly config: IConfig;
   private readonly messageHandler: IMessageHandler;
 
-  private timeoutId: NodeJS.Timeout = null;
+  private timeoutId: NodeJS.Timeout | null = null;
 
   constructor({ realm, config, messageHandler }: {
     realm: IRealm;
@@ -53,19 +53,19 @@ export class MessagesExpire implements IMessagesExpire {
     const now = new Date().getTime();
     const maxDiff = this.config.expire_timeout;
 
-    const seen: { [id: string]: boolean } = {};
+    const seen: Record<string, boolean> = {};
 
     for (const destinationClientId of destinationClientsIds) {
-      const messageQueue = this.realm.getMessageQueueById(destinationClientId);
+      const messageQueue = this.realm.getMessageQueueById(destinationClientId)!;
       const lastReadDiff = now - messageQueue.getLastReadAt();
 
-      if (lastReadDiff < maxDiff) { continue; }
+      if (lastReadDiff < maxDiff) continue;
 
       const messages = messageQueue.getMessages();
 
       for (const message of messages) {
         if (!seen[message.src]) {
-          this.messageHandler.handle(null, {
+          this.messageHandler.handle(undefined, {
             type: MessageType.EXPIRE,
             src: message.dst,
             dst: message.src

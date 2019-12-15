@@ -5,6 +5,7 @@
         ],
         "target": "es2016",
         "module": "commonjs",
+        "strict": true,
         "esModuleInterop": true,
         "downlevelIteration": true,
         "moduleResolution": "node",
@@ -16,6 +17,9 @@
         "sourceMap": false,
         "outDir": "dist"
     },
+    "include": [
+        "./src/**/*",
+    ],
     "exclude": [
         "test",
         "bin",

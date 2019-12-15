@@ -46,7 +46,7 @@ export class Realm implements IRealm {
   public removeClientById(id: string): boolean {
     const client = this.getClientById(id);
 
-    if (!client) { return false; }
+    if (!client) return false;
 
     this.clients.delete(id);
 
@@ -62,7 +62,7 @@ export class Realm implements IRealm {
       this.messageQueues.set(id, new MessageQueue());
     }
 
-    this.getMessageQueueById(id).addMessage(message);
+    this.getMessageQueueById(id)!.addMessage(message);
   }
 
   public clearMessageQueue(id: string): void {

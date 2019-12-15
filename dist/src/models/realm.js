@@ -24,9 +24,8 @@ class Realm {
     }
     removeClientById(id) {
         const client = this.getClientById(id);
-        if (!client) {
+        if (!client)
             return false;
-        }
         this.clients.delete(id);
         return true;
     }

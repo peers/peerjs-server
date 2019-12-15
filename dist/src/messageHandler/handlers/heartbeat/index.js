@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeartbeatHandler = (client) => {
-    const nowTime = new Date().getTime();
-    client.setLastPing(nowTime);
+    if (client) {
+        const nowTime = new Date().getTime();
+        client.setLastPing(nowTime);
+    }
     return true;
 };

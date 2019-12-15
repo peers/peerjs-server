@@ -9,7 +9,7 @@ type CustomConfig = Pick<IConfig, 'alive_timeout'>;
 export class CheckBrokenConnections {
 
   public readonly checkInterval: number;
-  private timeoutId: NodeJS.Timeout;
+  private timeoutId: NodeJS.Timeout | null = null;
   private readonly realm: IRealm;
   private readonly config: CustomConfig;
   private readonly onClose?: (client: IClient) => void;
@@ -18,7 +18,7 @@ export class CheckBrokenConnections {
     realm: IRealm,
     config: CustomConfig,
     checkInterval?: number,
-    onClose?: (client: IClient) => void
+    onClose?: (client: IClient) => void;
   }) {
     this.realm = realm;
     this.config = config;
@@ -54,23 +54,20 @@ export class CheckBrokenConnections {
     const { alive_timeout: aliveTimeout } = this.config;
 
     for (const clientId of clientsIds) {
-      const client = this.realm.getClientById(clientId);
+      const client = this.realm.getClientById(clientId)!;
       const timeSinceLastPing = now - client.getLastPing();
 
-      if (timeSinceLastPing < aliveTimeout) { continue; }
+      if (timeSinceLastPing < aliveTimeout) continue;
 
       try {
-        if (client.getSocket()) {
-          client.getSocket().close();
-        }
-      } catch (e) {
-        // @ts-nocheck
+        client.getSocket()?.close();
       } finally {
         this.realm.clearMessageQueue(clientId);
         this.realm.removeClientById(clientId);
+
         client.setSocket(null);
 
-        if (this.onClose) { this.onClose(client); }
+        this.onClose?.(client);
       }
     }
   }

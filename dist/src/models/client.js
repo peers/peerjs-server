@@ -26,7 +26,8 @@ class Client {
         this.lastPing = lastPing;
     }
     send(data) {
-        this.socket.send(JSON.stringify(data));
+        var _a;
+        (_a = this.socket) === null || _a === void 0 ? void 0 : _a.send(JSON.stringify(data));
     }
 }
 exports.Client = Client;

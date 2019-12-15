@@ -3,8 +3,8 @@ import { IClient } from "../../../models/client";
 import { IMessage } from "../../../models/message";
 import { IRealm } from "../../../models/realm";
 
-export const TransmissionHandler = ({ realm }: { realm: IRealm }): (client: IClient, message: IMessage) => boolean => {
-  const handle = (client: IClient, message: IMessage) => {
+export const TransmissionHandler = ({ realm }: { realm: IRealm; }): (client: IClient | undefined, message: IMessage) => boolean => {
+  const handle = (client: IClient | undefined, message: IMessage) => {
     const type = message.type;
     const srcId = message.src;
     const dstId = message.dst;
@@ -13,11 +13,12 @@ export const TransmissionHandler = ({ realm }: { realm: IRealm }): (client: ICli
 
     // User is connected!
     if (destinationClient) {
+      const socket = destinationClient.getSocket();
       try {
-        if (destinationClient.getSocket()) {
+        if (socket) {
           const data = JSON.stringify(message);
 
-          destinationClient.getSocket().send(data);
+          socket.send(data);
         } else {
           // Neither socket no res available. Peer dead?
           throw new Error("Peer dead");
@@ -26,8 +27,8 @@ export const TransmissionHandler = ({ realm }: { realm: IRealm }): (client: ICli
         // This happens when a peer disconnects without closing connections and
         // the associated WebSocket has not closed.
         // Tell other side to stop trying.
-        if (destinationClient.getSocket()) {
-          destinationClient.getSocket().close();
+        if (socket) {
+          socket.close();
         } else {
           realm.removeClientById(destinationClient.getId());
         }

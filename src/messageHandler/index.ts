@@ -7,7 +7,7 @@ import { HeartbeatHandler, TransmissionHandler } from "./handlers";
 import { IMessageHandlers, MessageHandlers } from "./messageHandlers";
 
 export interface IMessageHandler {
-  handle(client: IClient, message: IMessage): boolean;
+  handle(client: IClient | undefined, message: IMessage): boolean;
 }
 
 export class MessageHandler implements IMessageHandler {
@@ -17,7 +17,7 @@ export class MessageHandler implements IMessageHandler {
     const transmissionHandler: Handler = TransmissionHandler({ realm });
     const heartbeatHandler: Handler = HeartbeatHandler;
 
-    const handleTransmission: Handler = (client: IClient, message: IMessage): boolean => {
+    const handleTransmission: Handler = (client: IClient | undefined, message: IMessage): boolean => {
       return transmissionHandler(client, {
         type: message.type,
         src: message.src,
@@ -26,7 +26,7 @@ export class MessageHandler implements IMessageHandler {
       });
     };
 
-    const handleHeartbeat = (client: IClient, message: IMessage) => heartbeatHandler(client, message);
+    const handleHeartbeat = (client: IClient | undefined, message: IMessage) => heartbeatHandler(client, message);
 
     this.messageHandlers.registerHandler(MessageType.HEARTBEAT, handleHeartbeat);
     this.messageHandlers.registerHandler(MessageType.OFFER, handleTransmission);
@@ -36,7 +36,7 @@ export class MessageHandler implements IMessageHandler {
     this.messageHandlers.registerHandler(MessageType.EXPIRE, handleTransmission);
   }
 
-  public handle(client: IClient, message: IMessage): boolean {
+  public handle(client: IClient | undefined, message: IMessage): boolean {
     return this.messageHandlers.handle(client, message);
   }
 }

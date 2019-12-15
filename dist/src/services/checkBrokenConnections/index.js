@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const DEFAULT_CHECK_INTERVAL = 300;
 class CheckBrokenConnections {
     constructor({ realm, config, checkInterval = DEFAULT_CHECK_INTERVAL, onClose }) {
+        this.timeoutId = null;
         this.realm = realm;
         this.config = config;
         this.onClose = onClose;
@@ -25,30 +26,23 @@ class CheckBrokenConnections {
         }
     }
     checkConnections() {
+        var _a, _b, _c;
         const clientsIds = this.realm.getClientsIds();
         const now = new Date().getTime();
         const { alive_timeout: aliveTimeout } = this.config;
         for (const clientId of clientsIds) {
             const client = this.realm.getClientById(clientId);
             const timeSinceLastPing = now - client.getLastPing();
-            if (timeSinceLastPing < aliveTimeout) {
+            if (timeSinceLastPing < aliveTimeout)
                 continue;
-            }
             try {
-                if (client.getSocket()) {
-                    client.getSocket().close();
-                }
-            }
-            catch (e) {
-                // @ts-nocheck
+                (_a = client.getSocket()) === null || _a === void 0 ? void 0 : _a.close();
             }
             finally {
                 this.realm.clearMessageQueue(clientId);
                 this.realm.removeClientById(clientId);
                 client.setSocket(null);
-                if (this.onClose) {
-                    this.onClose(client);
-                }
+                (_c = (_b = this).onClose) === null || _c === void 0 ? void 0 : _c.call(_b, client);
             }
         }
     }

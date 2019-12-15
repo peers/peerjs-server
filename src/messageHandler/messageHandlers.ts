@@ -5,24 +5,24 @@ import { Handler } from "./handler";
 
 export interface IMessageHandlers {
     registerHandler(messageType: MessageType, handler: Handler): void;
-    handle(client: IClient, message: IMessage): boolean;
+    handle(client: IClient | undefined, message: IMessage): boolean;
 }
 
 export class MessageHandlers implements IMessageHandlers {
     private readonly handlers: Map<MessageType, Handler> = new Map();
 
     public registerHandler(messageType: MessageType, handler: Handler): void {
-        if (this.handlers.has(messageType)) { return; }
+        if (this.handlers.has(messageType)) return;
 
         this.handlers.set(messageType, handler);
     }
 
-    public handle(client: IClient, message: IMessage): boolean {
+    public handle(client: IClient | undefined, message: IMessage): boolean {
         const { type } = message;
 
         const handler = this.handlers.get(type);
 
-        if (!handler) { return false; }
+        if (!handler) return false;
 
         return handler(client, message);
     }
