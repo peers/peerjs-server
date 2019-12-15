@@ -1,10 +1,7 @@
 {
     "compilerOptions": {
         "lib": [
-            "es5",
-            "es6",
-            "es7",
-            "es2017"
+            "esnext"
         ],
         "target": "es2016",
         "module": "commonjs",
@@ -16,15 +13,11 @@
         "noUnusedParameters": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "outDir": "dist",
         "sourceMap": false,
+        "outDir": "dist"
     },
-    "include": [
-        "./src/**/*",
-    ],
     "exclude": [
-        "./test/",
-        "./node_modules/",
-        "./bin/",
+        "test",
+        "bin",
     ]
 }

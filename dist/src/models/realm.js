@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const v4_1 = __importDefault(require("uuid/v4"));
 const messageQueue_1 = require("./messageQueue");
 class Realm {
     constructor() {
@@ -39,10 +43,9 @@ class Realm {
         this.messageQueues.delete(id);
     }
     generateClientId() {
-        const randomId = () => (Math.random().toString(36) + "0000000000000000000").substr(2, 16);
-        let clientId = randomId();
+        let clientId = v4_1.default();
         while (this.getClientById(clientId)) {
-            clientId = randomId();
+            clientId = v4_1.default();
         }
         return clientId;
     }

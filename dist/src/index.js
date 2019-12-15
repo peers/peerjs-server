@@ -59,7 +59,7 @@ const init = ({ app, server, options }) => {
 };
 function ExpressPeerServer(server, options) {
     const app = express_1.default();
-    const newOptions = Object.assign({}, config_1.default, options);
+    const newOptions = Object.assign(Object.assign({}, config_1.default), options);
     if (newOptions.proxied) {
         app.set("trust proxy", newOptions.proxied === "false" ? false : !!newOptions.proxied);
     }
@@ -75,7 +75,7 @@ function ExpressPeerServer(server, options) {
 exports.ExpressPeerServer = ExpressPeerServer;
 function PeerServer(options = {}, callback) {
     const app = express_1.default();
-    const newOptions = Object.assign({}, config_1.default, options);
+    const newOptions = Object.assign(Object.assign({}, config_1.default), options);
     let path = newOptions.path;
     const port = newOptions.port;
     if (path[0] !== "/") {
