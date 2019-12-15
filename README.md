@@ -6,6 +6,8 @@
 
 PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server.
 
+Run your own server on Gitpod!
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/peers/peerjs-server)
 
 ## [https://peerjs.com](https://peerjs.com)
