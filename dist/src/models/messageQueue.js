@@ -16,7 +16,7 @@ class MessageQueue {
             this.lastReadAt = new Date().getTime();
             return this.messages.shift();
         }
-        return null;
+        return undefined;
     }
     getMessages() {
         return this.messages;

@@ -5,7 +5,7 @@ export interface IMessageQueue {
 
   addMessage(message: IMessage): void;
 
-  readMessage(): IMessage | null;
+  readMessage(): IMessage | undefined;
 
   getMessages(): IMessage[];
 }
@@ -22,13 +22,13 @@ export class MessageQueue implements IMessageQueue {
     this.messages.push(message);
   }
 
-  public readMessage(): IMessage | null {
+  public readMessage(): IMessage | undefined {
     if (this.messages.length > 0) {
       this.lastReadAt = new Date().getTime();
       return this.messages.shift()!;
     }
 
-    return null;
+    return undefined;
   }
 
   public getMessages(): IMessage[] {

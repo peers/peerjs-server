@@ -46,9 +46,8 @@ const init = ({ app, server, options }: {
     const messageQueue = realm.getMessageQueueById(client.getId());
 
     if (messageQueue) {
-      let message: IMessage | null;
+      let message: IMessage | undefined;
 
-      // tslint:disable
       while (message = messageQueue.readMessage()) {
         messageHandler.handle(client, message);
       }
