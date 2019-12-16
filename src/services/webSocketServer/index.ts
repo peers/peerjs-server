@@ -40,7 +40,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     const path = this.config.path;
     this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
 
-    this.socketServer = new WebSocketLib.Server({ path, server });
+    this.socketServer = new WebSocketLib.Server({ path: this.path, server });
 
     this.socketServer.on("connection", (socket: MyWebSocket, req) => this._onSocketConnection(socket, req));
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));

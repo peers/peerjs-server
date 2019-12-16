@@ -8,6 +8,7 @@ const url_1 = __importDefault(require("url"));
 const ws_1 = __importDefault(require("ws"));
 const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
+const WS_PATH = 'peerjs';
 class WebSocketServer extends events_1.default {
     constructor({ server, realm, config }) {
         super();
@@ -15,10 +16,10 @@ class WebSocketServer extends events_1.default {
         this.realm = realm;
         this.config = config;
         const path = this.config.path;
-        this.path = path + (path[path.length - 1] !== "/" ? "/" : "") + "peerjs";
-        this.webSocketServer = new ws_1.default.Server({ path, server });
-        this.webSocketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
-        this.webSocketServer.on("error", (error) => this._onSocketError(error));
+        this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
+        this.socketServer = new ws_1.default.Server({ path: this.path, server });
+        this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
+        this.socketServer.on("error", (error) => this._onSocketError(error));
     }
     _onSocketConnection(socket, req) {
         const { query = {} } = url_1.default.parse(req.url, true);

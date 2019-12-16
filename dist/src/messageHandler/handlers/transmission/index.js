@@ -40,7 +40,8 @@ exports.TransmissionHandler = ({ realm }) => {
         else {
             // Wait for this client to connect/reconnect (XHR) for important
             // messages.
-            if (type !== enums_1.MessageType.LEAVE && type !== enums_1.MessageType.EXPIRE && dstId) {
+            const ignoredTypes = [enums_1.MessageType.LEAVE, enums_1.MessageType.EXPIRE];
+            if (!ignoredTypes.includes(type) && dstId) {
                 realm.addMessageToQueue(dstId, message);
             }
             else if (type === enums_1.MessageType.LEAVE && !dstId) {

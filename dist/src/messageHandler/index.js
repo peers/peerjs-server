@@ -2,30 +2,30 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const enums_1 = require("../enums");
 const handlers_1 = require("./handlers");
-const messageHandlers_1 = require("./messageHandlers");
+const handlersRegistry_1 = require("./handlersRegistry");
 class MessageHandler {
-    constructor(realm) {
-        this.messageHandlers = new messageHandlers_1.MessageHandlers();
+    constructor(realm, handlersRegistry = new handlersRegistry_1.HandlersRegistry()) {
+        this.handlersRegistry = handlersRegistry;
         const transmissionHandler = handlers_1.TransmissionHandler({ realm });
         const heartbeatHandler = handlers_1.HeartbeatHandler;
-        const handleTransmission = (client, message) => {
+        const handleTransmission = (client, { type, src, dst, payload }) => {
             return transmissionHandler(client, {
-                type: message.type,
-                src: message.src,
-                dst: message.dst,
-                payload: message.payload
+                type,
+                src,
+                dst,
+                payload,
             });
         };
         const handleHeartbeat = (client, message) => heartbeatHandler(client, message);
-        this.messageHandlers.registerHandler(enums_1.MessageType.HEARTBEAT, handleHeartbeat);
-        this.messageHandlers.registerHandler(enums_1.MessageType.OFFER, handleTransmission);
-        this.messageHandlers.registerHandler(enums_1.MessageType.ANSWER, handleTransmission);
-        this.messageHandlers.registerHandler(enums_1.MessageType.CANDIDATE, handleTransmission);
-        this.messageHandlers.registerHandler(enums_1.MessageType.LEAVE, handleTransmission);
-        this.messageHandlers.registerHandler(enums_1.MessageType.EXPIRE, handleTransmission);
+        this.handlersRegistry.registerHandler(enums_1.MessageType.HEARTBEAT, handleHeartbeat);
+        this.handlersRegistry.registerHandler(enums_1.MessageType.OFFER, handleTransmission);
+        this.handlersRegistry.registerHandler(enums_1.MessageType.ANSWER, handleTransmission);
+        this.handlersRegistry.registerHandler(enums_1.MessageType.CANDIDATE, handleTransmission);
+        this.handlersRegistry.registerHandler(enums_1.MessageType.LEAVE, handleTransmission);
+        this.handlersRegistry.registerHandler(enums_1.MessageType.EXPIRE, handleTransmission);
     }
     handle(client, message) {
-        return this.messageHandlers.handle(client, message);
+        return this.handlersRegistry.handle(client, message);
     }
 }
 exports.MessageHandler = MessageHandler;

@@ -10,9 +10,9 @@ import CallsApi from "./v1/calls";
 import PublicApi from "./v1/public";
 
 export const Api = ({ config, realm, messageHandler }: {
-  config: IConfig,
-  realm: IRealm,
-  messageHandler: IMessageHandler
+  config: IConfig;
+  realm: IRealm;
+  messageHandler: IMessageHandler;
 }): express.Router => {
   const authMiddleware = new AuthMiddleware(config, realm);
 
