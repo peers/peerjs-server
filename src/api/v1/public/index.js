@@ -6,9 +6,7 @@ module.exports = ({ config, realm }) => {
   // Retrieve guaranteed random ID.
   app.get('/id', (req, res) => {
     res.contentType = 'text/html';
-    res.send(realm.generateClientId(
-      config.genRandomId ? config.genRandomId : undefined
-    ));
+    res.send(realm.generateClientId(config.genRandomId));
   });
 
   // Get a list of all peers for a key, enabled by the `allowDiscovery` flag.

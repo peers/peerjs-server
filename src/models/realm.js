@@ -48,8 +48,8 @@ class Realm {
     }
 
     const genRandomId = _genRandomId && typeof _genRandomId === 'function' ?
-      () => _genRandomId :
-      () => originalGenRandomId;
+      _genRandomId :
+      originalGenRandomId;
 
     let clientId = genRandomId();
 
