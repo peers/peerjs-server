@@ -1,26 +1,34 @@
 [![Build Status](https://travis-ci.org/peers/peerjs-server.png?branch=master)](https://travis-ci.org/peers/peerjs-server)
+[![npm version](https://badge.fury.io/js/peer.svg)](https://www.npmjs.com/package/peer)
+[![Downloads](https://img.shields.io/npm/dm/peer.svg)](https://www.npmjs.com/package/peer)
 
 # PeerServer: A server for PeerJS #
 
-This fork of peerjs-server adds functionality to set a custom ID generation fucntion. [Commit](https://github.com/ajmar/peerjs-server/commit/2552e9d)
-
 PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server.
+
+Run your own server on Gitpod!
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/peers/peerjs-server)
 
 ## [https://peerjs.com](https://peerjs.com)
 
 ### Run PeerServer
 
-1. Clone app:
+1. Install PeerServer from npm or github:
+
+#### NPM
 ```bash
-git clone https://github.com/peers/peerjs-server.git
+npm install peer
 ```
 
-2. Install dependencies:
+#### github
+
 ```bash
+git clone https://github.com/peers/peerjs-server.git#master
 npm install
 ```
 
-3. Run the server:
+2. Run the server:
 
 ```bash
 $> peerjs --port 9000 --key peerjs --path /myapp
@@ -38,7 +46,9 @@ import {PeerServer} from 'peerjs-server';
 const server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
-Connecting to the server from PeerJS:
+3. Check that server works: open browser with [http://localhost:9000/myapp](http://localhost:9000/myapp) It should returns JSON with name, description and website fields.
+
+### Connecting to the server from PeerJS:
 
 ```html
 <script>
@@ -46,7 +56,7 @@ Connecting to the server from PeerJS:
 </script>
 ```
 
-Using HTTPS: Simply pass in PEM-encoded certificate and key.
+### Using HTTPS: Simply pass in PEM-encoded certificate and key.
 
 ```javascript
 import fs from 'fs';
@@ -61,7 +71,7 @@ const server = PeerServer({
 });
 ```
 
-#### Running PeerServer behind a reverse proxy
+### Running PeerServer behind a reverse proxy
 
 Make sure to set the `proxied` option, otherwise IP based limiting will fail.
 The option is passed verbatim to the
@@ -72,6 +82,20 @@ if it is truthy.
 import {PeerServer} from 'peerjs-server';
 
 const server = PeerServer({port: 9000, path: '/myapp', proxied: true});
+```
+
+
+### Custom client ID generation
+
+You can specify a custom function to use to generate client IDs.
+
+```javascript
+const genRandomId = () => {
+    // Original generation algorithm
+    return (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
+}
+
+const server = PeerServer({port: 9000, path: '/myapp', proxied: true, genRandomId: genRandomId });
 ```
 
 ### Combining with existing express app
@@ -146,7 +170,7 @@ This will start a peerjs server on port 9000 exposed on port 9000.
 
 ## Problems?
 
-Discuss PeerJS on our Google Group:
-https://groups.google.com/forum/?fromgroups#!forum/peerjs
+Discuss PeerJS on our Telegram chat:
+https://t.me/joinchat/ENhPuhTvhm8WlIxTjQf7Og
 
 Please post any bugs as a Github issue.

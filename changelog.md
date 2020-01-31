@@ -2,8 +2,10 @@
 
 ### vNEXT 0.3.0
 
-* refactoring (add ESLint, split code into small unit) Thanks to @d07RiV @zhou-yg
-* update deps
+* Convert project to TypeScript 3.7.3.
+* Use UUID when generate client id - #152
+* Refactoring (add ESLint, split code into small unit) Thanks to @d07RiV @zhou-yg
+* Update deps.
 
 ### 0.2.6
 
