@@ -7,7 +7,7 @@ describe('Realm', () => {
     it('should generate a 16-character ID', () => {
       const realm = new Realm();
       expect(realm.generateClientId().length).to.eq(16);
-      expect(realm.generateClientId(() => 'abcd').to.eq('abcd');
+      expect(realm.generateClientId(() => 'abcd')).to.eq('abcd');
     });
   });
 
