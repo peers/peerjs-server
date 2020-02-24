@@ -93,18 +93,19 @@ const server = app.listen(9000);
 
 const options = {
     debug: true
+    path: '/peerjs'
 }
 
 const peerserver = ExpressPeerServer(server, options);
 
-app.use('/api', peerserver);
+app.use(options.path, peerserver);
 
 // == OR ==
 
 const server = require('http').createServer(app);
 const peerserver = ExpressPeerServer(server, options);
 
-app.use('/peerjs', peerserver);
+app.use(options.path, peerserver);
 
 server.listen(9000);
 
