@@ -37,13 +37,14 @@ class MessagesExpire {
                 continue;
             const messages = messageQueue.getMessages();
             for (const message of messages) {
-                if (!seen[message.src]) {
+                const seenKey = `${message.src}_${message.dst}`;
+                if (!seen[seenKey]) {
                     this.messageHandler.handle(undefined, {
                         type: enums_1.MessageType.EXPIRE,
                         src: message.dst,
                         dst: message.src
                     });
-                    seen[message.src] = true;
+                    seen[seenKey] = true;
                 }
             }
             this.realm.clearMessageQueue(destinationClientId);

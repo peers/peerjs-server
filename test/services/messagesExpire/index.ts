@@ -8,11 +8,11 @@ import { MessageType } from '../../../src/enums';
 import { wait } from '../../utils';
 
 describe('MessagesExpire', () => {
-  const createTestMessage = (): IMessage => {
+  const createTestMessage = (dst: string): IMessage => {
     return {
       type: MessageType.OPEN,
       src: 'src',
-      dst: 'dst'
+      dst,
     };
   };
 
@@ -27,7 +27,7 @@ describe('MessagesExpire', () => {
 
     const client = new Client({ id: 'id', token: '' });
     realm.setClient(client, 'id');
-    realm.addMessageToQueue(client.getId(), createTestMessage());
+    realm.addMessageToQueue(client.getId(), createTestMessage('dst'));
 
     messagesExpire.startMessagesExpiration();
 
@@ -53,15 +53,16 @@ describe('MessagesExpire', () => {
 
     const client = new Client({ id: 'id', token: '' });
     realm.setClient(client, 'id');
-    realm.addMessageToQueue(client.getId(), createTestMessage());
+    realm.addMessageToQueue(client.getId(), createTestMessage('dst1'));
+    realm.addMessageToQueue(client.getId(), createTestMessage('dst2'));
 
-    let handled = false;
+    let handledCount = 0;
 
     messageHandler.handle = (client, message): boolean => {
       expect(client).to.be.undefined;
       expect(message.type).to.be.eq(MessageType.EXPIRE);
 
-      handled = true;
+      handledCount++;
 
       return true;
     };
@@ -71,7 +72,7 @@ describe('MessagesExpire', () => {
     await wait(checkInterval * 2);
     await wait(expireTimeout);
 
-    expect(handled).to.be.true;
+    expect(handledCount).to.be.eq(2);
 
     messagesExpire.stopMessagesExpiration();
   });
