@@ -1,6 +1,10 @@
 # PeerServer Changelog
 
-### vNEXT 0.3.0
+### 0.3.1
+
+* Fixed: no expire message in some cases
+
+### 0.3.0
 
 * Convert project to TypeScript 3.7.3.
 * Use UUID when generate client id - #152
