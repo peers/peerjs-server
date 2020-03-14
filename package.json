@@ -1,8 +1,8 @@
 {
   "name": "peer",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "PeerJS server component",
-  "main": "dist/peerjs.server.min.js",
+  "main": "dist/src/index.js",
   "bin": {
     "peerjs": "./bin/peerjs"
   },
