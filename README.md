@@ -215,7 +215,7 @@ $ docker run -p 9000:9000 -d myimage
 
 This will start a peerjs server on port 9000 exposed on port 9000 with key `peerjs` on path `/myapp`.
 
-Open browser with http://localhost:9000/myapp It should returns JSON with name, description and website fields.
+Open browser with http://localhost:9000/myapp It should returns JSON with name, description and website fields. http://localhost:9000/myapp/peerjs/id - should returns a random string (random client id)
 
 ## Problems?
 
