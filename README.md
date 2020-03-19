@@ -135,17 +135,28 @@ npm test
 
 ## Docker
 
-You can build this image simply by calling:
+We have 'ready to use' images on docker hub:
+https://hub.docker.com/r/peerjs/peerjs-server
+
+
+To run the latest image:  
 ```bash
-docker build -t peerjs https://github.com/peers/peerjs-server.git
+docker run -p 9000:9000 -d peerjs/peerjs-server
+```
+
+You can build a new image simply by calling:
+```bash
+docker build -t myimage https://github.com/peers/peerjs-server.git
 ```
 
 To run the image execute this:  
 ```bash
-docker run -p 9000:9000 -d peerjs
+docker run -p 9000:9000 -d myimage
 ```
 
-This will start a peerjs server on port 9000 exposed on port 9000.
+This will start a peerjs server on port 9000 exposed on port 9000 with key `peerjs` on path `/myapp`.
+
+Open browser with http://localhost:9000/myapp It should returns JSON with name, description and website fields.
 
 ## Problems?
 
