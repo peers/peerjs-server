@@ -36,8 +36,13 @@ $> peerjs --port 9000 --key peerjs --path /myapp
 
 Or, create a custom server:
 
+```bash
+$> npm install peerjs-server
+```
+
 ```javascript
-const { PeerServer } = require('peer');
+import {PeerServer} from 'peerjs-server';
+
 const server = PeerServer({port: 9000, path: '/myapp'});
 ```
 
@@ -54,8 +59,8 @@ const server = PeerServer({port: 9000, path: '/myapp'});
 ### Using HTTPS: Simply pass in PEM-encoded certificate and key.
 
 ```javascript
-const fs = require('fs');
-const { PeerServer } = require('peer');
+import fs from 'fs';
+import {PeerServer} from 'peerjs-server';
 
 const server = PeerServer({
   port: 9000,
@@ -74,17 +79,32 @@ The option is passed verbatim to the
 if it is truthy.
 
 ```javascript
-const { PeerServer } = require('peer');
+import {PeerServer} from 'peerjs-server';
+
 const server = PeerServer({port: 9000, path: '/myapp', proxied: true});
+```
+
+
+### Custom client ID generation
+
+You can specify a custom function to use to generate client IDs.
+
+```javascript
+const genRandomId = () => {
+    // Original generation algorithm
+    return (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
+}
+
+const server = PeerServer({port: 9000, path: '/myapp', proxied: true, genRandomId: genRandomId });
 ```
 
 ### Combining with existing express app
 
 ```javascript
-const express = require('express');
-const app = express();
-const { ExpressPeerServer } = require('peer');
+import express from 'express';
+import {ExpressPeerServer} from 'peerjs-server';
 
+const app = express();
 app.get('/', (req, res, next) => { res.send('Hello world!'); });
 
 // =======
@@ -102,7 +122,9 @@ app.use(options.path, peerserver);
 
 // == OR ==
 
-const server = require('http').createServer(app);
+import http from 'http';
+
+const server = http.createServer(app);
 const peerserver = ExpressPeerServer(server, options);
 
 app.use(options.path, peerserver);

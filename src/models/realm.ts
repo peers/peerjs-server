@@ -20,7 +20,7 @@ export interface IRealm {
 
   clearMessageQueue(id: string): void;
 
-  generateClientId(): string;
+  generateClientId(genRandomId?: () => string): string;
 }
 
 export class Realm implements IRealm {
@@ -69,11 +69,14 @@ export class Realm implements IRealm {
     this.messageQueues.delete(id);
   }
 
-  public generateClientId(): string {
-    let clientId = uuidv4();
+  public generateClientId(genRandomId?: () => string): string {
+
+    const _genRandomId = genRandomId ? genRandomId : uuidv4;
+
+    let clientId = _genRandomId();
 
     while (this.getClientById(clientId)) {
-      clientId = uuidv4();
+      clientId = _genRandomId();
     }
 
     return clientId;
