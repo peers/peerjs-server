@@ -1,5 +1,13 @@
 # PeerServer Changelog
 
+### 0.4.0
+
+* New: Allow passing in custom client ID generation function - #157 Thanks @ajmar
+
+### 0.3.2
+
+* Fixed: fix main field in package.json
+
 ### 0.3.1
 
 * Fixed: no expire message in some cases

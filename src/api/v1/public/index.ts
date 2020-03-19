@@ -10,7 +10,7 @@ export default ({ config, realm }: {
   // Retrieve guaranteed random ID.
   app.get("/id", (_, res: express.Response) => {
     res.contentType("html");
-    res.send(realm.generateClientId(config.genRandomId));
+    res.send(realm.generateClientId(config.generateClientId));
   });
 
   // Get a list of all peers for a key, enabled by the `allowDiscovery` flag.

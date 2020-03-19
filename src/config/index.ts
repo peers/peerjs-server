@@ -12,6 +12,7 @@ export interface IConfig {
     key: string;
     cert: string;
   };
+  readonly generateClientId?: () => string;
 }
 
 const defaultConfig: IConfig = {

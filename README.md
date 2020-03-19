@@ -37,11 +37,11 @@ $> peerjs --port 9000 --key peerjs --path /myapp
 Or, create a custom server:
 
 ```bash
-$> npm install peerjs-server
+$> npm install peer
 ```
 
 ```javascript
-import {PeerServer} from 'peerjs-server';
+import {PeerServer} from 'peer';
 
 const server = PeerServer({port: 9000, path: '/myapp'});
 ```
@@ -60,7 +60,7 @@ const server = PeerServer({port: 9000, path: '/myapp'});
 
 ```javascript
 import fs from 'fs';
-import {PeerServer} from 'peerjs-server';
+import {PeerServer} from 'peer';
 
 const server = PeerServer({
   port: 9000,
@@ -79,41 +79,47 @@ The option is passed verbatim to the
 if it is truthy.
 
 ```javascript
-import {PeerServer} from 'peerjs-server';
+import {PeerServer} from 'peer';
 
-const server = PeerServer({port: 9000, path: '/myapp', proxied: true});
+const server = PeerServer({
+  port: 9000,
+  path:
+  '/myapp',
+  proxied: true
+});
 ```
 
-
 ### Custom client ID generation
+By default, PeerServer uses `uuid/v4` package to generate random client IDs.
 
-You can specify a custom function to use to generate client IDs.
+You can set `generateClientId` option in config to specify a custom function to generate client IDs.
 
 ```javascript
-const genRandomId = () => {
-    // Original generation algorithm
-    return (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
-}
+const customGenerationFunction = () => (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
 
-const server = PeerServer({port: 9000, path: '/myapp', proxied: true, genRandomId: genRandomId });
+const server = PeerServer({
+  port: 9000,
+  path: '/myapp',
+  generateClientId: customGenerationFunction
+});
 ```
 
 ### Combining with existing express app
 
 ```javascript
 import express from 'express';
-import {ExpressPeerServer} from 'peerjs-server';
+import {ExpressPeerServer} from 'peer';
 
 const app = express();
-app.get('/', (req, res, next) => { res.send('Hello world!'); });
+app.get('/', (req, res, next) => res.send('Hello world!'));
 
 // =======
 
 const server = app.listen(9000);
 
 const options = {
-    debug: true,
-    path: '/peerjs'
+  debug: true,
+  path: '/peerjs'
 }
 
 const peerserver = ExpressPeerServer(server, options);
