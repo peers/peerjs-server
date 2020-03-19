@@ -129,7 +129,7 @@ const peerServer = PeerServer({
 });
 ```
 
-Open http://127.0.0.1/myapp/peerjs/id to see a new random id.
+Open http://127.0.0.1:9000/myapp/peerjs/id to see a new random id.
 
 ## Combining with existing express app
 
