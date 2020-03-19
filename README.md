@@ -77,7 +77,8 @@ You can provide config object to `PeerServer` function or specify options for `p
 | `--concurrent_limit, -c` | `concurrent_limit` | Maximum number of clients' connections to WebSocket server (number) | No | `5000` |
 | `--sslkey` | `sslkey` | Path to SSL key (string) | No |  |
 | `--sslcert` | `sslcert` | Path to SSL certificate (string) | No |  |
-| `--allow_discovery` | `allow_discovery` |  Allow to use `/peers` API method to get an array of ids of all connected clients (boolean) |  No  |     |
+| `--allow_discovery` | `allow_discovery` |  Allow to use `/peers` API method to get an array of ids of all connected clients (boolean) | No |  |
+|  | `generateClientId` | A function which generate random client IDs when executes `/id` API method (`() => string`) | No | `uuid/v4` |
 
 ## Using HTTPS
 Simply pass in PEM-encoded certificate and key.
