@@ -10,59 +10,83 @@ Run your own server on Gitpod!
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/peers/peerjs-server)
 
-## [https://peerjs.com](https://peerjs.com)
+### [https://peerjs.com](https://peerjs.com)
 
-### Run PeerServer
+## Usage
 
-1. Install PeerServer from npm or github:
+### Run server
+If you don't want to develop anything, just enter a few commands below.
 
-#### NPM
-```bash
-npm install peer
-```
-
-#### github
-
-```bash
-git clone https://github.com/peers/peerjs-server.git#master
-npm install
-```
-
+1. Install the package globally:
+    ```sh
+    $ npm install peer -g
+    ```
 2. Run the server:
+    ```sh
+    $ peerjs --port 9000 --key peerjs --path /myapp
 
-```bash
-$> peerjs --port 9000 --key peerjs --path /myapp
+      Started PeerServer on ::, port: 9000, path: /myapp (v. 0.3.2)
+    ```
+3. Check it: http://127.0.0.1:9000/myapp It should returns JSON with name, description and website fields.
+
+Also, you can use Docker image to run a new container:
+```sh
+$ docker run -p 9000:9000 -d peerjs/peerjs-server
 ```
 
-Or, create a custom server:
+### Create a custom server:
+If you have your own server, you can attach PeerServer.
 
-```bash
-$> npm install peer
-```
+1. Install the package:
+    ```sh
+    #$ cd your-project-path
+    $ npm install peer
+    ```
+2. Use PeerServer object to create a new server:
+    ```javascript
+    const { PeerServer } = require('peer');
 
-```javascript
-import {PeerServer} from 'peer';
+    const peerServer = PeerServer({ port: 9000, path: '/myapp' });
+    ```
 
-const server = PeerServer({port: 9000, path: '/myapp'});
-```
+3. Check it: http://127.0.0.1:9000/myapp It should returns JSON with name, description and website fields.
 
-3. Check that server works: open browser with [http://localhost:9000/myapp](http://localhost:9000/myapp) It should returns JSON with name, description and website fields.
-
-### Connecting to the server from PeerJS:
+### Connecting to the server from client PeerJS:
 
 ```html
 <script>
-    const peer = new Peer('someid', {host: 'localhost', port: 9000, path: '/myapp'});
+    const peer = new Peer('someid', {
+      host: 'localhost',
+      port: 9000,
+      path: '/myapp'
+    });
 </script>
 ```
 
-### Using HTTPS: Simply pass in PEM-encoded certificate and key.
+## Config / CLI options
+You can provide config object to `PeerServer` function or specify options for `peerjs` CLI.
+
+| CLI option | JS option | Description | Required | Default |
+| -------- | ------- | ------------- | :------: | :---------: |
+| `--port, -p` | `port` | Port to listen (number) | **Yes** | |
+| `--key, -k` | `key` | Connection key (string). Client must provide it to call an API methods | No | `"peerjs"` |
+| `--path` | `path` | Path (string). The server responds for requests to the root URL + path. **E.g.** Set the `path` to `/myapp` and run server on 9000 port via `peerjs --port 9000 --path /myapp` Then open http://127.0.0.1:9000/myapp - you should see a JSON reponse. | No | `"/"` |
+| `--proxied` | `proxied` | Set `true` if PeerServer stays behind a reverse proxy (boolean) | No | `false` |
+| `--expire_timeout, -t` | `expire_timeout` | The amount of time after which an `EXPIRE` message will be sent to initiator (milliseconds). This mean that other client didn't have a connection with server. | No | `5000` |
+| `--alive_timeout` | `alive_timeout` | Timeout for broken connection (milliseconds). If the server doesn't receive any data from client (includes `pong` messages), the client's connection will be destroyed. | No | `60000` |
+| `--concurrent_limit, -c` | `concurrent_limit` | Maximum number of clients' connections to WebSocket server (number) | No | `5000` |
+| `--sslkey` | `sslkey` | Path to SSL key (string) | No |  |
+| `--sslcert` | `sslcert` | Path to SSL certificate (string) | No |  |
+| `--allow_discovery` | `allow_discovery` |  Allow to use `/peers` API method to get an array of ids of all connected clients (boolean) |  No  |     |
+
+## Using HTTPS
+Simply pass in PEM-encoded certificate and key.
 
 ```javascript
-import fs from 'fs';
-import {PeerServer} from 'peer';
+const fs = require('fs');
+const { PeerServer } = require('peer');
 
-const server = PeerServer({
+const peerServer = PeerServer({
   port: 9000,
   ssl: {
     key: fs.readFileSync('/path/to/your/ssl/key/here.key'),
@@ -71,7 +95,7 @@ const server = PeerServer({
 });
 ```
 
-### Running PeerServer behind a reverse proxy
+## Running PeerServer behind a reverse proxy
 
 Make sure to set the `proxied` option, otherwise IP based limiting will fail.
 The option is passed verbatim to the
@@ -79,86 +103,93 @@ The option is passed verbatim to the
 if it is truthy.
 
 ```javascript
-import {PeerServer} from 'peer';
+const { PeerServer } = require('peer');
 
-const server = PeerServer({
+const peerServer = PeerServer({
   port: 9000,
-  path:
-  '/myapp',
+  path: '/myapp',
   proxied: true
 });
 ```
 
-### Custom client ID generation
-By default, PeerServer uses `uuid/v4` package to generate random client IDs.
+## Custom client ID generation
+By default, PeerServer uses `uuid/v4` npm package to generate random client IDs.
 
 You can set `generateClientId` option in config to specify a custom function to generate client IDs.
 
 ```javascript
+const { PeerServer } = require('peer');
+
 const customGenerationFunction = () => (Math.random().toString(36) + '0000000000000000000').substr(2, 16);
 
-const server = PeerServer({
+const peerServer = PeerServer({
   port: 9000,
   path: '/myapp',
   generateClientId: customGenerationFunction
 });
 ```
 
-### Combining with existing express app
+Open http://127.0.0.1/myapp/peerjs/id to see a new random id.
+
+## Combining with existing express app
 
 ```javascript
-import express from 'express';
-import {ExpressPeerServer} from 'peer';
+const express = require('express');
+const { ExpressPeerServer } = require('peer');
 
 const app = express();
+
 app.get('/', (req, res, next) => res.send('Hello world!'));
 
 // =======
 
 const server = app.listen(9000);
 
-const options = {
+const peerServer = ExpressPeerServer(server, {
   debug: true,
-  path: '/peerjs'
-}
+  path: '/myapp'
+});
 
-const peerserver = ExpressPeerServer(server, options);
-
-app.use(options.path, peerserver);
+app.use('/peerjs', peerServer);
 
 // == OR ==
 
-import http from 'http';
+const http = require('http');
 
 const server = http.createServer(app);
-const peerserver = ExpressPeerServer(server, options);
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
+  path: '/myapp'
+});
 
-app.use(options.path, peerserver);
+app.use('/peerjs', peerServer);
 
 server.listen(9000);
 
 // ========
 ```
 
-### Events
+Open the browser and check http://127.0.0.1:9000/peerjs/myapp
+
+## Events
 
 The `'connection'` event is emitted when a peer connects to the server.
 
 ```javascript
-peerserver.on('connection', (client) => { ... });
+peerServer.on('connection', (client) => { ... });
 ```
 
 The `'disconnect'` event is emitted when a peer disconnects from the server or
 when the peer can no longer be reached.
 
 ```javascript
-peerserver.on('disconnect', (client) => { ... });
+peerServer.on('disconnect', (client) => { ... });
 ```
 
 ## Running tests
 
-```bash
-npm test
+```sh
+$ npm test
 ```
 
 ## Docker
@@ -168,18 +199,18 @@ https://hub.docker.com/r/peerjs/peerjs-server
 
 
 To run the latest image:  
-```bash
-docker run -p 9000:9000 -d peerjs/peerjs-server
+```sh
+$ docker run -p 9000:9000 -d peerjs/peerjs-server
 ```
 
 You can build a new image simply by calling:
-```bash
-docker build -t myimage https://github.com/peers/peerjs-server.git
+```sh
+$ docker build -t myimage https://github.com/peers/peerjs-server.git
 ```
 
 To run the image execute this:  
-```bash
-docker run -p 9000:9000 -d myimage
+```sh
+$ docker run -p 9000:9000 -d myimage
 ```
 
 This will start a peerjs server on port 9000 exposed on port 9000 with key `peerjs` on path `/myapp`.
