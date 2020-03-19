@@ -92,7 +92,7 @@ app.get('/', (req, res, next) => { res.send('Hello world!'); });
 const server = app.listen(9000);
 
 const options = {
-    debug: true
+    debug: true,
     path: '/peerjs'
 }
 
