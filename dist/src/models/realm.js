@@ -41,10 +41,11 @@ class Realm {
     clearMessageQueue(id) {
         this.messageQueues.delete(id);
     }
-    generateClientId() {
-        let clientId = v4_1.default();
+    generateClientId(generateClientId) {
+        const generateId = generateClientId ? generateClientId : v4_1.default;
+        let clientId = generateId();
         while (this.getClientById(clientId)) {
-            clientId = v4_1.default();
+            clientId = generateId();
         }
         return clientId;
     }
