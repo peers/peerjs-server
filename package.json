@@ -6,6 +6,10 @@
   "bin": {
     "peerjs": "./bin/peerjs"
   },
+  "files": [
+    "bin/",
+    "dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/peers/peerjs-server.git"
@@ -13,6 +17,7 @@
   "author": "Michelle Bu, Eric Zhang",
   "license": "MIT",
   "scripts": {
+    "preversion": "npm run clean && npm run build",
     "build": "tsc",
     "clean": "rimraf ./dist",
     "lint": "eslint --ext .js,.ts .",
