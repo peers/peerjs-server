@@ -46,7 +46,7 @@ function PeerServer(options = {}, callback) {
     }
     const peerjs = ExpressPeerServer(server, newOptions);
     app.use(peerjs);
-    server.listen(port, () => { var _a; return (_a = callback) === null || _a === void 0 ? void 0 : _a(server); });
+    server.listen(port, () => callback === null || callback === void 0 ? void 0 : callback(server));
     return peerjs;
 }
 exports.PeerServer = PeerServer;

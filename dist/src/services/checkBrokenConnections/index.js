@@ -26,7 +26,7 @@ class CheckBrokenConnections {
         }
     }
     checkConnections() {
-        var _a, _b, _c;
+        var _a, _b;
         const clientsIds = this.realm.getClientsIds();
         const now = new Date().getTime();
         const { alive_timeout: aliveTimeout } = this.config;
@@ -42,7 +42,7 @@ class CheckBrokenConnections {
                 this.realm.clearMessageQueue(clientId);
                 this.realm.removeClientById(clientId);
                 client.setSocket(null);
-                (_c = (_b = this).onClose) === null || _c === void 0 ? void 0 : _c.call(_b, client);
+                (_b = this.onClose) === null || _b === void 0 ? void 0 : _b.call(this, client);
             }
         }
     }
