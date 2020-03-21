@@ -189,6 +189,10 @@ when the peer can no longer be reached.
 peerServer.on('disconnect', (client) => { ... });
 ```
 
+## HTTP API
+
+Read [/src/api/README.md](src/api/README.md)
+
 ## Running tests
 
 ```sh
@@ -218,7 +222,7 @@ $ docker run -p 9000:9000 -d myimage
 
 This will start a peerjs server on port 9000 exposed on port 9000 with key `peerjs` on path `/myapp`.
 
-Open browser with http://localhost:9000/myapp It should returns JSON with name, description and website fields. http://localhost:9000/myapp/peerjs/id - should returns a random string (random client id)
+Open your browser with http://localhost:9000/myapp It should returns JSON with name, description and website fields. http://localhost:9000/myapp/peerjs/id - should returns a random string (random client id)
 
 ## Problems?
 
