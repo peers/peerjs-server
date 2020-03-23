@@ -8,7 +8,7 @@ export class AuthMiddleware implements IMiddleware {
 
   constructor(private readonly config: IConfig, private readonly realm: IRealm) { }
 
-  public handle(req: express.Request, res: express.Response, next: express.NextFunction): any {
+  public handle = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const { id, token, key } = req.params;
 
     if (key !== this.config.key) {
@@ -30,6 +30,6 @@ export class AuthMiddleware implements IMiddleware {
     }
 
     next();
-  }
+  };
 
 }

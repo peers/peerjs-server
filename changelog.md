@@ -1,7 +1,9 @@
 # PeerServer Changelog
 
 
-### vNEXT 0.5.0
+### 0.5.0
+
+* Fix: http api not working - #163 Thanks riscoss63
 
 * Change: use "/" instead of "/myapp" as a default value for config's `path` option
 
