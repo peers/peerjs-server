@@ -6,7 +6,7 @@
 [![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/peerjs/peerjs-server)](https://hub.docker.com/r/peerjs/peerjs-server)
 # PeerServer: A server for PeerJS #
 
-PeerServer helps broker connections between PeerJS clients. Data is not proxied through the server.
+PeerServer helps establishing connections between PeerJS clients. Data is not proxied through the server.
 
 Run your own server on Gitpod!
 
@@ -17,7 +17,7 @@ Run your own server on Gitpod!
 ## Usage
 
 ### Run server
-If you don't want to develop anything, just enter a few commands below.
+If you don't want to develop anything, just enter few commands below.
 
 1. Install the package globally:
     ```sh
@@ -71,16 +71,16 @@ You can provide config object to `PeerServer` function or specify options for `p
 | CLI option | JS option | Description | Required | Default |
 | -------- | ------- | ------------- | :------: | :---------: |
 | `--port, -p` | `port` | Port to listen (number) | **Yes** | |
-| `--key, -k` | `key` | Connection key (string). Client must provide it to call an API methods | No | `"peerjs"` |
+| `--key, -k` | `key` | Connection key (string). Client must provide it to call API methods | No | `"peerjs"` |
 | `--path` | `path` | Path (string). The server responds for requests to the root URL + path. **E.g.** Set the `path` to `/myapp` and run server on 9000 port via `peerjs --port 9000 --path /myapp` Then open http://127.0.0.1:9000/myapp - you should see a JSON reponse. | No | `"/"` |
 | `--proxied` | `proxied` | Set `true` if PeerServer stays behind a reverse proxy (boolean) | No | `false` |
-| `--expire_timeout, -t` | `expire_timeout` | The amount of time after which an `EXPIRE` message will be sent to initiator (milliseconds). This mean that other client didn't have a connection with server. | No | `5000` |
+| `--expire_timeout, -t` | `expire_timeout` | The amount of time after which a message sent will expire, the sender will then receive a `EXPIRE` message (milliseconds). | No | `5000` |
 | `--alive_timeout` | `alive_timeout` | Timeout for broken connection (milliseconds). If the server doesn't receive any data from client (includes `pong` messages), the client's connection will be destroyed. | No | `60000` |
 | `--concurrent_limit, -c` | `concurrent_limit` | Maximum number of clients' connections to WebSocket server (number) | No | `5000` |
 | `--sslkey` | `sslkey` | Path to SSL key (string) | No |  |
 | `--sslcert` | `sslcert` | Path to SSL certificate (string) | No |  |
-| `--allow_discovery` | `allow_discovery` |  Allow to use `/peers` API method to get an array of ids of all connected clients (boolean) | No |  |
-|  | `generateClientId` | A function which generate random client IDs when executes `/id` API method (`() => string`) | No | `uuid/v4` |
+| `--allow_discovery` | `allow_discovery` |  Allow to use GET `/peers` http API method to get an array of ids of all connected clients (boolean) | No |  |
+|  | `generateClientId` | A function which generate random client IDs when calling `/id` API method (`() => string`) | No | `uuid/v4` |
 
 ## Using HTTPS
 Simply pass in PEM-encoded certificate and key.
