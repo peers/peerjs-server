@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = __importDefault(require("path"));
 const realm_1 = require("./models/realm");
 const checkBrokenConnections_1 = require("./services/checkBrokenConnections");
 const messagesExpire_1 = require("./services/messagesExpire");
@@ -20,10 +24,12 @@ exports.createInstance = ({ app, server, options }) => {
         }
     });
     app.use(options.path, api);
+    //use mountpath for WS server
+    const customConfig = Object.assign(Object.assign({}, config), { path: path_1.default.join(app.path(), options.path, '/') });
     const wss = new webSocketServer_1.WebSocketServer({
         server,
         realm,
-        config
+        config: customConfig
     });
     wss.on("connection", (client) => {
         const messageQueue = realm.getMessageQueueById(client.getId());

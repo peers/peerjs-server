@@ -1,5 +1,6 @@
 import express from "express";
 import { Server } from "net";
+import path from 'path';
 import { IClient } from "./models/client";
 import { IMessage } from "./models/message";
 import { Realm } from "./models/realm";
@@ -32,10 +33,13 @@ export const createInstance = ({ app, server, options }: {
 
   app.use(options.path, api);
 
+  //use mountpath for WS server
+  const customConfig = { ...config, path: path.join(app.path(), options.path, '/') };
+
   const wss: IWebSocketServer = new WebSocketServer({
     server,
     realm,
-    config
+    config: customConfig
   });
 
   wss.on("connection", (client: IClient) => {

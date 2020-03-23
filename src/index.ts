@@ -42,16 +42,7 @@ function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server)
     ...options
   };
 
-  let path = newOptions.path;
   const port = newOptions.port;
-
-  if (!path.startsWith('/')) {
-    path = "/" + path;
-  }
-
-  if (!path.endsWith('/')) {
-    path += "/";
-  }
 
   let server: Server;
 
