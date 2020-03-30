@@ -6,16 +6,25 @@
   "bin": {
     "peerjs": "./bin/peerjs"
   },
+  "keywords": [
+    "peerjs",
+    "webrtc",
+    "signaling"
+  ],
   "files": [
     "bin/",
     "dist/",
     "index.d.ts"
   ],
+  "homepage": "https://github.com/peers/peerjs-server#readme",
+  "bugs": {
+    "url": "https://github.com/peers/peerjs-server/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/peers/peerjs-server.git"
+    "url": "git+https://github.com/peers/peerjs-server.git"
   },
-  "author": "Michelle Bu, Eric Zhang",
+  "author": "Michelle Bu, Eric Zhang, Alex Sosnovskiy",
   "license": "MIT",
   "scripts": {
     "preversion": "npm run clean && npm run build",
