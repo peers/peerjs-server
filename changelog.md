@@ -1,5 +1,9 @@
 # PeerServer Changelog
 
+### 0.5.2
+
+* Fix: WebSocket server doesn't work  on Windows #170 Thanks @lqdchrm
+
 ### 0.5.1
 
 * Fix: WebSocket server doesn't work  when use non "/" mount path with ExpressPeerServer #132
