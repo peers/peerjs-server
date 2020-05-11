@@ -4,59 +4,62 @@
 const path = require("path");
 const pkg = require("../package.json");
 const fs = require("fs");
+const optimistUsageLength = 98;
+const yargs = require("yargs")
 const version = pkg.version;
 const { PeerServer } = require("../dist/src");
-const opts = require("optimist")
+const opts = yargs
   .usage("Usage: $0")
+  .wrap(Math.min(optimistUsageLength, yargs.terminalWidth()))
   .options({
     expire_timeout: {
-      demand: false,
+      demandOption: false,
       alias: "t",
-      description: "timeout (milliseconds)",
+      describe: "timeout (milliseconds)",
       default: 5000
     },
     concurrent_limit: {
-      demand: false,
+      demandOption: false,
       alias: "c",
-      description: "concurrent limit",
+      describe: "concurrent limit",
       default: 5000
     },
     alive_timeout: {
-      demand: false,
-      description: "broken connection check timeout (milliseconds)",
+      demandOption: false,
+      describe: "broken connection check timeout (milliseconds)",
       default: 60000
     },
     key: {
-      demand: false,
+      demandOption: false,
       alias: "k",
-      description: "connection key",
+      describe: "connection key",
       default: "peerjs"
     },
     sslkey: {
-      demand: false,
-      description: "path to SSL key"
+      demandOption: false,
+      describe: "path to SSL key"
     },
     sslcert: {
-      demand: false,
-      description: "path to SSL certificate"
+      demandOption: false,
+      describe: "path to SSL certificate"
     },
     port: {
-      demand: true,
+      demandOption: true,
       alias: "p",
-      description: "port"
+      describe: "port"
     },
     path: {
-      demand: false,
-      description: "custom path",
+      demandOption: false,
+      describe: "custom path",
       default: "/"
     },
     allow_discovery: {
-      demand: false,
-      description: "allow discovery of peers"
+      demandOption: false,
+      describe: "allow discovery of peers"
     },
     proxied: {
-      demand: false,
-      description: "Set true if PeerServer stays behind a reverse proxy",
+      demandOption: false,
+      describe: "Set true if PeerServer stays behind a reverse proxy",
       default: false
     }
   })
