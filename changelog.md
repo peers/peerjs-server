@@ -1,5 +1,9 @@
 # PeerServer Changelog
 
+### 0.5.3
+
+* PeerServer uses yargs instead of an outdated minimist. #190 Thanks @hobindar
+
 ### 0.5.2
 
 * Fix: WebSocket server doesn't work  on Windows #170 Thanks @lqdchrm
