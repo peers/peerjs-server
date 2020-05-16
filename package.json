@@ -36,7 +36,10 @@
     "test": "npm run lint && mocha -r ts-node/register \"test/**/*\"",
     "start": "bin/peerjs --port ${PORT:=9000} --path /myapp",
     "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts --exec npm run dev:start"
+    "dev": "nodemon --watch src -e ts --exec npm run dev:start",
+    "startp": "bin/peerjs --port ${PORT:=9000} --path /myapp --sslkey ../certs/frontm_ai.key --sslcert ../certs/frontm_ai.crt",
+    "prod:start": "npm-run-all build startp",
+    "prod": "nodemon --watch src -e ts --exec npm run prod:start"
   },
   "release": {
     "branch": "master"
