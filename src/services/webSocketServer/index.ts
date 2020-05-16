@@ -169,8 +169,8 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     // Handle messages from peers.
     socket.on("message", (data: WebSocketLib.Data) => {
       try {
+        clog("Main Server Message");
         const message = JSON.parse(data as string);
-
         message.src = client.getId();
         clog(`Before Publish::: ${JSON.stringify(message)}`);
         redisPub.publish(
