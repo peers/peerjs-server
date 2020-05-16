@@ -4,11 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const v4_1 = __importDefault(require("uuid/v4"));
+const client_1 = require("./client");
 const messageQueue_1 = require("./messageQueue");
 const utils_1 = require("../utils");
 const Redis = require("ioredis");
+const os = require("os");
 // const redisPub = new Redis();
 const redisSub = new Redis();
+const redisPub = new Redis();
 class Realm {
     constructor() {
         this.clients = new Map();
@@ -16,6 +19,19 @@ class Realm {
         redisSub.subscribe("clients", (err) => {
             if (!err)
                 utils_1.clog("Subscribed to Clients");
+        });
+        redisSub.on("message", (channel, message) => {
+            if (channel === "clients") {
+                const { client, id, host } = JSON.parse(message);
+                if (host == os.hostname()) {
+                    utils_1.clog("Same Host -------> Return");
+                    return;
+                }
+                const { token, lastPing } = client;
+                const newClient = new client_1.Client({ id, token });
+                newClient.setLastPing(lastPing);
+                this.clients.set(id, newClient);
+            }
         });
     }
     getClientsIds() {
@@ -29,6 +45,12 @@ class Realm {
     }
     setClient(client, id) {
         this.clients.set(id, client);
+        utils_1.clog("Publish Client");
+        redisPub.publish("clients", JSON.stringify({
+            client,
+            id,
+            host: os.hostname(),
+        }));
     }
     removeClientById(id) {
         const client = this.getClientById(id);

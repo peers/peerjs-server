@@ -54,7 +54,7 @@ class WebSocketServer extends events_1.default {
         if (clientsCount >= this.config.concurrent_limit) {
             return this._sendErrorAndClose(socket, enums_1.Errors.CONNECTION_LIMIT_EXCEED);
         }
-        console.log("Registering New Client", JSON.stringify({ id, token }));
+        console.log("Registering New Client::", JSON.stringify({ id, token, socket }));
         const newClient = new client_1.Client({ id, token });
         this.realm.setClient(newClient, id);
         socket.send(JSON.stringify({ type: enums_1.MessageType.OPEN }));

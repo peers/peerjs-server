@@ -1,13 +1,15 @@
 import uuidv4 from "uuid/v4";
-import { IClient } from "./client";
+import { IClient, Client } from "./client";
 import { IMessage } from "./message";
 import { IMessageQueue, MessageQueue } from "./messageQueue";
 import { clog } from "../utils";
 
 const Redis = require("ioredis");
+const os = require("os");
 
 // const redisPub = new Redis();
 const redisSub = new Redis();
+const redisPub = new Redis();
 
 export interface IRealm {
   getClientsIds(): string[];
@@ -37,6 +39,20 @@ export class Realm implements IRealm {
     redisSub.subscribe("clients", (err: Error) => {
       if (!err) clog("Subscribed to Clients");
     });
+
+    redisSub.on("message", (channel: string, message: any) => {
+      if (channel === "clients") {
+        const { client, id, host } = JSON.parse(message);
+        if (host == os.hostname()) {
+          clog("Same Host -------> Return");
+          return;
+        }
+        const { token, lastPing } = client;
+        const newClient: IClient = new Client({ id, token });
+        newClient.setLastPing(lastPing);
+        this.clients.set(id, newClient);
+      }
+    });
   }
 
   public getClientsIds(): string[] {
@@ -53,6 +69,15 @@ export class Realm implements IRealm {
 
   public setClient(client: IClient, id: string): void {
     this.clients.set(id, client);
+    clog("Publish Client");
+    redisPub.publish(
+      "clients",
+      JSON.stringify({
+        client,
+        id,
+        host: os.hostname(),
+      })
+    );
   }
 
   public removeClientById(id: string): boolean {
