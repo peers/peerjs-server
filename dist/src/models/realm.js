@@ -26,15 +26,23 @@ class Realm {
         });
         redisSub.on("message", (channel, message) => {
             if (channel === "clients") {
-                const { client, id, host } = JSON.parse(message);
+                const { client = null, id = null, host = null, action = null, } = JSON.parse(message);
                 if (host == os.hostname()) {
                     utils_1.clog("Same Host -------> Return");
                     return;
                 }
                 const { token, lastPing } = client;
-                const newClient = new client_1.Client({ id, token });
-                newClient.setLastPing(lastPing);
-                this.clients.set(id, newClient);
+                if (action === "set") {
+                    const newClient = new client_1.Client({ id, token });
+                    newClient.setLastPing(lastPing);
+                    this.clients.set(id, newClient);
+                }
+                if (action === "delete") {
+                    const client = this.getClientById(id);
+                    if (!client)
+                        return false;
+                    this.clients.delete(id);
+                }
             }
         });
     }
@@ -49,11 +57,11 @@ class Realm {
     }
     setClient(client, id) {
         this.clients.set(id, client);
-        utils_1.clog("Publish Client");
         redisPub.publish("clients", JSON.stringify({
             client,
             id,
             host: os.hostname(),
+            action: "set",
         }));
     }
     removeClientById(id) {
@@ -61,6 +69,11 @@ class Realm {
         if (!client)
             return false;
         this.clients.delete(id);
+        redisPub.publish("clients", JSON.stringify({
+            id,
+            host: os.hostname(),
+            action: "delete",
+        }));
         return true;
     }
     getMessageQueueById(id) {

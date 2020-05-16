@@ -48,15 +48,28 @@ export class Realm implements IRealm {
 
     redisSub.on("message", (channel: string, message: any) => {
       if (channel === "clients") {
-        const { client, id, host } = JSON.parse(message);
+        const {
+          client = null,
+          id = null,
+          host = null,
+          action = null,
+        } = JSON.parse(message);
         if (host == os.hostname()) {
           clog("Same Host -------> Return");
           return;
         }
         const { token, lastPing } = client;
-        const newClient: IClient = new Client({ id, token });
-        newClient.setLastPing(lastPing);
-        this.clients.set(id, newClient);
+        if (action === "set") {
+          const newClient: IClient = new Client({ id, token });
+          newClient.setLastPing(lastPing);
+          this.clients.set(id, newClient);
+        }
+
+        if (action === "delete") {
+          const client = this.getClientById(id);
+          if (!client) return false;
+          this.clients.delete(id);
+        }
       }
     });
   }
@@ -75,24 +88,29 @@ export class Realm implements IRealm {
 
   public setClient(client: IClient, id: string): void {
     this.clients.set(id, client);
-    clog("Publish Client");
     redisPub.publish(
       "clients",
       JSON.stringify({
         client,
         id,
         host: os.hostname(),
+        action: "set",
       })
     );
   }
 
   public removeClientById(id: string): boolean {
     const client = this.getClientById(id);
-
     if (!client) return false;
-
     this.clients.delete(id);
-
+    redisPub.publish(
+      "clients",
+      JSON.stringify({
+        id,
+        host: os.hostname(),
+        action: "delete",
+      })
+    );
     return true;
   }
 

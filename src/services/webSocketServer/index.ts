@@ -7,6 +7,20 @@ import { Errors, MessageType } from "../../enums";
 import { Client, IClient } from "../../models/client";
 import { IRealm } from "../../models/realm";
 import { MyWebSocket } from "./webSocket";
+import { clog } from "../../utils";
+
+const Redis = require("ioredis");
+const os = require("os");
+
+const redisHost =
+  process.env.NODE_ENV === "development"
+    ? "127.0.0.1"
+    : "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com";
+const redisPort = 6379;
+
+// const redisPub = new Redis();
+const redisSub = new Redis(redisPort, redisHost);
+const redisPub = new Redis(redisPort, redisHost);
 
 export interface IWebSocketServer extends EventEmitter {
   readonly path: string;
@@ -53,6 +67,30 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       this._onSocketConnection(socket, req)
     );
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));
+
+    redisSub.subscribe("ws_message", (err: Error) => {
+      if (!err) clog("Subscribed to WebSocket Messages");
+    });
+
+    redisSub.on("message", (channel: string, message: any) => {
+      if (channel === "ws_message") {
+        const { id = null, host = null, socket_message = null } = JSON.parse(
+          message
+        );
+        clog(`WS_MESSAGE::: ${message}`);
+        if (host == os.hostname()) {
+          clog("Same Host -------> Return");
+          return;
+        }
+
+        clog("Parsing WS_MESSAGE and raising Event");
+        const ws_message = JSON.parse(socket_message as string);
+        ws_message.src = id;
+        const other_client = this.realm.getClientById(id);
+
+        this.emit("message", other_client, ws_message);
+      }
+    });
   }
 
   private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
@@ -110,10 +148,6 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       return this._sendErrorAndClose(socket, Errors.CONNECTION_LIMIT_EXCEED);
     }
 
-    console.log(
-      "Registering New Client::",
-      JSON.stringify({ id, token, socket })
-    );
     const newClient: IClient = new Client({ id, token });
     this.realm.setClient(newClient, id);
     socket.send(JSON.stringify({ type: MessageType.OPEN }));
@@ -137,8 +171,15 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       try {
         const message = JSON.parse(data as string);
 
-        console.log("WSS::New Message from Client");
         message.src = client.getId();
+        redisPub.publish(
+          "ws_message",
+          JSON.stringify({
+            id: client.getId(),
+            host: os.hostname(),
+            socket_message: message,
+          })
+        );
 
         this.emit("message", client, message);
       } catch (e) {
