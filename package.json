@@ -34,7 +34,7 @@
     "tsc": "tsc",
     "prebuild": "npm run lint",
     "test": "npm run lint && mocha -r ts-node/register \"test/**/*\"",
-    "start": "bin/peerjs --port ${PORT:=9000}",
+    "start": "bin/peerjs --port ${PORT:=9000} --path /myapp",
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts --exec npm run dev:start"
   },
@@ -46,8 +46,10 @@
     "@types/express": "^4.17.3",
     "@types/ws": "^7.2.3",
     "body-parser": "^1.19.0",
+    "chalk": "^4.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "ioredis": "^4.16.3",
     "uuid": "^3.4.0",
     "ws": "^7.2.3",
     "yargs": "^15.3.1"
@@ -67,6 +69,7 @@
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "sinon": "^7.5.0",
+    "stack-trace": "0.0.10",
     "ts-node": "^8.7.0",
     "typescript": "^3.8.3"
   },

@@ -11,11 +11,17 @@ export interface IMessageHandler {
 }
 
 export class MessageHandler implements IMessageHandler {
-  constructor(realm: IRealm, private readonly handlersRegistry: IHandlersRegistry = new HandlersRegistry()) {
+  constructor(
+    realm: IRealm,
+    private readonly handlersRegistry: IHandlersRegistry = new HandlersRegistry()
+  ) {
     const transmissionHandler: Handler = TransmissionHandler({ realm });
     const heartbeatHandler: Handler = HeartbeatHandler;
 
-    const handleTransmission: Handler = (client: IClient | undefined, { type, src, dst, payload }: IMessage): boolean => {
+    const handleTransmission: Handler = (
+      client: IClient | undefined,
+      { type, src, dst, payload }: IMessage
+    ): boolean => {
       return transmissionHandler(client, {
         type,
         src,
@@ -24,17 +30,37 @@ export class MessageHandler implements IMessageHandler {
       });
     };
 
-    const handleHeartbeat = (client: IClient | undefined, message: IMessage) => heartbeatHandler(client, message);
+    const handleHeartbeat = (client: IClient | undefined, message: IMessage) =>
+      heartbeatHandler(client, message);
 
-    this.handlersRegistry.registerHandler(MessageType.HEARTBEAT, handleHeartbeat);
-    this.handlersRegistry.registerHandler(MessageType.OFFER, handleTransmission);
-    this.handlersRegistry.registerHandler(MessageType.ANSWER, handleTransmission);
-    this.handlersRegistry.registerHandler(MessageType.CANDIDATE, handleTransmission);
-    this.handlersRegistry.registerHandler(MessageType.LEAVE, handleTransmission);
-    this.handlersRegistry.registerHandler(MessageType.EXPIRE, handleTransmission);
+    this.handlersRegistry.registerHandler(
+      MessageType.HEARTBEAT,
+      handleHeartbeat
+    );
+    this.handlersRegistry.registerHandler(
+      MessageType.OFFER,
+      handleTransmission
+    );
+    this.handlersRegistry.registerHandler(
+      MessageType.ANSWER,
+      handleTransmission
+    );
+    this.handlersRegistry.registerHandler(
+      MessageType.CANDIDATE,
+      handleTransmission
+    );
+    this.handlersRegistry.registerHandler(
+      MessageType.LEAVE,
+      handleTransmission
+    );
+    this.handlersRegistry.registerHandler(
+      MessageType.EXPIRE,
+      handleTransmission
+    );
   }
 
   public handle(client: IClient | undefined, message: IMessage): boolean {
+    console.log("Handle Message");
     return this.handlersRegistry.handle(client, message);
   }
 }

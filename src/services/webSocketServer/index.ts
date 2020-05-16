@@ -18,18 +18,25 @@ interface IAuthParams {
   key?: string;
 }
 
-type CustomConfig = Pick<IConfig, 'path' | 'key' | 'concurrent_limit'>;
+type CustomConfig = Pick<IConfig, "path" | "key" | "concurrent_limit">;
 
-const WS_PATH = 'peerjs';
+const WS_PATH = "peerjs";
 
 export class WebSocketServer extends EventEmitter implements IWebSocketServer {
-
   public readonly path: string;
   private readonly realm: IRealm;
   private readonly config: CustomConfig;
   public readonly socketServer: WebSocketLib.Server;
 
-  constructor({ server, realm, config }: { server: any, realm: IRealm, config: CustomConfig; }) {
+  constructor({
+    server,
+    realm,
+    config,
+  }: {
+    server: any;
+    realm: IRealm;
+    config: CustomConfig;
+  }) {
     super();
 
     this.setMaxListeners(0);
@@ -38,11 +45,13 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     this.config = config;
 
     const path = this.config.path;
-    this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
+    this.path = `${path}${path.endsWith("/") ? "" : "/"}${WS_PATH}`;
 
     this.socketServer = new WebSocketLib.Server({ path: this.path, server });
 
-    this.socketServer.on("connection", (socket: MyWebSocket, req) => this._onSocketConnection(socket, req));
+    this.socketServer.on("connection", (socket: MyWebSocket, req) =>
+      this._onSocketConnection(socket, req)
+    );
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));
   }
 
@@ -64,10 +73,12 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     if (client) {
       if (token !== client.getToken()) {
         // ID-taken, invalid token
-        socket.send(JSON.stringify({
-          type: MessageType.ID_TAKEN,
-          payload: { msg: "ID is taken" }
-        }));
+        socket.send(
+          JSON.stringify({
+            type: MessageType.ID_TAKEN,
+            payload: { msg: "ID is taken" },
+          })
+        );
 
         return socket.close();
       }
@@ -83,12 +94,15 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     this.emit("error", error);
   }
 
-  private _registerClient({ socket, id, token }:
-    {
-      socket: MyWebSocket;
-      id: string;
-      token: string;
-    }): void {
+  private _registerClient({
+    socket,
+    id,
+    token,
+  }: {
+    socket: MyWebSocket;
+    id: string;
+    token: string;
+  }): void {
     // Check concurrent limit
     const clientsCount = this.realm.getClientsIds().length;
 
@@ -96,6 +110,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       return this._sendErrorAndClose(socket, Errors.CONNECTION_LIMIT_EXCEED);
     }
 
+    console.log("Registering New Client", JSON.stringify({ id, token }));
     const newClient: IClient = new Client({ id, token });
     this.realm.setClient(newClient, id);
     socket.send(JSON.stringify({ type: MessageType.OPEN }));
@@ -119,6 +134,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       try {
         const message = JSON.parse(data as string);
 
+        console.log("WSS::New Message from Client");
         message.src = client.getId();
 
         this.emit("message", client, message);
@@ -134,7 +150,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     socket.send(
       JSON.stringify({
         type: MessageType.ERROR,
-        payload: { msg }
+        payload: { msg },
       })
     );
 

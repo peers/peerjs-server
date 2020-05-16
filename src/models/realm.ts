@@ -2,6 +2,12 @@ import uuidv4 from "uuid/v4";
 import { IClient } from "./client";
 import { IMessage } from "./message";
 import { IMessageQueue, MessageQueue } from "./messageQueue";
+import { clog } from "../utils";
+
+const Redis = require("ioredis");
+
+// const redisPub = new Redis();
+const redisSub = new Redis();
 
 export interface IRealm {
   getClientsIds(): string[];
@@ -26,6 +32,12 @@ export interface IRealm {
 export class Realm implements IRealm {
   private readonly clients: Map<string, IClient> = new Map();
   private readonly messageQueues: Map<string, IMessageQueue> = new Map();
+
+  constructor() {
+    redisSub.subscribe("clients", (err: Error) => {
+      if (!err) clog("Subscribed to Clients");
+    });
+  }
 
   public getClientsIds(): string[] {
     return [...this.clients.keys()];
@@ -54,10 +66,12 @@ export class Realm implements IRealm {
   }
 
   public getMessageQueueById(id: string): IMessageQueue | undefined {
+    console.log("Getting MessageQueue");
     return this.messageQueues.get(id);
   }
 
   public addMessageToQueue(id: string, message: IMessage): void {
+    console.log("Add MessageQueue");
     if (!this.getMessageQueueById(id)) {
       this.messageQueues.set(id, new MessageQueue());
     }
@@ -70,7 +84,6 @@ export class Realm implements IRealm {
   }
 
   public generateClientId(generateClientId?: () => string): string {
-
     const generateId = generateClientId ? generateClientId : uuidv4;
 
     let clientId = generateId();
@@ -78,6 +91,7 @@ export class Realm implements IRealm {
     while (this.getClientById(clientId)) {
       clientId = generateId();
     }
+    console.log("Generate ID", clientId);
 
     return clientId;
   }

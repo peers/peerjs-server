@@ -8,15 +8,15 @@ const url_1 = __importDefault(require("url"));
 const ws_1 = __importDefault(require("ws"));
 const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
-const WS_PATH = 'peerjs';
+const WS_PATH = "peerjs";
 class WebSocketServer extends events_1.default {
-    constructor({ server, realm, config }) {
+    constructor({ server, realm, config, }) {
         super();
         this.setMaxListeners(0);
         this.realm = realm;
         this.config = config;
         const path = this.config.path;
-        this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
+        this.path = `${path}${path.endsWith("/") ? "" : "/"}${WS_PATH}`;
         this.socketServer = new ws_1.default.Server({ path: this.path, server });
         this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
         this.socketServer.on("error", (error) => this._onSocketError(error));
@@ -36,7 +36,7 @@ class WebSocketServer extends events_1.default {
                 // ID-taken, invalid token
                 socket.send(JSON.stringify({
                     type: enums_1.MessageType.ID_TAKEN,
-                    payload: { msg: "ID is taken" }
+                    payload: { msg: "ID is taken" },
                 }));
                 return socket.close();
             }
@@ -48,12 +48,13 @@ class WebSocketServer extends events_1.default {
         // handle error
         this.emit("error", error);
     }
-    _registerClient({ socket, id, token }) {
+    _registerClient({ socket, id, token, }) {
         // Check concurrent limit
         const clientsCount = this.realm.getClientsIds().length;
         if (clientsCount >= this.config.concurrent_limit) {
             return this._sendErrorAndClose(socket, enums_1.Errors.CONNECTION_LIMIT_EXCEED);
         }
+        console.log("Registering New Client", JSON.stringify({ id, token }));
         const newClient = new client_1.Client({ id, token });
         this.realm.setClient(newClient, id);
         socket.send(JSON.stringify({ type: enums_1.MessageType.OPEN }));
@@ -72,6 +73,7 @@ class WebSocketServer extends events_1.default {
         socket.on("message", (data) => {
             try {
                 const message = JSON.parse(data);
+                console.log("WSS::New Message from Client");
                 message.src = client.getId();
                 this.emit("message", client, message);
             }
@@ -84,7 +86,7 @@ class WebSocketServer extends events_1.default {
     _sendErrorAndClose(socket, msg) {
         socket.send(JSON.stringify({
             type: enums_1.MessageType.ERROR,
-            payload: { msg }
+            payload: { msg },
         }));
         socket.close();
     }

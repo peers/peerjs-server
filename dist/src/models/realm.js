@@ -5,10 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const v4_1 = __importDefault(require("uuid/v4"));
 const messageQueue_1 = require("./messageQueue");
+const utils_1 = require("../utils");
+const Redis = require("ioredis");
+// const redisPub = new Redis();
+const redisSub = new Redis();
 class Realm {
     constructor() {
         this.clients = new Map();
         this.messageQueues = new Map();
+        redisSub.subscribe("clients", (err) => {
+            if (!err)
+                utils_1.clog("Subscribed to Clients");
+        });
     }
     getClientsIds() {
         return [...this.clients.keys()];
@@ -30,9 +38,11 @@ class Realm {
         return true;
     }
     getMessageQueueById(id) {
+        console.log("Getting MessageQueue");
         return this.messageQueues.get(id);
     }
     addMessageToQueue(id, message) {
+        console.log("Add MessageQueue");
         if (!this.getMessageQueueById(id)) {
             this.messageQueues.set(id, new messageQueue_1.MessageQueue());
         }
@@ -47,6 +57,7 @@ class Realm {
         while (this.getClientById(clientId)) {
             clientId = generateId();
         }
+        console.log("Generate ID", clientId);
         return clientId;
     }
 }

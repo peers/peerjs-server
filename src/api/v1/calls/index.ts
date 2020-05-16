@@ -3,11 +3,23 @@ import { IMessageHandler } from "../../../messageHandler";
 import { IMessage } from "../../../models/message";
 import { IRealm } from "../../../models/realm";
 
-export default ({ realm, messageHandler }: { realm: IRealm, messageHandler: IMessageHandler; }): express.Router => {
+export default ({
+  realm,
+  messageHandler,
+}: {
+  realm: IRealm;
+  messageHandler: IMessageHandler;
+}): express.Router => {
   const app = express.Router();
 
-  const handle = (req: express.Request, res: express.Response, next: express.NextFunction): any => {
+  const handle = (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ): any => {
     const { id } = req.params;
+
+    console.log("Got request...");
 
     if (!id) return next();
 
@@ -23,7 +35,7 @@ export default ({ realm, messageHandler }: { realm: IRealm, messageHandler: IMes
       type,
       src: id,
       dst,
-      payload
+      payload,
     };
 
     messageHandler.handle(client, message);
