@@ -7,9 +7,15 @@ import { clog } from "../utils";
 const Redis = require("ioredis");
 const os = require("os");
 
+const redisHost =
+  process.env.NODE_ENV === "development"
+    ? "127.0.0.1"
+    : "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com";
+const redisPort = 6379;
+
 // const redisPub = new Redis();
-const redisSub = new Redis();
-const redisPub = new Redis();
+const redisSub = new Redis(redisPort, redisHost);
+const redisPub = new Redis(redisPort, redisHost);
 
 export interface IRealm {
   getClientsIds(): string[];
