@@ -4,23 +4,6 @@ import { IMessage } from "./message";
 import { IMessageQueue, MessageQueue } from "./messageQueue";
 import { clog } from "../utils";
 
-const Redis = require("ioredis");
-const os = require("os");
-
-process.env.NODE_ENV = process.env.NODE_ENV
-  ? process.env.NODE_ENV
-  : "development";
-
-const redisHost =
-  process.env.NODE_ENV === "development"
-    ? "127.0.0.1"
-    : "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com";
-const redisPort = 6379;
-
-// const redisPub = new Redis();
-const redisSub = new Redis(redisPort, redisHost);
-const redisPub = new Redis(redisPort, redisHost);
-
 export interface IRealm {
   getClientsIds(): string[];
 
@@ -45,39 +28,6 @@ export class Realm implements IRealm {
   private readonly clients: Map<string, IClient> = new Map();
   private readonly messageQueues: Map<string, IMessageQueue> = new Map();
 
-  constructor() {
-    redisSub.subscribe("clients", (err: Error) => {
-      if (!err) clog("Subscribed to Clients");
-    });
-
-    redisSub.on("message", (channel: string, message: any) => {
-      if (channel === "clients") {
-        const {
-          client = null,
-          id = null,
-          host = null,
-          action = null,
-        } = JSON.parse(message);
-        if (host == os.hostname()) {
-          clog("Same Host -------> Return");
-          return;
-        }
-        const { token, lastPing } = client;
-        if (action === "set") {
-          const newClient: IClient = new Client({ id, token });
-          newClient.setLastPing(lastPing);
-          this.clients.set(id, newClient);
-        }
-
-        if (action === "delete") {
-          const client = this.getClientById(id);
-          if (!client) return false;
-          this.clients.delete(id);
-        }
-      }
-    });
-  }
-
   public getClientsIds(): string[] {
     return [...this.clients.keys()];
   }
@@ -92,29 +42,12 @@ export class Realm implements IRealm {
 
   public setClient(client: IClient, id: string): void {
     this.clients.set(id, client);
-    redisPub.publish(
-      "clients",
-      JSON.stringify({
-        client,
-        id,
-        host: os.hostname(),
-        action: "set",
-      })
-    );
   }
 
   public removeClientById(id: string): boolean {
     const client = this.getClientById(id);
     if (!client) return false;
     this.clients.delete(id);
-    redisPub.publish(
-      "clients",
-      JSON.stringify({
-        id,
-        host: os.hostname(),
-        action: "delete",
-      })
-    );
     return true;
   }
 

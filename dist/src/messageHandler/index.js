@@ -25,7 +25,6 @@ class MessageHandler {
         this.handlersRegistry.registerHandler(enums_1.MessageType.EXPIRE, handleTransmission);
     }
     handle(client, message) {
-        console.log("Handle Message");
         return this.handlersRegistry.handle(client, message);
     }
 }

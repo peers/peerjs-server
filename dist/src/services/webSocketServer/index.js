@@ -8,16 +8,6 @@ const url_1 = __importDefault(require("url"));
 const ws_1 = __importDefault(require("ws"));
 const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
-const utils_1 = require("../../utils");
-const Redis = require("ioredis");
-const os = require("os");
-const redisHost = process.env.NODE_ENV === "development"
-    ? "127.0.0.1"
-    : "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com";
-const redisPort = 6379;
-// const redisPub = new Redis();
-const redisSub = new Redis(redisPort, redisHost);
-const redisPub = new Redis(redisPort, redisHost);
 const WS_PATH = "peerjs";
 class WebSocketServer extends events_1.default {
     constructor({ server, realm, config, }) {
@@ -30,23 +20,6 @@ class WebSocketServer extends events_1.default {
         this.socketServer = new ws_1.default.Server({ path: this.path, server });
         this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
         this.socketServer.on("error", (error) => this._onSocketError(error));
-        redisSub.subscribe("ws_message", (err) => {
-            if (!err)
-                utils_1.clog("Subscribed to WebSocket Messages");
-        });
-        redisSub.on("message", (channel, message) => {
-            if (channel === "ws_message") {
-                const { id = null, host = null, socket_message = null } = JSON.parse(message);
-                if (host == os.hostname()) {
-                    utils_1.clog("Same Host -------> Return");
-                    // return;
-                }
-                utils_1.clog("Parsing WS_MESSAGE and raising Event");
-                const ws_message = socket_message;
-                const other_client = this.realm.getClientById(id);
-                this.emit("message", other_client, ws_message);
-            }
-        });
     }
     _onSocketConnection(socket, req) {
         const { query = {} } = url_1.default.parse(req.url, true);
@@ -98,14 +71,9 @@ class WebSocketServer extends events_1.default {
         // Handle messages from peers.
         socket.on("message", (data) => {
             try {
-                utils_1.clog("Main Server Message");
+                console.log("Received Message from Peer");
                 const message = JSON.parse(data);
                 message.src = client.getId();
-                redisPub.publish("ws_message", JSON.stringify({
-                    id: client.getId(),
-                    host: os.hostname(),
-                    socket_message: message,
-                }));
                 this.emit("message", client, message);
             }
             catch (e) {

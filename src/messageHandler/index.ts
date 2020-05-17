@@ -60,7 +60,6 @@ export class MessageHandler implements IMessageHandler {
   }
 
   public handle(client: IClient | undefined, message: IMessage): boolean {
-    console.log("Handle Message");
     return this.handlersRegistry.handle(client, message);
   }
 }
