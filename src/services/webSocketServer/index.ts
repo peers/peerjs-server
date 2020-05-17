@@ -77,7 +77,6 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
         const { id = null, host = null, socket_message = null } = JSON.parse(
           message
         );
-        clog(`WS_MESSAGE::: ${message}`);
         if (host == os.hostname()) {
           clog("Same Host -------> Return");
           // return;
@@ -86,7 +85,6 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
         clog("Parsing WS_MESSAGE and raising Event");
         const ws_message = socket_message;
         const other_client = this.realm.getClientById(id);
-        clog(`WS_MESSAGE:::${other_client}`);
 
         this.emit("message", other_client, ws_message);
       }
@@ -172,7 +170,6 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
         clog("Main Server Message");
         const message = JSON.parse(data as string);
         message.src = client.getId();
-        clog(`Before Publish::: ${JSON.stringify(message)}`);
         redisPub.publish(
           "ws_message",
           JSON.stringify({
