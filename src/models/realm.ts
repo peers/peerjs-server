@@ -7,6 +7,10 @@ import { clog } from "../utils";
 const Redis = require("ioredis");
 const os = require("os");
 
+process.env.NODE_ENV = process.env.NODE_ENV
+  ? process.env.NODE_ENV
+  : "development";
+
 const redisHost =
   process.env.NODE_ENV === "development"
     ? "127.0.0.1"

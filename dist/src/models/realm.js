@@ -9,6 +9,9 @@ const messageQueue_1 = require("./messageQueue");
 const utils_1 = require("../utils");
 const Redis = require("ioredis");
 const os = require("os");
+process.env.NODE_ENV = process.env.NODE_ENV
+    ? process.env.NODE_ENV
+    : "development";
 const redisHost = process.env.NODE_ENV === "development"
     ? "127.0.0.1"
     : "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com";

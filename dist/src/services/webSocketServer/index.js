@@ -100,6 +100,7 @@ class WebSocketServer extends events_1.default {
         // Handle messages from peers.
         socket.on("message", (data) => {
             try {
+                utils_1.clog("Main Server Message");
                 const message = JSON.parse(data);
                 message.src = client.getId();
                 utils_1.clog(`Before Publish::: ${JSON.stringify(message)}`);

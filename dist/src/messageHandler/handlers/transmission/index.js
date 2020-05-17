@@ -1,22 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const enums_1 = require("../../../enums");
-exports.TransmissionHandler = ({ realm }) => {
+const utils_1 = require("../../../utils");
+exports.TransmissionHandler = ({ realm, }) => {
     const handle = (client, message) => {
         const type = message.type;
         const srcId = message.src;
         const dstId = message.dst;
+        utils_1.clog("Transmission:: Got message");
         const destinationClient = realm.getClientById(dstId);
         // User is connected!
         if (destinationClient) {
+            utils_1.clog("Transmission:: Got Destination Client");
             const socket = destinationClient.getSocket();
             try {
                 if (socket) {
+                    utils_1.clog("Transmission:: Got Socket");
                     const data = JSON.stringify(message);
                     socket.send(data);
                 }
                 else {
                     // Neither socket no res available. Peer dead?
+                    utils_1.clog("Transmission:: Peer Dead");
                     throw new Error("Peer dead");
                 }
             }
@@ -25,15 +30,17 @@ exports.TransmissionHandler = ({ realm }) => {
                 // the associated WebSocket has not closed.
                 // Tell other side to stop trying.
                 if (socket) {
+                    utils_1.clog("Transmission:: Closing Socket Connection");
                     socket.close();
                 }
                 else {
+                    utils_1.clog("Transmission:: Removing Client");
                     realm.removeClientById(destinationClient.getId());
                 }
                 handle(client, {
                     type: enums_1.MessageType.LEAVE,
                     src: dstId,
-                    dst: srcId
+                    dst: srcId,
                 });
             }
         }
