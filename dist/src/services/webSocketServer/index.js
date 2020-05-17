@@ -8,6 +8,9 @@ const url_1 = __importDefault(require("url"));
 const ws_1 = __importDefault(require("ws"));
 const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
+const Redis = require("ioredis");
+const MessagePublisher = new Redis();
+const MessageSubscriber = new Redis();
 const WS_PATH = "peerjs";
 class WebSocketServer extends events_1.default {
     constructor({ server, realm, config, }) {
@@ -20,6 +23,19 @@ class WebSocketServer extends events_1.default {
         this.socketServer = new ws_1.default.Server({ path: this.path, server });
         this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
         this.socketServer.on("error", (error) => this._onSocketError(error));
+        MessageSubscriber.subscribe("transmission", (err) => {
+            if (!err)
+                console.log("Subscribed to Transmission messages");
+        });
+        MessageSubscriber.on("message", (channel, tmessage) => {
+            if (channel === "transmission") {
+                const receivedMessage = JSON.parse(tmessage);
+                if (receivedMessage.dst &&
+                    this.realm.getClientById(receivedMessage.dst)) {
+                    this.emit("message", undefined, JSON.parse(tmessage));
+                }
+            }
+        });
     }
     _onSocketConnection(socket, req) {
         const { query = {} } = url_1.default.parse(req.url, true);
@@ -71,9 +87,12 @@ class WebSocketServer extends events_1.default {
         // Handle messages from peers.
         socket.on("message", (data) => {
             try {
-                console.log("Received Message from Peer");
                 const message = JSON.parse(data);
                 message.src = client.getId();
+                if (message.type !== "HEARTBEAT") {
+                    MessagePublisher.publish("transmission", JSON.stringify(message));
+                    return;
+                }
                 this.emit("message", client, message);
             }
             catch (e) {

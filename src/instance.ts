@@ -69,8 +69,8 @@ export const createInstance = ({
   });
 
   wss.on("message", (client: IClient, message: IMessage) => {
-    console.log("In handle Peer Message", message.type);
-    app.emit("message", client, message);
+    console.log("In handle Peer Message", message);
+    // app.emit("message", client, message);
     messageHandler.handle(client, message);
   });
 

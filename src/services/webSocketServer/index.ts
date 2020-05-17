@@ -8,7 +8,9 @@ import { Client, IClient } from "../../models/client";
 import { IRealm } from "../../models/realm";
 import { MyWebSocket } from "./webSocket";
 
-// const redisPub = new Redis();
+const Redis = require("ioredis");
+const MessagePublisher = new Redis();
+const MessageSubscriber = new Redis();
 
 export interface IWebSocketServer extends EventEmitter {
   readonly path: string;
@@ -55,6 +57,21 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       this._onSocketConnection(socket, req)
     );
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));
+    MessageSubscriber.subscribe("transmission", (err: Error) => {
+      if (!err) console.log("Subscribed to Transmission messages");
+    });
+
+    MessageSubscriber.on("message", (channel: string, tmessage: string) => {
+      if (channel === "transmission") {
+        const receivedMessage = JSON.parse(tmessage);
+        if (
+          receivedMessage.dst &&
+          this.realm.getClientById(receivedMessage.dst)
+        ) {
+          this.emit("message", undefined, JSON.parse(tmessage));
+        }
+      }
+    });
   }
 
   private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
@@ -133,9 +150,12 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     // Handle messages from peers.
     socket.on("message", (data: WebSocketLib.Data) => {
       try {
-        console.log("Received Message from Peer");
         const message = JSON.parse(data as string);
         message.src = client.getId();
+        if (message.type !== "HEARTBEAT") {
+          MessagePublisher.publish("transmission", JSON.stringify(message));
+          return;
+        }
         this.emit("message", client, message);
       } catch (e) {
         this.emit("error", e);
