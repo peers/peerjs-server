@@ -136,6 +136,8 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       return this._sendErrorAndClose(socket, Errors.CONNECTION_LIMIT_EXCEED);
     }
 
+    console.log("NEW CLIENT:::", id);
+
     const newClient: IClient = new Client({ id, token });
     this.realm.setClient(newClient, id);
     socket.send(JSON.stringify({ type: MessageType.OPEN }));
