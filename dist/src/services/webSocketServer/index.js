@@ -37,7 +37,6 @@ class WebSocketServer extends events_1.default {
         redisSub.on("message", (channel, message) => {
             if (channel === "ws_message") {
                 const { id = null, host = null, socket_message = null } = JSON.parse(message);
-                utils_1.clog(`WS_MESSAGE::: ${message}`);
                 if (host == os.hostname()) {
                     utils_1.clog("Same Host -------> Return");
                     // return;
@@ -45,7 +44,6 @@ class WebSocketServer extends events_1.default {
                 utils_1.clog("Parsing WS_MESSAGE and raising Event");
                 const ws_message = socket_message;
                 const other_client = this.realm.getClientById(id);
-                utils_1.clog(`WS_MESSAGE:::${other_client}`);
                 this.emit("message", other_client, ws_message);
             }
         });
@@ -103,7 +101,6 @@ class WebSocketServer extends events_1.default {
                 utils_1.clog("Main Server Message");
                 const message = JSON.parse(data);
                 message.src = client.getId();
-                utils_1.clog(`Before Publish::: ${JSON.stringify(message)}`);
                 redisPub.publish("ws_message", JSON.stringify({
                     id: client.getId(),
                     host: os.hostname(),
