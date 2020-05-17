@@ -8,9 +8,14 @@ const url_1 = __importDefault(require("url"));
 const ws_1 = __importDefault(require("ws"));
 const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
+const redisHost = env === "production"
+    ? "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com"
+    : "127.0.0.1";
+const redisPort = 6379;
 const Redis = require("ioredis");
-const MessagePublisher = new Redis();
-const MessageSubscriber = new Redis();
+const MessagePublisher = new Redis(redisPort, redisHost);
+const MessageSubscriber = new Redis(redisPort, redisHost);
 const WS_PATH = "peerjs";
 class WebSocketServer extends events_1.default {
     constructor({ server, realm, config, }) {
@@ -32,7 +37,7 @@ class WebSocketServer extends events_1.default {
                 const receivedMessage = JSON.parse(tmessage);
                 if (receivedMessage.dst &&
                     this.realm.getClientById(receivedMessage.dst)) {
-                    this.emit("message", undefined, JSON.parse(tmessage));
+                    this.emit("message", undefined, receivedMessage);
                 }
             }
         });
