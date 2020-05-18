@@ -34,12 +34,9 @@
     "tsc": "tsc",
     "prebuild": "npm run lint",
     "test": "npm run lint && mocha -r ts-node/register \"test/**/*\"",
-    "start": "bin/peerjs --port ${PORT:=9000} --path /myapp",
+    "start": "bin/peerjs --port ${PORT:=9000} --path /myapp --redis true --redisHost '127.0.0.1' --redisPort 6379",
     "dev:start": "npm-run-all build start",
-    "dev": "NODE_ENV=development nodemon --watch src -e ts --exec npm run dev:start",
-    "startp": "bin/peerjs --port ${PORT:=9000} --path /myapp --sslkey ../certs/frontm_ai.key --sslcert ../certs/frontm_ai.crt",
-    "prod:start": "npm-run-all build startp",
-    "prod": "NODE_ENV=production nodemon --watch src -e ts --exec npm run prod:start"
+    "dev": "NODE_ENV=development nodemon --watch src -e ts --exec npm run dev:start"
   },
   "release": {
     "branch": "master"

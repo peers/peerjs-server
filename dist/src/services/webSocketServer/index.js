@@ -8,14 +8,8 @@ const url_1 = __importDefault(require("url"));
 const ws_1 = __importDefault(require("ws"));
 const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
-const env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
-const redisHost = env === "production"
-    ? "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com"
-    : "127.0.0.1";
-const redisPort = 6379;
+const utils_1 = require("../../utils");
 const Redis = require("ioredis");
-const MessagePublisher = new Redis(redisPort, redisHost);
-const MessageSubscriber = new Redis(redisPort, redisHost);
 const WS_PATH = "peerjs";
 class WebSocketServer extends events_1.default {
     constructor({ server, realm, config, }) {
@@ -28,11 +22,19 @@ class WebSocketServer extends events_1.default {
         this.socketServer = new ws_1.default.Server({ path: this.path, server });
         this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
         this.socketServer.on("error", (error) => this._onSocketError(error));
-        MessageSubscriber.subscribe("transmission", (err) => {
+        if (config.redis) {
+            this.messagePublisher = new Redis(this.config.redisPort, this.config.redisHost);
+            this.messageSubscriber = new Redis(this.config.redisPort, this.config.redisHost);
+            this._configureRedis();
+        }
+    }
+    _configureRedis() {
+        this.messageSubscriber.subscribe("transmission", (err) => {
             if (!err)
                 console.log("Subscribed to Transmission messages");
         });
-        MessageSubscriber.on("message", (channel, tmessage) => {
+        this.messageSubscriber.on("message", (channel, tmessage) => {
+            utils_1.clog(`Received Message on Channel:: ${channel}`);
             if (channel === "transmission") {
                 const receivedMessage = JSON.parse(tmessage);
                 if (receivedMessage.dst &&
@@ -95,8 +97,8 @@ class WebSocketServer extends events_1.default {
             try {
                 const message = JSON.parse(data);
                 message.src = client.getId();
-                if (message.type !== "HEARTBEAT") {
-                    MessagePublisher.publish("transmission", JSON.stringify(message));
+                if (message.type !== "HEARTBEAT" && this.config.redis) {
+                    this.messagePublisher.publish("transmission", JSON.stringify(message));
                     return;
                 }
                 this.emit("message", client, message);

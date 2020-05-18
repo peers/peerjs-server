@@ -48,7 +48,7 @@ exports.createInstance = ({ app, server, options, }) => {
     });
     wss.on("message", (client, message) => {
         console.log("In handle Peer Message");
-        // app.emit("message", client, message);
+        app.emit("message", client, message);
         messageHandler.handle(client, message);
     });
     wss.on("close", (client) => {

@@ -7,17 +7,9 @@ import { Errors, MessageType } from "../../enums";
 import { Client, IClient } from "../../models/client";
 import { IRealm } from "../../models/realm";
 import { MyWebSocket } from "./webSocket";
-
-const env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
-const redisHost =
-  env === "production"
-    ? "fmqueue.7piuva.ng.0001.use1.cache.amazonaws.com"
-    : "127.0.0.1";
-const redisPort = 6379;
+import { clog } from "../../utils";
 
 const Redis = require("ioredis");
-const MessagePublisher = new Redis(redisPort, redisHost);
-const MessageSubscriber = new Redis(redisPort, redisHost);
 
 export interface IWebSocketServer extends EventEmitter {
   readonly path: string;
@@ -29,7 +21,10 @@ interface IAuthParams {
   key?: string;
 }
 
-type CustomConfig = Pick<IConfig, "path" | "key" | "concurrent_limit">;
+type CustomConfig = Pick<
+  IConfig,
+  "path" | "key" | "concurrent_limit" | "redis" | "redisHost" | "redisPort"
+>;
 
 const WS_PATH = "peerjs";
 
@@ -37,6 +32,8 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
   public readonly path: string;
   private readonly realm: IRealm;
   private readonly config: CustomConfig;
+  private readonly messageSubscriber: any;
+  private readonly messagePublisher: any;
   public readonly socketServer: WebSocketLib.Server;
 
   constructor({
@@ -64,21 +61,40 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       this._onSocketConnection(socket, req)
     );
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));
-    MessageSubscriber.subscribe("transmission", (err: Error) => {
+
+    if (config.redis) {
+      this.messagePublisher = new Redis(
+        this.config.redisPort,
+        this.config.redisHost
+      );
+      this.messageSubscriber = new Redis(
+        this.config.redisPort,
+        this.config.redisHost
+      );
+      this._configureRedis();
+    }
+  }
+
+  private _configureRedis() {
+    this.messageSubscriber.subscribe("transmission", (err: Error) => {
       if (!err) console.log("Subscribed to Transmission messages");
     });
+    this.messageSubscriber.on(
+      "message",
+      (channel: string, tmessage: string) => {
+        clog(`Received Message on Channel:: ${channel}`);
 
-    MessageSubscriber.on("message", (channel: string, tmessage: string) => {
-      if (channel === "transmission") {
-        const receivedMessage = JSON.parse(tmessage);
-        if (
-          receivedMessage.dst &&
-          this.realm.getClientById(receivedMessage.dst)
-        ) {
-          this.emit("message", undefined, receivedMessage);
+        if (channel === "transmission") {
+          const receivedMessage = JSON.parse(tmessage);
+          if (
+            receivedMessage.dst &&
+            this.realm.getClientById(receivedMessage.dst)
+          ) {
+            this.emit("message", undefined, receivedMessage);
+          }
         }
       }
-    });
+    );
   }
 
   private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
@@ -161,8 +177,11 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
       try {
         const message = JSON.parse(data as string);
         message.src = client.getId();
-        if (message.type !== "HEARTBEAT") {
-          MessagePublisher.publish("transmission", JSON.stringify(message));
+        if (message.type !== "HEARTBEAT" && this.config.redis) {
+          this.messagePublisher.publish(
+            "transmission",
+            JSON.stringify(message)
+          );
           return;
         }
         this.emit("message", client, message);

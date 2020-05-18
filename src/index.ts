@@ -7,7 +7,7 @@ import defaultConfig, { IConfig } from "./config";
 import { createInstance } from "./instance";
 
 type Optional<T> = {
-  [P in keyof T]?: (T[P] | undefined);
+  [P in keyof T]?: T[P] | undefined;
 };
 
 function ExpressPeerServer(server: Server, options?: IConfig) {
@@ -15,17 +15,21 @@ function ExpressPeerServer(server: Server, options?: IConfig) {
 
   const newOptions: IConfig = {
     ...defaultConfig,
-    ...options
+    ...options,
   };
 
   if (newOptions.proxied) {
-    app.set("trust proxy", newOptions.proxied === "false" ? false : !!newOptions.proxied);
+    app.set(
+      "trust proxy",
+      newOptions.proxied === "false" ? false : !!newOptions.proxied
+    );
   }
 
   app.on("mount", () => {
     if (!server) {
-      throw new Error("Server is not passed to constructor - " +
-        "can't start PeerServer");
+      throw new Error(
+        "Server is not passed to constructor - " + "can't start PeerServer"
+      );
     }
 
     createInstance({ app, server, options: newOptions });
@@ -34,12 +38,15 @@ function ExpressPeerServer(server: Server, options?: IConfig) {
   return app;
 }
 
-function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server) => void) {
+function PeerServer(
+  options: Optional<IConfig> = {},
+  callback?: (server: Server) => void
+) {
   const app = express();
 
   const newOptions: IConfig = {
     ...defaultConfig,
-    ...options
+    ...options,
   };
 
   const port = newOptions.port;
@@ -62,7 +69,4 @@ function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server)
   return peerjs;
 }
 
-export {
-  ExpressPeerServer,
-  PeerServer
-};
+export { ExpressPeerServer, PeerServer };

@@ -12,7 +12,10 @@ const defaultConfig = {
     cleanup_out_msgs: 1000,
     ssl: {
         key: "",
-        cert: ""
-    }
+        cert: "",
+    },
+    redis: false,
+    redisHost: "",
+    redisPort: 0,
 };
 exports.default = defaultConfig;
