@@ -4,7 +4,6 @@ class Client {
     constructor({ id, token }) {
         this.socket = null;
         this.lastPing = new Date().getTime();
-        console.log("Create a client");
         this.id = id;
         this.token = token;
     }

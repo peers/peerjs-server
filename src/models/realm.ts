@@ -51,12 +51,10 @@ export class Realm implements IRealm {
   }
 
   public getMessageQueueById(id: string): IMessageQueue | undefined {
-    console.log("Getting MessageQueue");
     return this.messageQueues.get(id);
   }
 
   public addMessageToQueue(id: string, message: IMessage): void {
-    console.log("Add MessageQueue");
     if (!this.getMessageQueueById(id)) {
       this.messageQueues.set(id, new MessageQueue());
     }
@@ -76,7 +74,6 @@ export class Realm implements IRealm {
     while (this.getClientById(clientId)) {
       clientId = generateId();
     }
-    console.log("Generate ID", clientId);
 
     return clientId;
   }

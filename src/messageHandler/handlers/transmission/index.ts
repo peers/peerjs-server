@@ -2,7 +2,6 @@ import { MessageType } from "../../../enums";
 import { IClient } from "../../../models/client";
 import { IMessage } from "../../../models/message";
 import { IRealm } from "../../../models/realm";
-import { clog } from "../../../utils";
 
 export const TransmissionHandler = ({
   realm,
@@ -14,23 +13,18 @@ export const TransmissionHandler = ({
     const srcId = message.src;
     const dstId = message.dst;
 
-    clog("Transmission:: Got message");
-
     const destinationClient = realm.getClientById(dstId);
 
     // User is connected!
     if (destinationClient) {
-      clog("Transmission:: Got Destination Client");
       const socket = destinationClient.getSocket();
       try {
         if (socket) {
-          clog("Transmission:: Got Socket");
           const data = JSON.stringify(message);
 
           socket.send(data);
         } else {
           // Neither socket no res available. Peer dead?
-          clog("Transmission:: Peer Dead");
           throw new Error("Peer dead");
         }
       } catch (e) {
@@ -38,10 +32,8 @@ export const TransmissionHandler = ({
         // the associated WebSocket has not closed.
         // Tell other side to stop trying.
         if (socket) {
-          clog("Transmission:: Closing Socket Connection");
           socket.close();
         } else {
-          clog("Transmission:: Removing Client");
           realm.removeClientById(destinationClient.getId());
         }
 

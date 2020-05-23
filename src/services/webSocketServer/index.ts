@@ -7,7 +7,6 @@ import { Errors, MessageType } from "../../enums";
 import { Client, IClient } from "../../models/client";
 import { IRealm } from "../../models/realm";
 import { MyWebSocket } from "./webSocket";
-import { clog } from "../../utils";
 
 const Redis = require("ioredis");
 
@@ -82,8 +81,6 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     this.messageSubscriber.on(
       "message",
       (channel: string, tmessage: string) => {
-        clog(`Received Message on Channel:: ${channel}`);
-
         if (channel === "transmission") {
           const receivedMessage = JSON.parse(tmessage);
           if (

@@ -23,7 +23,6 @@ export class Client implements IClient {
   private lastPing: number = new Date().getTime();
 
   constructor({ id, token }: { id: string; token: string; }) {
-    console.log("Create a client");
     this.id = id;
     this.token = token;
   }

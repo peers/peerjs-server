@@ -8,7 +8,6 @@ const url_1 = __importDefault(require("url"));
 const ws_1 = __importDefault(require("ws"));
 const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
-const utils_1 = require("../../utils");
 const Redis = require("ioredis");
 const WS_PATH = "peerjs";
 class WebSocketServer extends events_1.default {
@@ -34,7 +33,6 @@ class WebSocketServer extends events_1.default {
                 console.log("Subscribed to Transmission messages");
         });
         this.messageSubscriber.on("message", (channel, tmessage) => {
-            utils_1.clog(`Received Message on Channel:: ${channel}`);
             if (channel === "transmission") {
                 const receivedMessage = JSON.parse(tmessage);
                 if (receivedMessage.dst &&

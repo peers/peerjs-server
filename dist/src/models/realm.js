@@ -30,11 +30,9 @@ class Realm {
         return true;
     }
     getMessageQueueById(id) {
-        console.log("Getting MessageQueue");
         return this.messageQueues.get(id);
     }
     addMessageToQueue(id, message) {
-        console.log("Add MessageQueue");
         if (!this.getMessageQueueById(id)) {
             this.messageQueues.set(id, new messageQueue_1.MessageQueue());
         }
@@ -49,7 +47,6 @@ class Realm {
         while (this.getClientById(clientId)) {
             clientId = generateId();
         }
-        console.log("Generate ID", clientId);
         return clientId;
     }
 }
