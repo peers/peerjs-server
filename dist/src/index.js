@@ -28,6 +28,7 @@ function PeerServer(options = {}, callback) {
     const app = express_1.default();
     const newOptions = Object.assign(Object.assign({}, config_1.default), options);
     const port = newOptions.port;
+    const host = newOptions.host;
     let server;
     if (newOptions.ssl && newOptions.ssl.key && newOptions.ssl.cert) {
         server = https_1.default.createServer(options.ssl, app);
@@ -39,7 +40,7 @@ function PeerServer(options = {}, callback) {
     }
     const peerjs = ExpressPeerServer(server, newOptions);
     app.use(peerjs);
-    server.listen(port, () => callback === null || callback === void 0 ? void 0 : callback(server));
+    server.listen(port, host, () => callback === null || callback === void 0 ? void 0 : callback(server));
     return peerjs;
 }
 exports.PeerServer = PeerServer;

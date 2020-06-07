@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const defaultConfig = {
+    host: "::",
     port: 9000,
     expire_timeout: 5000,
     alive_timeout: 60000,
