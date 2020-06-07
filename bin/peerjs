@@ -43,6 +43,11 @@ const opts = yargs
       demandOption: false,
       describe: "path to SSL certificate"
     },
+    host: {
+      demandOption: false,
+      alias: "H",
+      describe: "host"
+    },
     port: {
       demandOption: true,
       alias: "p",
