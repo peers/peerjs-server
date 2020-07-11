@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /// <reference types="node" />
 import { Server } from "net";
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 import WebSocketLib from "ws";
 import Express from "express";
 
