@@ -17,6 +17,9 @@ Run your own server on Gitpod!
 ## Usage
 
 ### Run server
+
+#### Natively
+
 If you don't want to develop anything, just enter few commands below.
 
 1. Install the package globally:
@@ -31,9 +34,17 @@ If you don't want to develop anything, just enter few commands below.
     ```
 3. Check it: http://127.0.0.1:9000/myapp It should returns JSON with name, description and website fields.
 
+#### Docker
+
 Also, you can use Docker image to run a new container:
 ```sh
 $ docker run -p 9000:9000 -d peerjs/peerjs-server
+```
+
+##### Kubernetes
+
+```sh
+$ kubectl run peerjs-server --image=peerjs/peerjs-server --port 9000 --expose -- --port 9000 --path /myapp
 ```
 
 ### Create a custom server:
