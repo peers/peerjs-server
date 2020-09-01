@@ -223,6 +223,10 @@ This will start a peerjs server on port 9000 exposed on port 9000 with key `peer
 
 Open your browser with http://localhost:9000/myapp It should returns JSON with name, description and website fields. http://localhost:9000/myapp/peerjs/id - should returns a random string (random client id)
 
+## Privacy
+
+See [PRIVACY.md](https://github.com/peers/peerjs-server/blob/master/PRIVACY.md)
+
 ## Problems?
 
 Discuss PeerJS on our Telegram chat:
