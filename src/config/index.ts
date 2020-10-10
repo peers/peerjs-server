@@ -1,4 +1,5 @@
 export interface IConfig {
+  readonly host: string;
   readonly port: number;
   readonly expire_timeout: number;
   readonly alive_timeout: number;
@@ -16,6 +17,7 @@ export interface IConfig {
 }
 
 const defaultConfig: IConfig = {
+  host: "::",
   port: 9000,
   expire_timeout: 5000,
   alive_timeout: 60000,
