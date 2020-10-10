@@ -13,7 +13,7 @@ export interface IClient {
 
   setLastPing(lastPing: number): void;
 
-  send(data: any): void;
+  send<T>(data: T): void;
 }
 
 export class Client implements IClient {
@@ -22,7 +22,7 @@ export class Client implements IClient {
   private socket: MyWebSocket | null = null;
   private lastPing: number = new Date().getTime();
 
-  constructor({ id, token }: { id: string, token: string; }) {
+  constructor({ id, token }: { id: string; token: string; }) {
     this.id = id;
     this.token = token;
   }
@@ -51,7 +51,7 @@ export class Client implements IClient {
     this.lastPing = lastPing;
   }
 
-  public send(data: any): void {
+  public send<T>(data: T): void {
     this.socket?.send(JSON.stringify(data));
   }
 }

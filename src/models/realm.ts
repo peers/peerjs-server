@@ -62,7 +62,7 @@ export class Realm implements IRealm {
       this.messageQueues.set(id, new MessageQueue());
     }
 
-    this.getMessageQueueById(id)!.addMessage(message);
+    this.getMessageQueueById(id)?.addMessage(message);
   }
 
   public clearMessageQueue(id: string): void {
@@ -70,7 +70,6 @@ export class Realm implements IRealm {
   }
 
   public generateClientId(generateClientId?: () => string): string {
-
     const generateId = generateClientId ? generateClientId : uuidv4;
 
     let clientId = generateId();

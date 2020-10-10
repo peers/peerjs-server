@@ -29,7 +29,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
   private readonly config: CustomConfig;
   public readonly socketServer: WebSocketLib.Server;
 
-  constructor({ server, realm, config }: { server: any, realm: IRealm, config: CustomConfig; }) {
+  constructor({ server, realm, config }: { server: any; realm: IRealm; config: CustomConfig; }) {
     super();
 
     this.setMaxListeners(0);
@@ -47,7 +47,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
   }
 
   private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
-    const { query = {} } = url.parse(req.url!, true);
+    const { query = {} } = url.parse(req.url ?? '', true);
 
     const { id, token, key }: IAuthParams = query;
 
