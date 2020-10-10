@@ -22,7 +22,7 @@ export class Client implements IClient {
   private socket: MyWebSocket | null = null;
   private lastPing: number = new Date().getTime();
 
-  constructor({ id, token }: { id: string, token: string; }) {
+  constructor({ id, token }: { id: string; token: string; }) {
     this.id = id;
     this.token = token;
   }

@@ -16,8 +16,7 @@ function ExpressPeerServer(server, options) {
     }
     app.on("mount", () => {
         if (!server) {
-            throw new Error("Server is not passed to constructor - " +
-                "can't start PeerServer");
+            throw new Error("Server is not passed to constructor - " + "can't start PeerServer");
         }
         instance_1.createInstance({ app, server, options: newOptions });
     });

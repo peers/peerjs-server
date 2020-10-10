@@ -45,11 +45,8 @@ export class Realm implements IRealm {
 
   public removeClientById(id: string): boolean {
     const client = this.getClientById(id);
-
     if (!client) return false;
-
     this.clients.delete(id);
-
     return true;
   }
 
@@ -70,7 +67,6 @@ export class Realm implements IRealm {
   }
 
   public generateClientId(generateClientId?: () => string): string {
-
     const generateId = generateClientId ? generateClientId : uuidv4;
 
     let clientId = generateId();

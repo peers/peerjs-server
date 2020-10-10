@@ -14,6 +14,9 @@ export interface IConfig {
     cert: string;
   };
   readonly generateClientId?: () => string;
+  readonly redis?: boolean;
+  readonly redisHost?: string;
+  readonly redisPort?: number;
 }
 
 const defaultConfig: IConfig = {
@@ -29,8 +32,11 @@ const defaultConfig: IConfig = {
   cleanup_out_msgs: 1000,
   ssl: {
     key: "",
-    cert: ""
-  }
+    cert: "",
+  },
+  redis: false,
+  redisHost: "",
+  redisPort: 0,
 };
 
 export default defaultConfig;

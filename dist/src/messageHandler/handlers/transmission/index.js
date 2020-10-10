@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const enums_1 = require("../../../enums");
-exports.TransmissionHandler = ({ realm }) => {
+exports.TransmissionHandler = ({ realm, }) => {
     const handle = (client, message) => {
         const type = message.type;
         const srcId = message.src;
@@ -33,7 +33,7 @@ exports.TransmissionHandler = ({ realm }) => {
                 handle(client, {
                     type: enums_1.MessageType.LEAVE,
                     src: dstId,
-                    dst: srcId
+                    dst: srcId,
                 });
             }
         }
