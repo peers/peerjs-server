@@ -26,6 +26,7 @@ declare interface IConfig {
     cert: string;
   };
   readonly generateClientId?: () => string;
+  readonly messagesTransport?: MessagesTransport;
 }
 
 declare interface IClient {
@@ -64,6 +65,11 @@ declare interface CustomExpress extends Express.Express {
   on(event: 'message', callback: (client: IClient, message: IMessage) => void): this;
   on(event: 'error', callback: (error: Error) => void): this;
 }
+
+declare type MessagesTransport = {
+  registerHanadler(handler: (message: { type: string; dst?: string; } & any) => boolean): void;
+  sendMessage(message: { type: string; src: string; } & any): void;
+};
 
 declare function ExpressPeerServer(server: Server, options?: IConfig): CustomExpress;
 declare function PeerServer(options?: Optional<IConfig>, callback?: (server: Server) => void): CustomExpress;

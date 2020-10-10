@@ -1,3 +1,8 @@
+type MessagesTransport = {
+  registerHanadler(handler: (message: { type: string; dst?: string; } & any) => boolean): void;
+  sendMessage(message: { type: string; src: string; } & any): void;
+};
+
 export interface IConfig {
   readonly host: string;
   readonly port: number;
@@ -14,6 +19,7 @@ export interface IConfig {
     cert: string;
   };
   readonly generateClientId?: () => string;
+  readonly messagesTransport?: MessagesTransport;
 }
 
 const defaultConfig: IConfig = {

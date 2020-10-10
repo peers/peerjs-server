@@ -10,19 +10,18 @@ const enums_1 = require("../../enums");
 const client_1 = require("../../models/client");
 const WS_PATH = 'peerjs';
 class WebSocketServer extends events_1.default {
-    constructor({ server, realm, config, messagesTransport }) {
+    constructor({ server, realm, config }) {
         var _a;
         super();
         this.setMaxListeners(0);
         this.realm = realm;
         this.config = config;
-        this.messagesTransport = messagesTransport;
         const path = this.config.path;
         this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
         this.socketServer = new ws_1.default.Server({ path: this.path, server });
         this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
         this.socketServer.on("error", (error) => this._onSocketError(error));
-        (_a = this.messagesTransport) === null || _a === void 0 ? void 0 : _a.registerHanadler((message) => this._handleMessage(message));
+        (_a = this.config.messagesTransport) === null || _a === void 0 ? void 0 : _a.registerHanadler((message) => this._handleMessage(message));
     }
     _onSocketConnection(socket, req) {
         var _a;
@@ -77,8 +76,8 @@ class WebSocketServer extends events_1.default {
             try {
                 const message = JSON.parse(data);
                 message.src = client.getId();
-                if (message.type !== "HEARTBEAT" && this.messagesTransport) {
-                    this.messagesTransport.sendMessage(message);
+                if (message.type !== "HEARTBEAT" && this.config.messagesTransport) {
+                    this.config.messagesTransport.sendMessage(message);
                     return;
                 }
                 this.emit("message", client, message);
