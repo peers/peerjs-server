@@ -32,6 +32,8 @@ class MessagesExpire {
         const seen = {};
         for (const destinationClientId of destinationClientsIds) {
             const messageQueue = this.realm.getMessageQueueById(destinationClientId);
+            if (!messageQueue)
+                continue;
             const lastReadDiff = now - messageQueue.getLastReadAt();
             if (lastReadDiff < maxDiff)
                 continue;

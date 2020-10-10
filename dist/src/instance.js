@@ -35,7 +35,7 @@ exports.createInstance = ({ app, server, options }) => {
         const messageQueue = realm.getMessageQueueById(client.getId());
         if (messageQueue) {
             let message;
-            while (message = messageQueue.readMessage()) {
+            while ((message = messageQueue.readMessage())) {
                 messageHandler.handle(client, message);
             }
             realm.clearMessageQueue(client.getId());

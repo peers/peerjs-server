@@ -25,7 +25,7 @@ export class MessageQueue implements IMessageQueue {
   public readMessage(): IMessage | undefined {
     if (this.messages.length > 0) {
       this.lastReadAt = new Date().getTime();
-      return this.messages.shift()!;
+      return this.messages.shift();
     }
 
     return undefined;

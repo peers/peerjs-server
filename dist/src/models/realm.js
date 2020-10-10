@@ -33,10 +33,11 @@ class Realm {
         return this.messageQueues.get(id);
     }
     addMessageToQueue(id, message) {
+        var _a;
         if (!this.getMessageQueueById(id)) {
             this.messageQueues.set(id, new messageQueue_1.MessageQueue());
         }
-        this.getMessageQueueById(id).addMessage(message);
+        (_a = this.getMessageQueueById(id)) === null || _a === void 0 ? void 0 : _a.addMessage(message);
     }
     clearMessageQueue(id) {
         this.messageQueues.delete(id);

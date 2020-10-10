@@ -37,7 +37,7 @@ function ExpressPeerServer(server: Server, options?: IConfig) {
 function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server) => void) {
   const app = express();
 
-  const newOptions: IConfig = {
+  let newOptions: IConfig = {
     ...defaultConfig,
     ...options
   };
@@ -47,10 +47,12 @@ function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server)
 
   let server: Server;
 
-  if (newOptions.ssl && newOptions.ssl.key && newOptions.ssl.cert) {
-    server = https.createServer(options.ssl!, app);
-    // @ts-ignore
-    delete newOptions.ssl;
+  const { ssl, ...restOptions } = newOptions;
+
+  if (ssl && ssl.key && ssl.cert) {
+    server = https.createServer(ssl, app);
+
+    newOptions = restOptions;
   } else {
     server = http.createServer(app);
   }

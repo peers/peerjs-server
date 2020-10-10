@@ -22,7 +22,8 @@ class WebSocketServer extends events_1.default {
         this.socketServer.on("error", (error) => this._onSocketError(error));
     }
     _onSocketConnection(socket, req) {
-        const { query = {} } = url_1.default.parse(req.url, true);
+        var _a;
+        const { query = {} } = url_1.default.parse((_a = req.url) !== null && _a !== void 0 ? _a : '', true);
         const { id, token, key } = query;
         if (!id || !token || !key) {
             return this._sendErrorAndClose(socket, enums_1.Errors.INVALID_WS_PARAMETERS);

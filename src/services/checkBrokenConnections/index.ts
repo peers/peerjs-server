@@ -15,9 +15,9 @@ export class CheckBrokenConnections {
   private readonly onClose?: (client: IClient) => void;
 
   constructor({ realm, config, checkInterval = DEFAULT_CHECK_INTERVAL, onClose }: {
-    realm: IRealm,
-    config: CustomConfig,
-    checkInterval?: number,
+    realm: IRealm;
+    config: CustomConfig;
+    checkInterval?: number;
     onClose?: (client: IClient) => void;
   }) {
     this.realm = realm;
@@ -54,7 +54,10 @@ export class CheckBrokenConnections {
     const { alive_timeout: aliveTimeout } = this.config;
 
     for (const clientId of clientsIds) {
-      const client = this.realm.getClientById(clientId)!;
+      const client = this.realm.getClientById(clientId);
+
+      if (!client) continue;
+
       const timeSinceLastPing = now - client.getLastPing();
 
       if (timeSinceLastPing < aliveTimeout) continue;

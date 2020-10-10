@@ -32,6 +32,8 @@ class CheckBrokenConnections {
         const { alive_timeout: aliveTimeout } = this.config;
         for (const clientId of clientsIds) {
             const client = this.realm.getClientById(clientId);
+            if (!client)
+                continue;
             const timeSinceLastPing = now - client.getLastPing();
             if (timeSinceLastPing < aliveTimeout)
                 continue;

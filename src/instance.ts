@@ -1,6 +1,6 @@
 import express from "express";
 import { Server } from "net";
-import path from 'path';
+import path from "path";
 import { IClient } from "./models/client";
 import { IMessage } from "./models/message";
 import { Realm } from "./models/realm";
@@ -13,8 +13,8 @@ import { Api } from "./api";
 import { IConfig } from "./config";
 
 export const createInstance = ({ app, server, options }: {
-  app: express.Application,
-  server: Server,
+  app: express.Application;
+  server: Server;
   options: IConfig;
 }): void => {
   const config = options;
@@ -48,7 +48,7 @@ export const createInstance = ({ app, server, options }: {
     if (messageQueue) {
       let message: IMessage | undefined;
 
-      while (message = messageQueue.readMessage()) {
+      while ((message = messageQueue.readMessage())) {
         messageHandler.handle(client, message);
       }
       realm.clearMessageQueue(client.getId());
