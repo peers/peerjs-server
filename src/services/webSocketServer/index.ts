@@ -20,22 +20,37 @@ interface IAuthParams {
 
 type CustomConfig = Pick<IConfig, 'path' | 'key' | 'concurrent_limit'>;
 
+type MessagesTransport = {
+  registerHanadler(handler: (message: { type: string; dst?: string; } & any) => boolean): void;
+  sendMessage(message: { type: string; src: string; } & any): void;
+};
+
 const WS_PATH = 'peerjs';
+
+type Dependencies = {
+  server: any;
+  realm: IRealm;
+  config: CustomConfig;
+  messagesTransport?: MessagesTransport;
+};
 
 export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 
   public readonly path: string;
-  private readonly realm: IRealm;
-  private readonly config: CustomConfig;
   public readonly socketServer: WebSocketLib.Server;
 
-  constructor({ server, realm, config }: { server: any; realm: IRealm; config: CustomConfig; }) {
+  private readonly realm: IRealm;
+  private readonly config: CustomConfig;
+  private readonly messagesTransport?: MessagesTransport;
+
+  constructor({ server, realm, config, messagesTransport }: Dependencies) {
     super();
 
     this.setMaxListeners(0);
 
     this.realm = realm;
     this.config = config;
+    this.messagesTransport = messagesTransport;
 
     const path = this.config.path;
     this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
@@ -44,6 +59,8 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 
     this.socketServer.on("connection", (socket: MyWebSocket, req) => this._onSocketConnection(socket, req));
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));
+
+    this.messagesTransport?.registerHanadler((message) => this._handleMessage(message));
   }
 
   private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
@@ -121,6 +138,11 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 
         message.src = client.getId();
 
+        if (message.type !== "HEARTBEAT" && this.messagesTransport) {
+          this.messagesTransport.sendMessage(message);
+          return;
+        }
+
         this.emit("message", client, message);
       } catch (e) {
         this.emit("error", e);
@@ -139,5 +161,16 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     );
 
     socket.close();
+  }
+
+  private _handleMessage(message: any) {
+    const clientId = message.dst;
+    const client = clientId ? this.realm.getClientById(clientId) : undefined;
+
+    if (!client) return false;
+
+    this.emit("message", client, message);
+
+    return true;
   }
 }
