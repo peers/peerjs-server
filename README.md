@@ -109,6 +109,23 @@ const peerServer = PeerServer({
 });
 ```
 
+You can also pass any other [SSL options accepted by https.createServer](https://nodejs.org/api/https.html#https_https_createserver_options_requestlistenerfrom), such as `SNICallback:
+
+```javascript
+const fs = require('fs');
+const { PeerServer } = require('peer');
+
+const peerServer = PeerServer({
+  port: 9000,
+  ssl: {
+    SNICallback: (servername, cb) => {
+        // your code here ....
+    }
+  }
+});
+```
+
+
 ## Running PeerServer behind a reverse proxy
 
 Make sure to set the `proxied` option, otherwise IP based limiting will fail.
