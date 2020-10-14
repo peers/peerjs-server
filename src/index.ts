@@ -48,8 +48,7 @@ function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server)
   let server: Server;
 
   const { ssl, ...restOptions } = newOptions;
-
-  if (ssl && ssl.key && ssl.cert) {
+  if (ssl && Object.keys(ssl).length) {
     server = https.createServer(ssl, app);
 
     newOptions = restOptions;
