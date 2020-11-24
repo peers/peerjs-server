@@ -1,5 +1,9 @@
 # PeerServer Changelog
 
+### vNEXT
+
+* New: PeerJS Server in Docker capture ^C signal and terminate gracefully. #205
+
 ### 0.6.0
 
 * New: `host` option (`--host`, `-H`). #197 Thanks @millette
