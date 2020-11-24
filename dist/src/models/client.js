@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Client = void 0;
 class Client {
     constructor({ id, token }) {
         this.socket = null;

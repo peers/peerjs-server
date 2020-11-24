@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessageQueue = void 0;
 class MessageQueue {
     constructor() {
         this.lastReadAt = new Date().getTime();

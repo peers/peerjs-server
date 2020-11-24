@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessageType = exports.Errors = void 0;
 var Errors;
 (function (Errors) {
     Errors["INVALID_KEY"] = "Invalid key provided";

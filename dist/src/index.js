@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PeerServer = exports.ExpressPeerServer = void 0;
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const https_1 = __importDefault(require("https"));
@@ -42,7 +43,7 @@ function PeerServer(options = {}, callback) {
     const host = newOptions.host;
     let server;
     const { ssl } = newOptions, restOptions = __rest(newOptions, ["ssl"]);
-    if (ssl && ssl.key && ssl.cert) {
+    if (ssl && Object.keys(ssl).length) {
         server = https_1.default.createServer(ssl, app);
         newOptions = restOptions;
     }

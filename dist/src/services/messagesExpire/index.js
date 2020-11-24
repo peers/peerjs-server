@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessagesExpire = void 0;
 const enums_1 = require("../../enums");
 class MessagesExpire {
     constructor({ realm, config, messageHandler }) {

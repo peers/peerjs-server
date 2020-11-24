@@ -1,5 +1,11 @@
 # PeerServer Changelog
 
+### 0.6.0
+
+* New: `host` option (`--host`, `-H`). #197 Thanks @millette
+* Fix: Allows SNICallback instead of hardcoded key/cert. #225 Thanks @brunobg
+* Change: Upgrade TypeScript version to 4.1.2.
+
 ### 0.5.3
 
 * PeerServer uses yargs instead of an outdated minimist. #190 Thanks @hobindar

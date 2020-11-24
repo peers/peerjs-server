@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessageHandler = void 0;
 const enums_1 = require("../enums");
 const handlers_1 = require("./handlers");
 const handlersRegistry_1 = require("./handlersRegistry");

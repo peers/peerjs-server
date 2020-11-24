@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HandlersRegistry = void 0;
 class HandlersRegistry {
     constructor() {
         this.handlers = new Map();

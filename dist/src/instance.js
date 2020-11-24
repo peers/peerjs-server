@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createInstance = void 0;
 const path_1 = __importDefault(require("path"));
 const realm_1 = require("./models/realm");
 const checkBrokenConnections_1 = require("./services/checkBrokenConnections");
@@ -10,7 +11,7 @@ const messagesExpire_1 = require("./services/messagesExpire");
 const webSocketServer_1 = require("./services/webSocketServer");
 const messageHandler_1 = require("./messageHandler");
 const api_1 = require("./api");
-exports.createInstance = ({ app, server, options }) => {
+const createInstance = ({ app, server, options }) => {
     const config = options;
     const realm = new realm_1.Realm();
     const messageHandler = new messageHandler_1.MessageHandler(realm);
@@ -55,3 +56,4 @@ exports.createInstance = ({ app, server, options }) => {
     messagesExpire.startMessagesExpiration();
     checkBrokenConnections.start();
 };
+exports.createInstance = createInstance;
