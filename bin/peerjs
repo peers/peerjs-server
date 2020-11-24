@@ -5,7 +5,7 @@ const path = require("path");
 const pkg = require("../package.json");
 const fs = require("fs");
 const optimistUsageLength = 98;
-const yargs = require("yargs")
+const yargs = require("yargs");
 const version = pkg.version;
 const { PeerServer } = require("../dist/src");
 const opts = yargs
@@ -100,6 +100,17 @@ const server = PeerServer(opts, server => {
     "Started PeerServer on %s, port: %s, path: %s (v. %s)",
     host, port, userPath || "/", version
   );
+
+  const shutdownApp = () => {
+    server.close(() => {
+      console.log('Http server closed.');
+
+      process.exit(0);
+    });
+  };
+
+  process.on('SIGINT', shutdownApp);
+  process.on('SIGTERM', shutdownApp);
 });
 
 server.on("connection", client => {
