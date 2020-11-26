@@ -5,9 +5,11 @@ const path = require("path");
 const pkg = require("../package.json");
 const fs = require("fs");
 const optimistUsageLength = 98;
-const yargs = require("yargs");
+const yargs = require("yargs")
 const version = pkg.version;
-const { PeerServer } = require("../dist/src");
+const { ExpressPeerServer } = require("../dist/src");
+const express = require('express');
+const app = express();
 const opts = yargs
   .usage("Usage: $0")
   .wrap(Math.min(optimistUsageLength, yargs.terminalWidth()))
@@ -91,27 +93,14 @@ if (opts.sslkey || opts.sslcert) {
   }
 }
 
-const userPath = opts.path;
-const server = PeerServer(opts, server => {
-  const host = server.address().address;
-  const port = server.address().port;
+const server = app.listen(opts.port);
+const peerServer = ExpressPeerServer(server, opts);
+app.use("/", peerServer);
 
-  console.log(
-    "Started PeerServer on %s, port: %s, path: %s (v. %s)",
-    host, port, userPath || "/", version
-  );
-
-  const shutdownApp = () => {
-    server.close(() => {
-      console.log('Http server closed.');
-
-      process.exit(0);
-    });
-  };
-
-  process.on('SIGINT', shutdownApp);
-  process.on('SIGTERM', shutdownApp);
-});
+console.log(
+  "Started PeerServer on %s, port: %s, path: %s (v. %s)",
+  opts.host | '0.0.0.0', opts.port, opts.path || "/", version
+);
 
 server.on("connection", client => {
   console.log(`Client connected: ${client.getId()}`);
