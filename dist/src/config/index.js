@@ -11,9 +11,5 @@ const defaultConfig = {
     allow_discovery: false,
     proxied: false,
     cleanup_out_msgs: 1000,
-    ssl: {
-        key: "",
-        cert: ""
-    }
 };
 exports.default = defaultConfig;

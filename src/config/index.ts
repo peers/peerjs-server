@@ -27,10 +27,6 @@ const defaultConfig: IConfig = {
   allow_discovery: false,
   proxied: false,
   cleanup_out_msgs: 1000,
-  ssl: {
-    key: "",
-    cert: ""
-  }
 };
 
 export default defaultConfig;

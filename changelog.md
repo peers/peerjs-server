@@ -2,7 +2,11 @@
 
 ### vNEXT
 
+
+### 0.6.1
+
 * New: PeerJS Server in Docker capture ^C signal and terminate gracefully. #205
+* Fix: SSL options in default config. #230
 
 ### 0.6.0
 
