@@ -51,8 +51,9 @@ $ kubectl run peerjs-server --image=peerjs/peerjs-server --port 9000 --expose --
 If you have your own server, you can attach PeerServer.
 
 1. Install the package:
-    ```sh
-    #$ cd your-project-path
+    ```bash
+    # $ cd your-project-path
+    
     # with npm
     $ npm install peer
     
