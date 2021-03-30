@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  peerjs:
+    build: .
+    container_name: peerjs_server
+    expose:
+      - 9000
+    ports:
+      - "9000:9000"
