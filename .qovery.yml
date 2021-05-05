@@ -1,0 +1,11 @@
+---
+application:
+  name: "peerjs-server"
+  project: "peerjs"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-peerjs-server"
+  routes:
+  - application_name: "peerjs-server"
+    paths:
+    - "/*"
