@@ -5,6 +5,9 @@ application:
   organization: "QoveryCommunity"
 routers:
 - name: "main-peerjs-server"
+custom_domains:
+  - branch: master
+    domain: peer.hll.nu
   routes:
   - application_name: "peerjs-server"
     paths:
