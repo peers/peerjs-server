@@ -12,6 +12,7 @@ const client_1 = require("../../models/client");
 const WS_PATH = 'peerjs';
 class WebSocketServer extends events_1.default {
     constructor({ server, realm, config }) {
+        var _a;
         super();
         this.setMaxListeners(0);
         this.realm = realm;
@@ -21,6 +22,7 @@ class WebSocketServer extends events_1.default {
         this.socketServer = new ws_1.default.Server({ path: this.path, server });
         this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
         this.socketServer.on("error", (error) => this._onSocketError(error));
+        (_a = this.config.messagesTransport) === null || _a === void 0 ? void 0 : _a.registerHanadler((message) => this._handleMessage(message));
     }
     _onSocketConnection(socket, req) {
         var _a;
@@ -75,6 +77,10 @@ class WebSocketServer extends events_1.default {
             try {
                 const message = JSON.parse(data);
                 message.src = client.getId();
+                if (message.type !== "HEARTBEAT" && this.config.messagesTransport) {
+                    this.config.messagesTransport.sendMessage(message);
+                    return;
+                }
                 this.emit("message", client, message);
             }
             catch (e) {
@@ -89,6 +95,14 @@ class WebSocketServer extends events_1.default {
             payload: { msg }
         }));
         socket.close();
+    }
+    _handleMessage(message) {
+        const clientId = message.dst;
+        const client = clientId ? this.realm.getClientById(clientId) : undefined;
+        if (!client)
+            return false;
+        this.emit("message", client, message);
+        return true;
     }
 }
 exports.WebSocketServer = WebSocketServer;
