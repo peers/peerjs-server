@@ -1,0 +1,16 @@
+name: Mirror
+on:
+  push:
+    branches:
+      - "master"
+jobs:
+  sap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: mirror to github.tools.sap
+        run: |
+          git remote add sap "https://appgyver-public-gh-mirror-serviceuser:${{ secrets.MIRROR_SAP_TOKEN }}@github.tools.sap/AppGyver/peerjs-server.git"
+          git push -f sap master
