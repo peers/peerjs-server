@@ -13,6 +13,11 @@ export default ({ config, realm }: {
     res.send(realm.generateClientId(config.generateClientId));
   });
 
+  app.get("/customid", (_, res: express.Response) => {
+    res.contentType("html");
+    res.send(realm.generateCustomClientId());
+  });
+
   // Get a list of all peers for a key, enabled by the `allowDiscovery` flag.
   app.get("/peers", (_, res: express.Response) => {
     if (config.allow_discovery) {

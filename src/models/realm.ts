@@ -1,5 +1,6 @@
 import uuidv4 from "uuid/v4";
 import { IClient } from "./client";
+import { CustomIdGenerator } from "./customIdGenerator";
 import { IMessage } from "./message";
 import { IMessageQueue, MessageQueue } from "./messageQueue";
 
@@ -21,11 +22,15 @@ export interface IRealm {
   clearMessageQueue(id: string): void;
 
   generateClientId(generateClientId?: () => string): string;
+
+  generateCustomClientId(): string;
 }
 
 export class Realm implements IRealm {
   private readonly clients: Map<string, IClient> = new Map();
   private readonly messageQueues: Map<string, IMessageQueue> = new Map();
+
+  private readonly customIdGenerator = new CustomIdGenerator();
 
   public getClientsIds(): string[] {
     return [...this.clients.keys()];
@@ -76,6 +81,17 @@ export class Realm implements IRealm {
 
     while (this.getClientById(clientId)) {
       clientId = generateId();
+    }
+
+    return clientId;
+  }
+
+  public generateCustomClientId(): string {
+
+    let clientId = this.customIdGenerator.generateClientId();
+
+    while (this.getClientById(clientId)) {
+      clientId = this.customIdGenerator.generateClientId();
     }
 
     return clientId;
