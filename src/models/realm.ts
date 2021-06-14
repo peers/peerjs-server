@@ -30,7 +30,7 @@ export class Realm implements IRealm {
   private readonly clients: Map<string, IClient> = new Map();
   private readonly messageQueues: Map<string, IMessageQueue> = new Map();
 
-  private readonly customIdGenerator = new CustomIdGenerator();
+  private readonly customIdGenerator: CustomIdGenerator = new CustomIdGenerator();
 
   public getClientsIds(): string[] {
     return [...this.clients.keys()];
@@ -89,6 +89,8 @@ export class Realm implements IRealm {
   public generateCustomClientId(): string {
 
     let clientId = this.customIdGenerator.generateClientId();
+
+    console.log("clientId: " + clientId);
 
     while (this.getClientById(clientId)) {
       clientId = this.customIdGenerator.generateClientId();
