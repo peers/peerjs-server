@@ -15,7 +15,7 @@ export default ({ config, realm }: {
 
   app.get("/customid", (_, res: express.Response) => {
     res.contentType("html");
-    res.send(realm.generateCustomClientId());
+    res.send(realm.generateCustomClientId(6));
   });
 
   // Get a list of all peers for a key, enabled by the `allowDiscovery` flag.

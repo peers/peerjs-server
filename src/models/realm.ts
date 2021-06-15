@@ -23,7 +23,7 @@ export interface IRealm {
 
   generateClientId(generateClientId?: () => string): string;
 
-  generateCustomClientId(): string;
+  generateCustomClientId(lengthOfId: number): string;
 }
 
 export class Realm implements IRealm {
@@ -86,14 +86,12 @@ export class Realm implements IRealm {
     return clientId;
   }
 
-  public generateCustomClientId(): string {
+  public generateCustomClientId(lengthOfId: number): string {
 
-    let clientId = this.customIdGenerator.generateClientId();
-
-    console.log("clientId: " + clientId);
+    let clientId = this.customIdGenerator.generateClientId(lengthOfId);
 
     while (this.getClientById(clientId)) {
-      clientId = this.customIdGenerator.generateClientId();
+      clientId = this.customIdGenerator.generateClientId(lengthOfId);
     }
 
     return clientId;
