@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM docker.io/library/node:alpine
 RUN mkdir /peer-server
 WORKDIR /peer-server
 COPY bin ./bin
