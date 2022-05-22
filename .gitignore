@@ -17,3 +17,4 @@ npm-debug.log
 .idea
 .cache
 .vscode
+tmp
