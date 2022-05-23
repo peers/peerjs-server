@@ -1,7 +1,6 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import publicContent from "../../app.json";
 import { IConfig } from "../config";
 import { IMessageHandler } from "../messageHandler";
 import { IRealm } from "../models/realm";
@@ -21,10 +20,6 @@ export const Api = ({ config, realm, messageHandler }: {
   const jsonParser = bodyParser.json();
 
   app.use(cors());
-
-  app.get("/", (_, res) => {
-    res.send(publicContent);
-  });
 
   app.use("/:key", PublicApi({ config, realm }));
   app.use("/:key/:id/:token", authMiddleware.handle, jsonParser, CallsApi({ realm, messageHandler }));
