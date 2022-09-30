@@ -1,3 +1,5 @@
+import {ServerOptions as WsConfig} from 'ws';
+
 export interface IConfig {
   readonly host: string;
   readonly port: number;
@@ -14,6 +16,7 @@ export interface IConfig {
     cert: string;
   };
   readonly generateClientId?: () => string;
+  readonly ws?: WsConfig;
 }
 
 const defaultConfig: IConfig = {

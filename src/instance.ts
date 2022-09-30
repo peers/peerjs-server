@@ -34,15 +34,20 @@ export const createInstance = ({ app, server, options }: {
   app.use(options.path, api);
 
   //use mountpath for WS server
-  const customConfig = { ...config, path: path.posix.join(app.path(), options.path, '/') };
+  const customConfig = {
+    ...config,
+    path: path.posix.join(app.path(), options.path, '/'),
+  };
 
-  const wss2: IWebSocketServer = new WebSocketServer({
+  const wss: IWebSocketServer = new WebSocketServer({
     server,
     realm,
     config: customConfig
   });
 
-  wss2.on("connection", (client: IClient) => {
+  app.set('peerWs', wss);
+
+  wss.on("connection", (client: IClient) => {
     const messageQueue = realm.getMessageQueueById(client.getId());
 
     if (messageQueue) {
@@ -57,16 +62,16 @@ export const createInstance = ({ app, server, options }: {
     app.emit("connection", client);
   });
 
-  wss2.on("message", (client: IClient, message: IMessage) => {
+  wss.on("message", (client: IClient, message: IMessage) => {
     app.emit("message", client, message);
     messageHandler.handle(client, message);
   });
 
-  wss2.on("close", (client: IClient) => {
+  wss.on("close", (client: IClient) => {
     app.emit("disconnect", client);
   });
 
-  wss2.on("error", (error: Error) => {
+  wss.on("error", (error: Error) => {
     app.emit("error", error);
   });
 
