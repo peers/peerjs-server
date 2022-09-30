@@ -62,7 +62,7 @@ export const createInstance = ({ app, server, options }: {
     messageHandler.handle(client, message);
   });
 
-  wss.on("close", (client: IClient) => {
+  wss2.on("close", (client: IClient) => {
     app.emit("disconnect", client);
   });
 
