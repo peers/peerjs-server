@@ -27,12 +27,13 @@ const createInstance = ({ app, server, options }) => {
     app.use(options.path, api);
     //use mountpath for WS server
     const customConfig = Object.assign(Object.assign({}, config), { path: path_1.default.posix.join(app.path(), options.path, '/') });
-    const wss2 = new webSocketServer_1.WebSocketServer({
+    const wss = new webSocketServer_1.WebSocketServer({
         server,
         realm,
         config: customConfig
     });
-    wss2.on("connection", (client) => {
+    app.set('peerWs', wss);
+    wss.on("connection", (client) => {
         const messageQueue = realm.getMessageQueueById(client.getId());
         if (messageQueue) {
             let message;
@@ -43,14 +44,14 @@ const createInstance = ({ app, server, options }) => {
         }
         app.emit("connection", client);
     });
-    wss2.on("message", (client, message) => {
+    wss.on("message", (client, message) => {
         app.emit("message", client, message);
         messageHandler.handle(client, message);
     });
-    wss2.on("close", (client) => {
+    wss.on("close", (client) => {
         app.emit("disconnect", client);
     });
-    wss2.on("error", (error) => {
+    wss.on("error", (error) => {
         app.emit("error", error);
     });
     messagesExpire.startMessagesExpiration();

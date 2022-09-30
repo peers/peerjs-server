@@ -18,7 +18,7 @@ class WebSocketServer extends events_1.default {
         this.config = config;
         const path = this.config.path;
         this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
-        this.socketServer = new ws_1.default.Server({ path: this.path, server });
+        this.socketServer = new ws_1.default.Server(Object.assign({ path: this.path, server }, this.config.ws));
         this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
         this.socketServer.on("error", (error) => this._onSocketError(error));
     }
