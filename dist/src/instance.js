@@ -33,6 +33,7 @@ const createInstance = ({ app, server, options }) => {
         config: customConfig
     });
     app.set('peerWs', wss);
+    app.emit('peerWs', wss);
     wss.on("connection", (client) => {
         const messageQueue = realm.getMessageQueueById(client.getId());
         if (messageQueue) {
