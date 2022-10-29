@@ -1,7 +1,7 @@
-import uuidv4 from "uuid/v4";
 import { IClient } from "./client";
 import { IMessage } from "./message";
 import { IMessageQueue, MessageQueue } from "./messageQueue";
+import {randomUUID} from "crypto";
 
 export interface IRealm {
   getClientsIds(): string[];
@@ -70,7 +70,7 @@ export class Realm implements IRealm {
   }
 
   public generateClientId(generateClientId?: () => string): string {
-    const generateId = generateClientId ? generateClientId : uuidv4;
+    const generateId = generateClientId ? generateClientId : randomUUID;
 
     let clientId = generateId();
 
