@@ -1,6 +1,6 @@
 {
   "name": "peer",
-  "version": "0.6.1",
+  "version": "0.0.0-development",
   "description": "PeerJS server component",
   "main": "dist/src/index.js",
   "bin": {
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peers/peerjs-server.git"
+    "url": "https://github.com/peers/peerjs-server.git"
   },
   "author": "Michelle Bu, Eric Zhang, Alex Sosnovskiy",
   "license": "MIT",
@@ -36,7 +36,8 @@
     "test": "npm run lint && mocha -r ts-node/register \"test/**/*\"",
     "start": "bin/peerjs --port ${PORT:=9000}",
     "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts --exec npm run dev:start"
+    "dev": "nodemon --watch src -e ts --exec npm run dev:start",
+    "semantic-release": "semantic-release"
   },
   "release": {
     "branch": "master"
@@ -68,7 +69,8 @@
     "rimraf": "^3.0.2",
     "sinon": "^7.5.0",
     "ts-node": "^8.7.0",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "semantic-release": "^19.0.5"
   },
   "engines": {
     "node": ">=10"
