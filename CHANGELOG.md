@@ -1,3 +1,15 @@
+# [1.0.0-rc.2](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2022-10-30)
+
+
+### Features
+
+* remove deprecated XHR fallback ([d900145](https://github.com/peers/peerjs-server/commit/d90014590160faf1d489a18ea489c28c43cd4690))
+
+
+### BREAKING CHANGES
+
+* Requires PeerJS >= 1.0
+
 # [1.0.0-rc.1](https://github.com/peers/peerjs-server/compare/v0.6.1...v1.0.0-rc.1) (2022-10-29)
 
 
