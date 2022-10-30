@@ -13,9 +13,3 @@ Endpoints:
 This group of methods uses `:key` option from config:
 * GET `/:key/id` - return a new user id. required `:key` from config.
 * GET `/:key/peers` - return an array of all connected users. required `:key` from config. **IMPORTANT:** You should set `allow_discovery` to `true` in config to enable this method. It disabled by default.
-
-This group of methods uses `:key` option from config, `:userId` and `:userToken` parameters from user.
-* POST `/:key/:userId/:userToken/offer`
-* POST `/:key/:userId/:userToken/candidate`
-* POST `/:key/:userId/:userToken/answer`
-* POST `/:key/:userId/:userToken/leave`
