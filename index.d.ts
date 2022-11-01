@@ -26,6 +26,7 @@ declare interface IConfig {
     cert: string;
   };
   readonly generateClientId?: () => string;
+  readonly createWebSocketServer?: (options: WebSocketLib.ServerOptions) => WebSocketLib.Server;
 }
 
 declare interface IClient {
