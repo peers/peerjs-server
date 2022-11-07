@@ -34,10 +34,7 @@ export const createInstance = ({ app, server, options }: {
   app.use(options.path, api);
 
   //use mountpath for WS server
-  const customConfig = {
-    ...config,
-    path: path.posix.join(app.path(), options.path, '/'),
-  };
+  const customConfig = { ...config, path: path.posix.join(app.path(), options.path, '/') };
 
   const wss: IWebSocketServer = new WebSocketServer({
     server,
