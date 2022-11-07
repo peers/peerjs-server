@@ -40,7 +40,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     const path = this.config.path;
     this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
 
-    const options = {
+    const options: WebSocketLib.ServerOptions = {
       path: this.path,
       server,
     };
