@@ -1,13 +1,13 @@
-import { MyWebSocket } from "../services/webSocketServer/webSocket";
+import type WebSocket from "ws";
 
 export interface IClient {
   getId(): string;
 
   getToken(): string;
 
-  getSocket(): MyWebSocket | null;
+  getSocket(): WebSocket | null;
 
-  setSocket(socket: MyWebSocket | null): void;
+  setSocket(socket: WebSocket | null): void;
 
   getLastPing(): number;
 
@@ -19,7 +19,7 @@ export interface IClient {
 export class Client implements IClient {
   private readonly id: string;
   private readonly token: string;
-  private socket: MyWebSocket | null = null;
+  private socket: WebSocket | null = null;
   private lastPing: number = new Date().getTime();
 
   constructor({ id, token }: { id: string; token: string; }) {
@@ -35,11 +35,11 @@ export class Client implements IClient {
     return this.token;
   }
 
-  public getSocket(): MyWebSocket | null {
+  public getSocket(): WebSocket | null {
     return this.socket;
   }
 
-  public setSocket(socket: MyWebSocket | null): void {
+  public setSocket(socket: WebSocket | null): void {
     this.socket = socket;
   }
 
