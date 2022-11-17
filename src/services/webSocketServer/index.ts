@@ -47,6 +47,9 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
   }
 
   private _onSocketConnection(socket: WebSocket, req: IncomingMessage): void {
+    // An unhandled socket error might crash the server. Handle it first.
+    socket.on("error", error => this._onSocketError(error))
+
     const { query = {} } = url.parse(req.url ?? '', true);
 
     const { id, token, key }: IAuthParams = query;
