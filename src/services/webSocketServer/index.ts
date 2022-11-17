@@ -6,7 +6,7 @@ import { IConfig } from "../../config";
 import { Errors, MessageType } from "../../enums";
 import { Client, IClient } from "../../models/client";
 import { IRealm } from "../../models/realm";
-import { MyWebSocket } from "./webSocket";
+import type WebSocket from "ws";
 
 export interface IWebSocketServer extends EventEmitter {
   readonly path: string;
@@ -42,11 +42,14 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 
     this.socketServer = new WebSocketLib.Server({ path: this.path, server });
 
-    this.socketServer.on("connection", (socket: MyWebSocket, req) => this._onSocketConnection(socket, req));
+    this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));
   }
 
-  private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
+  private _onSocketConnection(socket: WebSocket, req: IncomingMessage): void {
+    // An unhandled socket error might crash the server. Handle it first.
+    socket.on("error", error => this._onSocketError(error))
+
     const { query = {} } = url.parse(req.url ?? '', true);
 
     const { id, token, key }: IAuthParams = query;
@@ -85,7 +88,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 
   private _registerClient({ socket, id, token }:
     {
-      socket: MyWebSocket;
+      socket: WebSocket;
       id: string;
       token: string;
     }): void {
@@ -103,7 +106,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     this._configureWS(socket, newClient);
   }
 
-  private _configureWS(socket: MyWebSocket, client: IClient): void {
+  private _configureWS(socket: WebSocket, client: IClient): void {
     client.setSocket(socket);
 
     // Cleanup after a socket closes.
@@ -130,7 +133,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     this.emit("connection", client);
   }
 
-  private _sendErrorAndClose(socket: MyWebSocket, msg: Errors): void {
+  private _sendErrorAndClose(socket: WebSocket, msg: Errors): void {
     socket.send(
       JSON.stringify({
         type: MessageType.ERROR,
