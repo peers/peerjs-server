@@ -1,3 +1,10 @@
+# [1.0.0-rc.4](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2022-11-17)
+
+
+### Bug Fixes
+
+* the server could crash if a client sends invalid frames ([29394de](https://github.com/peers/peerjs-server/commit/29394dea5e1303cdf07337d39c2c93249fdd41db))
+
 # [1.0.0-rc.3](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2022-11-10)
 
 
