@@ -21,7 +21,7 @@ export const createInstance = ({ app, server, options }: {
   const realm: IRealm = new Realm();
   const messageHandler = new MessageHandler(realm);
 
-  const api = Api({ config, realm, messageHandler });
+  const api = Api({ config, realm });
   const messagesExpire: IMessagesExpire = new MessagesExpire({ realm, config, messageHandler });
   const checkBrokenConnections = new CheckBrokenConnections({
     realm,
