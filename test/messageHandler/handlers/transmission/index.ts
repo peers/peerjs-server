@@ -3,9 +3,9 @@ import { Client } from '../../../../src/models/client';
 import { TransmissionHandler } from '../../../../src/messageHandler/handlers';
 import { Realm } from '../../../../src/models/realm';
 import { MessageType } from '../../../../src/enums';
-import { MyWebSocket } from '../../../../src/services/webSocketServer/webSocket';
+import type WebSocket from "ws";
 
-const createFakeSocket = (): MyWebSocket => {
+const createFakeSocket = (): WebSocket => {
   /* eslint-disable @typescript-eslint/no-empty-function */
   const sock = {
     send: (): void => { },
@@ -14,7 +14,7 @@ const createFakeSocket = (): MyWebSocket => {
   };
   /* eslint-enable @typescript-eslint/no-empty-function */
 
-  return (sock as unknown as MyWebSocket);
+  return (sock as unknown as WebSocket);
 };
 
 describe('Transmission handler', () => {
