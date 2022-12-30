@@ -29,7 +29,7 @@ async function makeRequest() {
 describe('Check bin/peerjs', () => {
   it('should return content of app.json file', async () => {
     let resolver: () => void;
-    let rejecter: (err: Error) => void;
+    let rejecter: (err: unknown) => void;
     const promise = new Promise<void>((resolve, reject) => {
       resolver = resolve;
       rejecter = reject;
