@@ -1,4 +1,4 @@
-import {Server, ServerOptions} from 'ws';
+import type {Server, ServerOptions} from 'ws';
 
 export interface IConfig {
   readonly host: string;
