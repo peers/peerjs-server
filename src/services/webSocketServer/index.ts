@@ -18,7 +18,7 @@ interface IAuthParams {
   key?: string;
 }
 
-type CustomConfig = Pick<IConfig, 'path' | 'key' | 'concurrent_limit'>;
+type CustomConfig = Pick<IConfig, 'path' | 'key' | 'concurrent_limit' | 'createWebSocketServer'>;
 
 const WS_PATH = 'peerjs';
 
@@ -40,7 +40,16 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     const path = this.config.path;
     this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
 
-    this.socketServer = new WebSocketLib.Server({ path: this.path, server });
+    const options: WebSocketLib.ServerOptions = {
+      path: this.path,
+      server,
+    };
+
+    this.socketServer = (
+        config.createWebSocketServer ?
+            config.createWebSocketServer(options) :
+            new WebSocketLib.Server(options)
+    );
 
     this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));

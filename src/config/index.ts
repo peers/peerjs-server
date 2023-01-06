@@ -1,3 +1,5 @@
+import type {Server, ServerOptions} from 'ws';
+
 export interface IConfig {
   readonly host: string;
   readonly port: number;
@@ -14,6 +16,7 @@ export interface IConfig {
     cert: string;
   };
   readonly generateClientId?: () => string;
+  readonly createWebSocketServer?: (options: ServerOptions) => Server;
 }
 
 const defaultConfig: IConfig = {
