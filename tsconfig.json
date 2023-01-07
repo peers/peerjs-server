@@ -3,6 +3,7 @@
         "lib": [
             "esnext"
         ],
+		"noEmit": true,
         "target": "es2016",
         "module": "commonjs",
         "strict": true,

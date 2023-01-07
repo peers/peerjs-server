@@ -1,14 +1,13 @@
 #!/usr/bin/env node
-// tslint:disable
 
-const path = require("path");
-const pkg = require("../package.json");
-const fs = require("fs");
+import path from "path";
+import {version} from "../package.json";
+import fs from "fs";
 const optimistUsageLength = 98;
-const yargs = require("yargs");
-const version = pkg.version;
-const { PeerServer } = require("../dist/src");
-const opts = yargs
+import yargs from "yargs";
+import { PeerServer } from "../src";
+import { AddressInfo } from "net";
+const opts =  yargs
   .usage("Usage: $0")
   .wrap(Math.min(optimistUsageLength, yargs.terminalWidth()))
   .options({
@@ -16,60 +15,66 @@ const opts = yargs
       demandOption: false,
       alias: "t",
       describe: "timeout (milliseconds)",
-      default: 5000
+      default: 5000,
     },
     concurrent_limit: {
       demandOption: false,
       alias: "c",
       describe: "concurrent limit",
-      default: 5000
+      default: 5000,
     },
     alive_timeout: {
       demandOption: false,
       describe: "broken connection check timeout (milliseconds)",
-      default: 60000
+      default: 60000,
     },
     key: {
       demandOption: false,
       alias: "k",
       describe: "connection key",
-      default: "peerjs"
+      default: "peerjs",
     },
     sslkey: {
+      type: "string",
       demandOption: false,
-      describe: "path to SSL key"
+      describe: "path to SSL key",
     },
     sslcert: {
+      type: "string",
       demandOption: false,
-      describe: "path to SSL certificate"
+      describe: "path to SSL certificate",
     },
     host: {
+      type: "string",
       demandOption: false,
       alias: "H",
-      describe: "host"
+      describe: "host",
     },
     port: {
+      type: "number",
       demandOption: true,
       alias: "p",
-      describe: "port"
+      describe: "port",
     },
     path: {
+      type: "string",
       demandOption: false,
       describe: "custom path",
-      default: "/"
+      default: "/",
     },
     allow_discovery: {
+      type: "boolean",
       demandOption: false,
-      describe: "allow discovery of peers"
+      describe: "allow discovery of peers",
     },
     proxied: {
+      type: "boolean",
       demandOption: false,
       describe: "Set true if PeerServer stays behind a reverse proxy",
-      default: false
-    }
+      default: false,
+    },
   })
-  .boolean("allow_discovery")
-  .argv;
+  .boolean("allow_discovery").argv;
 
 process.on("uncaughtException", function (e) {
   console.error("Error: " + e);
@@ -79,44 +84,48 @@ if (opts.sslkey || opts.sslcert) {
   if (opts.sslkey && opts.sslcert) {
     opts.ssl = {
       key: fs.readFileSync(path.resolve(opts.sslkey)),
-      cert: fs.readFileSync(path.resolve(opts.sslcert))
+      cert: fs.readFileSync(path.resolve(opts.sslcert)),
     };
 
     delete opts.sslkey;
     delete opts.sslcert;
   } else {
-    console.error("Warning: PeerServer will not run because either " +
-      "the key or the certificate has not been provided.");
+    console.error(
+      "Warning: PeerServer will not run because either " +
+        "the key or the certificate has not been provided."
+    );
     process.exit(1);
   }
 }
 
 const userPath = opts.path;
-const server = PeerServer(opts, server => {
-  const host = server.address().address;
-  const port = server.address().port;
+const server = PeerServer(opts, (server) => {
+  const { address: host, port } = server.address() as AddressInfo;
 
   console.log(
     "Started PeerServer on %s, port: %s, path: %s (v. %s)",
-    host, port, userPath || "/", version
+    host,
+    port,
+    userPath || "/",
+    version
   );
 
   const shutdownApp = () => {
     server.close(() => {
-      console.log('Http server closed.');
+      console.log("Http server closed.");
 
       process.exit(0);
     });
   };
 
-  process.on('SIGINT', shutdownApp);
-  process.on('SIGTERM', shutdownApp);
+  process.on("SIGINT", shutdownApp);
+  process.on("SIGTERM", shutdownApp);
 });
 
-server.on("connection", client => {
+server.on("connection", (client) => {
   console.log(`Client connected: ${client.getId()}`);
 });
 
-server.on("disconnect", client => {
+server.on("disconnect", (client) => {
   console.log(`Client disconnected: ${client.getId()}`);
 });
