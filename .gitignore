@@ -1,4 +1,4 @@
-lib-cov
+.nyc_output
 *.seed
 *.log
 *.csv
