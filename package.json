@@ -51,9 +51,9 @@
     "build": "parcel build",
     "lint": "eslint --ext .js,.ts . && npm run check",
     "check": "tsc --noEmit",
-    "test": "npm run lint && mocha \"test/**/*\"",
-    "coverage": "nyc mocha \"test/**/*\"",
-    "coverage:lcov": "nyc --reporter=lcov mocha \"test/**/*\"",
+    "test": "npm run lint && mocha",
+    "coverage": "nyc mocha",
+    "coverage:lcov": "nyc --reporter=lcov mocha",
     "start": "dist/bin/peerjs.js --port ${PORT:=9000}",
     "dev": "nodemon --watch src -e ts --exec npm run start",
     "semantic-release": "semantic-release"
