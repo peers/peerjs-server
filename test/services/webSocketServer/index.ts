@@ -10,7 +10,6 @@ type Destroyable<T> = T & { destroy?: () => Promise<void>; };
 const checkOpen = async (c: WebSocket): Promise<boolean> => {
   return new Promise(resolve => {
     c.onmessage = (event: object & { data?: string; }): void => {
-      c.onmessage = null;
       const message = JSON.parse(event.data as string);
       resolve(message.type === MessageType.OPEN);
     };
@@ -22,7 +21,6 @@ const checkSequence = async (c: WebSocket, msgs: { type: MessageType; error?: Er
     const restMessages = [...msgs];
 
     const finish = (success = false): void => {
-      c.onmessage = null;
       resolve(success);
     };
 
@@ -57,7 +55,7 @@ const createTestServer = ({ realm, config, url }: { realm: Realm; config: { path
   const server = new Server(url);
   const webSocketServer: Destroyable<WebSocketServer> = new WebSocketServer({ server, realm, config });
 
-  server.on('connection', (socket: WebSocket & { on?: (eventName: string, callback: () => void) => void; }) => {
+  server.on('connection', (socket) => {
     const s = webSocketServer.socketServer;
     s.emit('connection', socket, { url: socket.url });
 
@@ -149,7 +147,8 @@ describe('WebSocketServer', () => {
     const fakeURL = 'ws://localhost:8080/peerjs';
 
     const createClient = (id: string): Destroyable<WebSocket> => {
-      const url = `${fakeURL}?key=${config.key}&id=${id}&token=${id}`;
+      // id in the path ensures that all mock servers listen on different urls
+      const url = `${fakeURL}${id}?key=${config.key}&id=${id}&token=${id}`;
       const webSocketServer = createTestServer({ url, realm, config });
       const ws: Destroyable<WebSocket> = new WebSocket(url);
 
