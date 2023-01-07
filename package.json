@@ -1,31 +1,43 @@
 {
   "name": "peer",
   "version": "0.0.0-development",
-  "description": "PeerJS server component",
-  "main": "dist/src/index.js",
-  "bin": {
-    "peerjs": "./bin/peerjs"
-  },
   "keywords": [
     "peerjs",
     "webrtc",
-    "signaling"
+    "p2p",
+    "rtc"
   ],
-  "files": [
-    "bin/",
-    "dist/",
-    "index.d.ts"
-  ],
-  "homepage": "https://github.com/peers/peerjs-server#readme",
+  "description": "PeerJS server component",
+  "homepage": "https://peerjs.com",
   "bugs": {
     "url": "https://github.com/peers/peerjs-server/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/peers/peerjs-server.git"
+    "url": "https://github.com/peers/peerjs-server"
   },
-  "author": "Michelle Bu, Eric Zhang, Alex Sosnovskiy",
   "license": "MIT",
+  "contributors": [],
+  "main": "dist/src/index.js",
+  "bin": {
+    "peerjs": "./bin/peerjs"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/peer"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/peer"
+  },
+  "files": [
+    "bin/",
+    "dist/",
+    "index.d.ts"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "preversion": "npm run clean && npm run build",
     "build": "tsc",
@@ -72,8 +84,5 @@
     "source-map-support": "^0.5.21",
     "ts-node": "^8.10.2",
     "typescript": "^4.1.2"
-  },
-  "engines": {
-    "node": ">=14"
   }
 }
