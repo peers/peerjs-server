@@ -1,4 +1,5 @@
 .nyc_output
+coverage
 *.seed
 *.log
 *.csv

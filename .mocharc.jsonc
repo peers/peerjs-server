@@ -1,0 +1,5 @@
+{
+	"$schema": "https://json.schemastore.org/mocharc",
+	"require": "source-map-support/register",
+	"require": "ts-node/register"
+}
