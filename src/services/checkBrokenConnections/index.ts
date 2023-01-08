@@ -1,6 +1,6 @@
-import { IConfig } from "../../config";
-import { IClient } from "../../models/client";
-import { IRealm } from "../../models/realm";
+import type {IConfig} from "../../config";
+import type {IClient} from "../../models/client";
+import type {IRealm} from "../../models/realm";
 
 const DEFAULT_CHECK_INTERVAL = 300;
 

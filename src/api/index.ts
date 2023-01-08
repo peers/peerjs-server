@@ -1,9 +1,9 @@
 import cors from "cors";
 import express from "express";
 import publicContent from "../../app.json";
-import { IConfig } from "../config";
-import { IRealm } from "../models/realm";
 import PublicApi from "./v1/public";
+import type {IConfig} from "../config";
+import type {IRealm} from "../models/realm";
 
 export const Api = ({ config, realm }: {
   config: IConfig;

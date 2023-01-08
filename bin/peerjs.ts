@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import path from "path";
+import path from "node:path";
 import {version} from "../package.json";
-import fs from "fs";
+import fs from "node:fs";
 const optimistUsageLength = 98;
 import yargs from "yargs";
 import { PeerServer } from "../src";
-import { AddressInfo } from "net";
+import { AddressInfo } from "node:net";
 const opts =  yargs
   .usage("Usage: $0")
   .wrap(Math.min(optimistUsageLength, yargs.terminalWidth()))
@@ -74,7 +74,7 @@ const opts =  yargs
       default: false,
     },
   })
-  .boolean("allow_discovery").argv;
+  .boolean("allow_discovery").parseSync();
 
 process.on("uncaughtException", function (e) {
   console.error("Error: " + e);

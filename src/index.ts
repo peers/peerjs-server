@@ -1,16 +1,18 @@
 import express from "express";
-import http from "http";
-import https from "https";
-import { Server } from "net";
+import http from "node:http";
+import https from "node:https";
+import {Server as HttpServer} from "node:http";
+import {Server as HttpsServer} from "node:https";
+import type {Express} from 'express-serve-static-core';
 
-import defaultConfig, { IConfig } from "./config";
-import { createInstance } from "./instance";
+import type {IConfig} from "./config";
+import defaultConfig from "./config";
+import type {PeerServerEvents} from "./instance";
+import {createInstance} from "./instance";
 
-type Optional<T> = {
-  [P in keyof T]?: (T[P] | undefined);
-};
+export type {MessageType} from "./enums"
 
-function ExpressPeerServer(server: Server, options?: IConfig) {
+function ExpressPeerServer(server: HttpsServer | HttpServer, options?: Partial<IConfig>) {
   const app = express();
 
   const newOptions: IConfig = {
@@ -31,10 +33,10 @@ function ExpressPeerServer(server: Server, options?: IConfig) {
     createInstance({ app, server, options: newOptions });
   });
 
-  return app;
+	return app as Express & PeerServerEvents
 }
 
-function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server) => void) {
+function PeerServer(options: Partial<IConfig> = {}, callback?: (server: HttpsServer | HttpServer) => void) {
   const app = express();
 
   let newOptions: IConfig = {
@@ -45,7 +47,7 @@ function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server)
   const port = newOptions.port;
   const host = newOptions.host;
 
-  let server: Server;
+  let server: HttpsServer | HttpServer;
 
   const { ssl, ...restOptions } = newOptions;
   if (ssl && Object.keys(ssl).length) {

@@ -14,7 +14,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "resolveJsonModule": true,
-        "skipLibCheck": true,
+        "skipLibCheck": false,
         "sourceMap": true,
         "outDir": "dist"
     },
