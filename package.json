@@ -1,54 +1,73 @@
 {
   "name": "peer",
   "version": "0.0.0-development",
-  "description": "PeerJS server component",
-  "main": "dist/src/index.js",
-  "bin": {
-    "peerjs": "./bin/peerjs"
-  },
   "keywords": [
     "peerjs",
     "webrtc",
-    "signaling"
+    "p2p",
+    "rtc"
   ],
-  "files": [
-    "bin/",
-    "dist/",
-    "index.d.ts"
-  ],
-  "homepage": "https://github.com/peers/peerjs-server#readme",
+  "description": "PeerJS server component",
+  "homepage": "https://peerjs.com",
   "bugs": {
     "url": "https://github.com/peers/peerjs-server/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/peers/peerjs-server.git"
+    "url": "https://github.com/peers/peerjs-server"
   },
-  "author": "Michelle Bu, Eric Zhang, Alex Sosnovskiy",
   "license": "MIT",
+  "contributors": [],
+  "main": "dist/index.js",
+  "module": "dist/module.js",
+  "source": "src/index.ts",
+  "binary": "dist/bin/peerjs.js",
+  "types": "dist/peer.d.ts",
+  "bin": {
+    "peerjs": "dist/bin/peerjs.js"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/peer"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/peer"
+  },
+  "files": [
+    "dist/"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "targets": {
+    "binary": {
+      "source": "bin/peerjs.ts"
+    },
+    "main": {},
+    "module": {}
+  },
   "scripts": {
-    "preversion": "npm run clean && npm run build",
-    "build": "tsc",
-    "clean": "rimraf ./dist",
-    "lint": "eslint --ext .js,.ts .",
-    "tsc": "tsc",
-    "prebuild": "npm run lint",
-    "test": "npm run lint && mocha \"test/**/*\"",
-    "coverage": "nyc mocha \"test/**/*\"",
-    "coverage:lcov": "nyc --reporter=lcov mocha \"test/**/*\"",
-    "start": "bin/peerjs --port ${PORT:=9000}",
-    "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts --exec npm run dev:start",
+    "build": "parcel build",
+    "lint": "eslint --ext .js,.ts . && npm run check",
+    "check": "tsc --noEmit",
+    "test": "npm run lint && mocha",
+    "coverage": "nyc mocha",
+    "coverage:lcov": "nyc --reporter=lcov mocha",
+    "start": "dist/bin/peerjs.js --port ${PORT:=9000}",
+    "dev": "nodemon --watch src -e ts --exec npm run start",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "ws": "^7.2.3",
-    "yargs": "^15.3.1"
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@parcel/packager-ts": "^2.8.2",
+    "@parcel/transformer-typescript-types": "^2.8.2",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@types/chai": "^4.2.11",
@@ -57,6 +76,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.18.33",
     "@types/ws": "^7.2.3",
+    "@types/yargs": "^17.0.19",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "chai": "^4.2.0",
@@ -64,16 +84,11 @@
     "mocha": "^10.1.0",
     "mock-socket": "^9.1.5",
     "nodemon": "^2.0.20",
-    "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
-    "rimraf": "^3.0.2",
+    "parcel": "^2.8.2",
     "semantic-release": "^19.0.5",
-    "sinon": "^7.5.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^8.10.2",
     "typescript": "^4.1.2"
-  },
-  "engines": {
-    "node": ">=14"
   }
 }

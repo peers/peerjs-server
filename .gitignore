@@ -8,6 +8,7 @@ coverage
 *.pid
 *.gz
 
+.parcel-cache
 dist
 pids
 logs

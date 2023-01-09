@@ -35,7 +35,7 @@ describe('Check bin/peerjs', () => {
       rejecter = reject;
     });
 
-    const ls = spawn('node', [path.join(__dirname, '../', 'bin/peerjs'), '--port', PORT]);
+    const ls = spawn('node', [path.join(__dirname, '../', 'dist/bin/peerjs.js'), '--port', PORT]);
 
     ls.stdout.on('data', async (data: string) => {
       if (!data.includes('Started')) return;
