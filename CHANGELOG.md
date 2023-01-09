@@ -1,3 +1,15 @@
+# [1.0.0-rc.5](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.4...v1.0.0-rc.5) (2023-01-09)
+
+
+### Bug Fixes
+
+* more accurate types ([68f973a](https://github.com/peers/peerjs-server/commit/68f973afb44a1f71c9fd9a644602312d8ceda5cf)), closes [#182](https://github.com/peers/peerjs-server/issues/182)
+
+
+### Features
+
+* ESM support ([2b73b5c](https://github.com/peers/peerjs-server/commit/2b73b5c97de4a366d6635719891b65d5f9878628))
+
 # [1.0.0-rc.4](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2022-11-17)
 
 
