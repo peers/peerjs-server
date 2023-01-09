@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { Server, WebSocket } from 'mock-socket';
+import type {Server as HttpServer} from 'node:http';
 import { Realm } from '../../../src/models/realm';
 import { WebSocketServer } from '../../../src/services/webSocketServer';
 import { Errors, MessageType } from '../../../src/enums';
@@ -10,7 +11,6 @@ type Destroyable<T> = T & { destroy?: () => Promise<void>; };
 const checkOpen = async (c: WebSocket): Promise<boolean> => {
   return new Promise(resolve => {
     c.onmessage = (event: object & { data?: string; }): void => {
-      c.onmessage = null;
       const message = JSON.parse(event.data as string);
       resolve(message.type === MessageType.OPEN);
     };
@@ -22,7 +22,6 @@ const checkSequence = async (c: WebSocket, msgs: { type: MessageType; error?: Er
     const restMessages = [...msgs];
 
     const finish = (success = false): void => {
-      c.onmessage = null;
       resolve(success);
     };
 
@@ -54,7 +53,7 @@ const checkSequence = async (c: WebSocket, msgs: { type: MessageType; error?: Er
 };
 
 const createTestServer = ({ realm, config, url }: { realm: Realm; config: { path: string; key: string; concurrent_limit: number; }; url: string; }): Destroyable<WebSocketServer> => {
-  const server = new Server(url);
+  const server = new Server(url) as Server & HttpServer;
   const webSocketServer: Destroyable<WebSocketServer> = new WebSocketServer({ server, realm, config });
 
   server.on('connection', (socket: WebSocket & { on?: (eventName: string, callback: () => void) => void; }) => {
@@ -103,8 +102,8 @@ describe('WebSocketServer', () => {
     const realm = new Realm();
     const config = { path: '/', key: 'testKey', concurrent_limit: 1 };
     const config2 = { ...config, path: 'path' };
-    const server = new Server('path1');
-    const server2 = new Server('path2');
+    const server = new Server('path1') as Server & HttpServer;
+    const server2 = new Server('path2') as Server & HttpServer;
 
     const webSocketServer = new WebSocketServer({ server, realm, config });
 
@@ -149,18 +148,19 @@ describe('WebSocketServer', () => {
     const fakeURL = 'ws://localhost:8080/peerjs';
 
     const createClient = (id: string): Destroyable<WebSocket> => {
-      const url = `${fakeURL}?key=${config.key}&id=${id}&token=${id}`;
+      // id in the path ensures that all mock servers listen on different urls
+      const url = `${fakeURL}${id}?key=${config.key}&id=${id}&token=${id}`;
       const webSocketServer = createTestServer({ url, realm, config });
       const ws: Destroyable<WebSocket> = new WebSocket(url);
 
       ws.destroy = async (): Promise<void> => {
         ws.close();
 
-        wait(10);
+         wait(10);
 
-        webSocketServer.destroy?.();
+         webSocketServer.destroy?.();
 
-        wait(10);
+         wait(10);
 
         ws.destroy = undefined;
       };

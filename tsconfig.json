@@ -3,6 +3,7 @@
         "lib": [
             "esnext"
         ],
+		"noEmit": true,
         "target": "es2016",
         "module": "commonjs",
         "strict": true,
@@ -13,8 +14,8 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "sourceMap": false,
+        "skipLibCheck": false,
+        "sourceMap": true,
         "outDir": "dist"
     },
     "include": [

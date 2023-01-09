@@ -1,7 +1,7 @@
-import { IConfig } from "../../config";
-import { MessageType } from "../../enums";
-import { IMessageHandler } from "../../messageHandler";
-import { IRealm } from "../../models/realm";
+import {MessageType} from "../../enums";
+import type {IConfig} from "../../config";
+import type {IMessageHandler} from "../../messageHandler";
+import type {IRealm} from "../../models/realm";
 
 export interface IMessagesExpire {
   startMessagesExpiration(): void;

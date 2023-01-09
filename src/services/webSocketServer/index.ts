@@ -1,12 +1,15 @@
-import EventEmitter from "events";
-import { IncomingMessage } from "http";
-import url from "url";
-import WebSocketLib from "ws";
-import { IConfig } from "../../config";
-import { Errors, MessageType } from "../../enums";
-import { Client, IClient } from "../../models/client";
-import { IRealm } from "../../models/realm";
+import {EventEmitter} from "node:events";
+import {IncomingMessage} from "node:http";
+import url from "node:url";
 import type WebSocket from "ws";
+import * as WebSocketLib from "ws";
+import {Errors, MessageType} from "../../enums";
+import type {IClient} from "../../models/client";
+import {Client} from "../../models/client";
+import type {IConfig} from "../../config";
+import type {IRealm} from "../../models/realm";
+import {Server as HttpServer} from "node:http";
+import {Server as HttpsServer} from "node:https";
 
 export interface IWebSocketServer extends EventEmitter {
   readonly path: string;
@@ -18,7 +21,7 @@ interface IAuthParams {
   key?: string;
 }
 
-type CustomConfig = Pick<IConfig, 'path' | 'key' | 'concurrent_limit'>;
+type CustomConfig = Pick<IConfig, 'path' | 'key' | 'concurrent_limit' | 'createWebSocketServer'>;
 
 const WS_PATH = 'peerjs';
 
@@ -29,7 +32,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
   private readonly config: CustomConfig;
   public readonly socketServer: WebSocketLib.Server;
 
-  constructor({ server, realm, config }: { server: any; realm: IRealm; config: CustomConfig; }) {
+  constructor({ server, realm, config }: { server: HttpServer | HttpsServer; realm: IRealm; config: CustomConfig; }) {
     super();
 
     this.setMaxListeners(0);
@@ -40,7 +43,16 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     const path = this.config.path;
     this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
 
-    this.socketServer = new WebSocketLib.Server({ path: this.path, server });
+    const options: WebSocketLib.ServerOptions = {
+      path: this.path,
+      server,
+    };
+
+    this.socketServer = (
+        config.createWebSocketServer ?
+            config.createWebSocketServer(options) :
+            new WebSocketLib.Server(options)
+    );
 
     this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));

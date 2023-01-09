@@ -1,4 +1,5 @@
-lib-cov
+.nyc_output
+coverage
 *.seed
 *.log
 *.csv
@@ -7,6 +8,7 @@ lib-cov
 *.pid
 *.gz
 
+.parcel-cache
 dist
 pids
 logs
