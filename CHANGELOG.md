@@ -1,3 +1,10 @@
+# [1.0.0-rc.6](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.5...v1.0.0-rc.6) (2023-01-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ws to v8 ([1ecc94b](https://github.com/peers/peerjs-server/commit/1ecc94b887d23ac59b3622a2fefc9fdab24f170f))
+
 # [1.0.0-rc.5](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.4...v1.0.0-rc.5) (2023-01-09)
 
 
