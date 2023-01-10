@@ -55,7 +55,7 @@
     "coverage": "nyc mocha",
     "coverage:lcov": "nyc --reporter=lcov mocha",
     "start": "node dist/bin/peerjs.js --port ${PORT:=9000}",
-    "dev": "nodemon --watch src -e ts --exec npm run start",
+    "dev": "nodemon --watch src -e ts --exec 'npm run build && npm run start'",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
