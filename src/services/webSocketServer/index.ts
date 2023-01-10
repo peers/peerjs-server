@@ -130,9 +130,9 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     });
 
     // Handle messages from peers.
-    socket.on("message", (data: WebSocketLib.Data) => {
+    socket.on("message", (data) => {
       try {
-        const message = JSON.parse(data as string);
+        const message = JSON.parse(data.toString());
 
         message.src = client.getId();
 

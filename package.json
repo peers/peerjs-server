@@ -55,13 +55,13 @@
     "coverage": "nyc mocha",
     "coverage:lcov": "nyc --reporter=lcov mocha",
     "start": "node dist/bin/peerjs.js --port ${PORT:=9000}",
-    "dev": "nodemon --watch src -e ts --exec npm run start",
+    "dev": "nodemon --watch src -e ts --exec 'npm run build && npm run start'",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "ws": "^7.2.3",
+    "ws": "^7.2.3 || ^8.0.0",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
@@ -73,14 +73,14 @@
     "@types/chai": "^4.2.11",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.3",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^14.18.33",
-    "@types/ws": "^7.2.3",
+    "@types/ws": "^7.2.3 || ^8.0.0",
     "@types/yargs": "^17.0.19",
-    "@typescript-eslint/eslint-plugin": "^2.24.0",
-    "@typescript-eslint/parser": "^2.24.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "chai": "^4.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^8.0.0",
     "mocha": "^10.1.0",
     "mock-socket": "^9.1.5",
     "nodemon": "^2.0.20",
@@ -88,7 +88,7 @@
     "parcel": "^2.8.2",
     "semantic-release": "^19.0.5",
     "source-map-support": "^0.5.21",
-    "ts-node": "^8.10.2",
+    "ts-node": "^10.0.0",
     "typescript": "^4.1.2"
   }
 }

@@ -1,8 +1,6 @@
 import express from "express";
 import http from "node:http";
 import https from "node:https";
-import {Server as HttpServer} from "node:http";
-import {Server as HttpsServer} from "node:https";
 import type {Express} from 'express-serve-static-core';
 
 import type {IConfig} from "./config";
@@ -12,7 +10,7 @@ import {createInstance} from "./instance";
 
 export type {MessageType} from "./enums"
 
-function ExpressPeerServer(server: HttpsServer | HttpServer, options?: Partial<IConfig>) {
+function ExpressPeerServer(server: https.Server | http.Server, options?: Partial<IConfig>) {
   const app = express();
 
   const newOptions: IConfig = {
@@ -36,7 +34,7 @@ function ExpressPeerServer(server: HttpsServer | HttpServer, options?: Partial<I
 	return app as Express & PeerServerEvents
 }
 
-function PeerServer(options: Partial<IConfig> = {}, callback?: (server: HttpsServer | HttpServer) => void) {
+function PeerServer(options: Partial<IConfig> = {}, callback?: (server: https.Server | http.Server) => void) {
   const app = express();
 
   let newOptions: IConfig = {
@@ -47,7 +45,7 @@ function PeerServer(options: Partial<IConfig> = {}, callback?: (server: HttpsSer
   const port = newOptions.port;
   const host = newOptions.host;
 
-  let server: HttpsServer | HttpServer;
+  let server: https.Server | http.Server;
 
   const { ssl, ...restOptions } = newOptions;
   if (ssl && Object.keys(ssl).length) {
