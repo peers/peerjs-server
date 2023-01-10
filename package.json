@@ -80,7 +80,7 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "chai": "^4.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^8.0.0",
     "mocha": "^10.1.0",
     "mock-socket": "^9.1.5",
     "nodemon": "^2.0.20",
