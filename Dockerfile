@@ -1,10 +1,17 @@
-FROM node:alpine
+FROM node:18.13.0 as build
 RUN mkdir /peer-server
 WORKDIR /peer-server
-COPY bin ./bin
-COPY dist ./dist
-COPY package.json .
-RUN npm install --production
+COPY package.json package-lock.json ./
+RUN npm clean-install
+COPY . ./
+RUN npm run build
+
+FROM node:18.13.0-alpine as production
+RUN mkdir /peer-server
+WORKDIR /peer-server
+COPY package.json package-lock.json ./
+RUN npm clean-install --omit=dev
+COPY --from=build /peer-server/dist/bin/peerjs.js ./
 EXPOSE 9000
-ENTRYPOINT ["node", "bin/peerjs"]
-CMD [ "--port", "9000", "--path", "/myapp" ]
+ENTRYPOINT ["node", "peerjs.js"]
+CMD [ "--port", "9000" ]
