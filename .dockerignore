@@ -1,0 +1,6 @@
+.git
+.nyc_output
+.parcel-cache
+coverage
+dist
+node_modules
