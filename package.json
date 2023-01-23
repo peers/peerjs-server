@@ -35,7 +35,7 @@
     "url": "https://opencollective.com/peer"
   },
   "files": [
-    "dist/*"
+    "dist/"
   ],
   "engines": {
     "node": ">=14"
