@@ -1,3 +1,10 @@
+# [1.0.0-rc.8](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.7...v1.0.0-rc.8) (2023-01-23)
+
+
+### Bug Fixes
+
+* force new version ([26877ca](https://github.com/peers/peerjs-server/commit/26877caac26ccfd9541624ca68b58488c70e05c0))
+
 # [1.0.0-rc.7](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.6...v1.0.0-rc.7) (2023-01-23)
 
 
