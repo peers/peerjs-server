@@ -1,14 +1,16 @@
-import express from "express";
+import express, {type Express} from "express";
 import http from "node:http";
 import https from "node:https";
-import type {Express} from 'express-serve-static-core';
 
 import type {IConfig} from "./config";
 import defaultConfig from "./config";
 import type {PeerServerEvents} from "./instance";
 import {createInstance} from "./instance";
+import type { IClient } from "./models/client";
+import type { IMessage } from "./models/message";
 
 export type {MessageType} from "./enums"
+export type {IConfig, PeerServerEvents, IClient, IMessage}
 
 function ExpressPeerServer(server: https.Server | http.Server, options?: Partial<IConfig>) {
   const app = express();

@@ -61,7 +61,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "@types/express": "^4.17.3",
     "ws": "^7.2.3 || ^8.0.0",
+    "@types/ws": "^7.2.3 || ^8.0.0",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
@@ -72,10 +74,8 @@
     "@semantic-release/git": "^10.0.1",
     "@types/chai": "^4.2.11",
     "@types/cors": "^2.8.6",
-    "@types/express": "^4.17.3",
     "@types/mocha": "^10.0.0",
     "@types/node": "^14.18.33",
-    "@types/ws": "^7.2.3 || ^8.0.0",
     "@types/yargs": "^17.0.19",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
