@@ -59,14 +59,15 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
+    "@types/express": "^4.17.3",
+    "@types/ws": "^7.2.3 || ^8.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "@types/express": "^4.17.3",
     "ws": "^7.2.3 || ^8.0.0",
-    "@types/ws": "^7.2.3 || ^8.0.0",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
+    "@codedependant/semantic-release-docker": "^4.3.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@parcel/packager-ts": "^2.8.2",
     "@parcel/transformer-typescript-types": "^2.8.2",
