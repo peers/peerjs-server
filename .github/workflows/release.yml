@@ -19,6 +19,8 @@ jobs:
           node-version: "lts/*"
       - name: Install dependencies
         run: npm ci
+      - name: Build
+        run: npm run build
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
