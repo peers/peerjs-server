@@ -1,3 +1,10 @@
+# [1.0.0-rc.7](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.6...v1.0.0-rc.7) (2023-01-23)
+
+
+### Bug Fixes
+
+* empty npm package ([f4c359a](https://github.com/peers/peerjs-server/commit/f4c359a351e115ba91742b4d703d9d94ec7d395e)), closes [#318](https://github.com/peers/peerjs-server/issues/318)
+
 # [1.0.0-rc.6](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.5...v1.0.0-rc.6) (2023-01-10)
 
 
