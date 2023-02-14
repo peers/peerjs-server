@@ -1,6 +1,6 @@
 {
   "name": "peer",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.9",
   "keywords": [
     "peerjs",
     "webrtc",
@@ -25,9 +25,9 @@
         "types": "./dist/peer.d.ts",
         "default": "./dist/module.mjs"
       },
-      "require":{
+      "require": {
         "types": "./dist/peer.d.ts",
-        "default":  "./dist/index.cjs"
+        "default": "./dist/index.cjs"
       }
     }
   },
