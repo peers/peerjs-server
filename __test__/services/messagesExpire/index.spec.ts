@@ -1,7 +1,8 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import { Client } from '../../../src/models/client';
 import { Realm } from '../../../src/models/realm';
-import { IMessage } from '../../../src/models/message';
+import type { IMessage } from '../../../src/models/message';
 import { MessagesExpire } from '../../../src/services/messagesExpire';
 import { MessageHandler } from '../../../src/messageHandler';
 import { MessageType } from '../../../src/enums';
@@ -33,11 +34,11 @@ describe('MessagesExpire', () => {
 
     await wait(checkInterval * 2);
 
-    expect(realm.getMessageQueueById(client.getId())?.getMessages().length).to.be.eq(1);
+    expect(realm.getMessageQueueById(client.getId())?.getMessages().length).toBe(1);
 
     await wait(expireTimeout);
 
-    expect(realm.getMessageQueueById(client.getId())).to.be.undefined;
+    expect(realm.getMessageQueueById(client.getId())).toBeUndefined();
 
     messagesExpire.stopMessagesExpiration();
   });
@@ -59,8 +60,8 @@ describe('MessagesExpire', () => {
     let handledCount = 0;
 
     messageHandler.handle = (client, message): boolean => {
-      expect(client).to.be.undefined;
-      expect(message.type).to.be.eq(MessageType.EXPIRE);
+      expect(client).toBeUndefined();
+      expect(message.type).toBe(MessageType.EXPIRE);
 
       handledCount++;
 
@@ -72,7 +73,7 @@ describe('MessagesExpire', () => {
     await wait(checkInterval * 2);
     await wait(expireTimeout);
 
-    expect(handledCount).to.be.eq(2);
+    expect(handledCount).toBe(2);
 
     messagesExpire.stopMessagesExpiration();
   });

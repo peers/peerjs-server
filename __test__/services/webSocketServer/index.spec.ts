@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import { Server, WebSocket } from 'mock-socket';
 import type {Server as HttpServer} from 'node:http';
 import { Realm } from '../../../src/models/realm';
@@ -107,11 +108,11 @@ describe('WebSocketServer', () => {
 
     const webSocketServer = new WebSocketServer({ server, realm, config });
 
-    expect(webSocketServer.path).to.be.eq('/peerjs');
+    expect(webSocketServer.path).toBe('/peerjs');
 
     const webSocketServer2 = new WebSocketServer({ server: server2, realm, config: config2 });
 
-    expect(webSocketServer2.path).to.be.eq('path/peerjs');
+    expect(webSocketServer2.path).toBe('path/peerjs');
 
     server.stop();
     server2.stop();
@@ -136,10 +137,10 @@ describe('WebSocketServer', () => {
       return errorSent;
     };
 
-    expect(await getError(fakeURL)).to.be.true;
-    expect(await getError(`${fakeURL}?key=${config.key}`)).to.be.true;
-    expect(await getError(`${fakeURL}?key=${config.key}&id=1`)).to.be.true;
-    expect(await getError(`${fakeURL}?key=notValidKey&id=userId&token=userToken`, Errors.INVALID_KEY)).to.be.true;
+    expect(await getError(fakeURL)).toBe(true);
+    expect(await getError(`${fakeURL}?key=${config.key}`)).toBe(true);
+    expect(await getError(`${fakeURL}?key=${config.key}&id=1`)).toBe(true);
+    expect(await getError(`${fakeURL}?key=notValidKey&id=userId&token=userToken`, Errors.INVALID_KEY)).toBe(true);
   });
 
   it(`should check concurrent limit`, async () => {
@@ -171,24 +172,24 @@ describe('WebSocketServer', () => {
 
     const c1 = createClient('1');
 
-    expect(await checkOpen(c1)).to.be.true;
+    expect(await checkOpen(c1)).toBe(true);
 
     const c2 = createClient('2');
 
     expect(await checkSequence(c2, [
       { type: MessageType.ERROR, error: Errors.CONNECTION_LIMIT_EXCEED }
-    ])).to.be.true;
+    ])).toBe(true);
 
     await c1.destroy?.();
     await c2.destroy?.();
 
     await wait(10);
 
-    expect(realm.getClientsIds().length).to.be.eq(0);
+    expect(realm.getClientsIds().length).toBe(0);
 
     const c3 = createClient('3');
 
-    expect(await checkOpen(c3)).to.be.true;
+    expect(await checkOpen(c3)).toBe(true);
 
     await c3.destroy?.();
   });

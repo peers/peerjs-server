@@ -1,6 +1,7 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import { HandlersRegistry } from '../../src/messageHandler/handlersRegistry';
-import { Handler } from '../../src/messageHandler/handler';
+import type { Handler } from '../../src/messageHandler/handler';
 import { MessageType } from '../../src/enums';
 
 describe('HandlersRegistry', () => {
@@ -18,6 +19,6 @@ describe('HandlersRegistry', () => {
 
     handlersRegistry.handle(undefined, { type: MessageType.OPEN, src: 'src', dst: 'dst' });
 
-    expect(handled).to.be.true;
+    expect(handled).toBe(true);
   });
 });

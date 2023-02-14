@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import http from 'http';
 import expectedJson from '../app.json';
 import { spawn } from 'child_process';
@@ -27,7 +28,8 @@ async function makeRequest() {
 }
 
 describe('Check bin/peerjs', () => {
-  it('should return content of app.json file', async () => {
+	it('should return content of app.json file', async () => {
+		expect.assertions(1);
     let resolver: () => void;
     let rejecter: (err: unknown) => void;
     const promise = new Promise<void>((resolve, reject) => {
@@ -36,18 +38,17 @@ describe('Check bin/peerjs', () => {
     });
 
     const ls = spawn('node', [path.join(__dirname, '../', 'dist/bin/peerjs.js'), '--port', PORT]);
-
-    ls.stdout.on('data', async (data: string) => {
+      ls.stdout.on('data', async (data: string) => {
       if (!data.includes('Started')) return;
 
       try {
         const resp = await makeRequest();
-        expect(resp).to.deep.eq(expectedJson);
+        expect(resp).toEqual(expectedJson);
         resolver();
       } catch (error) {
         rejecter(error);
       } finally {
-        ls.kill('SIGINT');
+        ls.kill('SIGKILL');
       }
     });
 

@@ -9,7 +9,8 @@
         "exactOptionalPropertyTypes": false
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "__test__/**/*"
     ],
     "exclude": [
         "test",

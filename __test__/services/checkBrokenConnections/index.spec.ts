@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import { Client } from '../../../src/models/client';
 import { Realm } from '../../../src/models/realm';
 import { CheckBrokenConnections } from '../../../src/services/checkBrokenConnections';
@@ -16,7 +17,7 @@ describe('CheckBrokenConnections', () => {
 
         await wait(checkBrokenConnections.checkInterval * 2 + 30);
 
-        expect(realm.getClientById('id')).to.be.undefined;
+        expect(realm.getClientById('id')).toBeUndefined();
 
         checkBrokenConnections.stop();
     });
@@ -37,7 +38,7 @@ describe('CheckBrokenConnections', () => {
 
         await wait(checkBrokenConnections.checkInterval * 2 + 10);
 
-        expect(realm.getClientById('id')).to.be.undefined;
+        expect(realm.getClientById('id')).toBeUndefined();
 
         checkBrokenConnections.stop();
     });
