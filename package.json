@@ -61,6 +61,7 @@
     "module": {}
   },
   "scripts": {
+    "format": "prettier --write .",
     "build": "parcel build",
     "lint": "eslint --ext .js,.ts . && npm run check",
     "check": "tsc --noEmit",
@@ -98,6 +99,7 @@
     "jest": "^29.4.2",
     "mock-socket": "^9.1.5",
     "parcel": "^2.8.2",
+    "prettier": "^2.8.4",
     "semantic-release": "^20.0.0",
     "typescript": "^4.1.2"
   }

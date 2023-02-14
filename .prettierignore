@@ -1,0 +1,5 @@
+dist
+coverage
+
+# semantic-release
+CHANGELOG.md
