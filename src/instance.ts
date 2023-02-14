@@ -52,7 +52,7 @@ export const createInstance = ({ app, server, options }: {
     config: customConfig
   });
 
-  wss.on("connection", (client: IClient) => {
+  wss.on("connection", (client: IClient, realm: IRealm) => {
     const messageQueue = realm.getMessageQueueById(client.getId());
 
     if (messageQueue) {
@@ -72,7 +72,7 @@ export const createInstance = ({ app, server, options }: {
     messageHandler.handle(client, message);
   });
 
-  wss.on("close", (client: IClient) => {
+  wss.on("close", (client: IClient, realm: IRealm) => {
     app.emit("disconnect", client);
   });
 
