@@ -1,15 +1,15 @@
 import {EventEmitter} from "node:events";
-import {IncomingMessage} from "node:http";
+import type {IncomingMessage} from "node:http";
 import url from "node:url";
 import type WebSocket from "ws";
-import * as WebSocketLib from "ws";
 import {Errors, MessageType} from "../../enums";
 import type {IClient} from "../../models/client";
 import {Client} from "../../models/client";
 import type {IConfig} from "../../config";
 import type {IRealm} from "../../models/realm";
-import {Server as HttpServer} from "node:http";
-import {Server as HttpsServer} from "node:https";
+import {WebSocketServer as Server} from "ws";
+import type {Server as HttpServer} from "node:http";
+import type {Server as HttpsServer} from "node:https";
 
 export interface IWebSocketServer extends EventEmitter {
   readonly path: string;
@@ -30,7 +30,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
   public readonly path: string;
   private readonly realm: IRealm;
   private readonly config: CustomConfig;
-  public readonly socketServer: WebSocketLib.Server;
+  public readonly socketServer: Server;
 
   constructor({ server, realm, config }: { server: HttpServer | HttpsServer; realm: IRealm; config: CustomConfig; }) {
     super();
@@ -43,7 +43,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     const path = this.config.path;
     this.path = `${path}${path.endsWith('/') ? "" : "/"}${WS_PATH}`;
 
-    const options: WebSocketLib.ServerOptions = {
+    const options: WebSocket.ServerOptions = {
       path: this.path,
       server,
     };
@@ -51,7 +51,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     this.socketServer = (
         config.createWebSocketServer ?
             config.createWebSocketServer(options) :
-            new WebSocketLib.Server(options)
+            new Server(options)
     );
 
     this.socketServer.on("connection", (socket, req) => this._onSocketConnection(socket, req));

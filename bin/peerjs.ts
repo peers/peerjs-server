@@ -5,11 +5,14 @@ import {version} from "../package.json";
 import fs from "node:fs";
 const optimistUsageLength = 98;
 import yargs from "yargs";
-import { PeerServer } from "../src";
-import { AddressInfo } from "node:net";
-const opts =  yargs
+import { PeerServer} from "../src";
+import type { AddressInfo } from "node:net";
+
+const y = yargs();
+
+const opts =  y
   .usage("Usage: $0")
-  .wrap(Math.min(optimistUsageLength, yargs.terminalWidth()))
+  .wrap(Math.min(optimistUsageLength, y.terminalWidth()))
   .options({
     expire_timeout: {
       demandOption: false,
@@ -82,13 +85,10 @@ process.on("uncaughtException", function (e) {
 
 if (opts.sslkey || opts.sslcert) {
   if (opts.sslkey && opts.sslcert) {
-    opts.ssl = {
+    opts["ssl"] = {
       key: fs.readFileSync(path.resolve(opts.sslkey)),
       cert: fs.readFileSync(path.resolve(opts.sslcert)),
     };
-
-    delete opts.sslkey;
-    delete opts.sslcert;
   } else {
     console.error(
       "Warning: PeerServer will not run because either " +

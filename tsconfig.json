@@ -1,28 +1,18 @@
 {
+    "extends": "@tsconfig/node16-strictest-esm/tsconfig.json",
     "compilerOptions": {
         "lib": [
             "esnext"
         ],
-		"noEmit": true,
-        "target": "es2016",
-        "module": "commonjs",
-        "strict": true,
-        "esModuleInterop": true,
-        "downlevelIteration": true,
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noEmit": true,
         "resolveJsonModule": true,
-        "skipLibCheck": false,
-        "sourceMap": true,
-        "outDir": "dist"
+        "exactOptionalPropertyTypes": false
     },
     "include": [
-        "./src/**/*",
+        "./src/**/*"
     ],
     "exclude": [
         "test",
-        "bin",
+        "bin"
     ]
 }
