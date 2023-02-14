@@ -11,6 +11,8 @@ import type { AddressInfo } from "node:net";
 
 const y = yargs(hideBin(process.argv));
 
+const portEnvIsSet = !!process.env["PORT"]
+
 const opts =  y
   .usage("Usage: $0")
   .wrap(Math.min(optimistUsageLength, y.terminalWidth()))
@@ -56,7 +58,7 @@ const opts =  y
     },
     port: {
       type: "number",
-      demandOption: true,
+      demandOption: !portEnvIsSet,
       alias: "p",
       describe: "port",
     },
@@ -80,6 +82,9 @@ const opts =  y
   })
   .boolean("allow_discovery").parseSync();
 
+if(!opts.port){
+    opts.port= parseInt(process.env["PORT"] as string)
+}
 process.on("uncaughtException", function (e) {
   console.error("Error: " + e);
 });
