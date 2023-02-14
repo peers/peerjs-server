@@ -3,6 +3,14 @@
 
 ### Bug Fixes
 
+* import from ESM only environments ([476299e](https://github.com/peers/peerjs-server/commit/476299ed08f73e41d175d61b4281736bf8df1ea6))
+* import from ESM only environments ([993dee9](https://github.com/peers/peerjs-server/commit/993dee95a1f321322a15db6788275e39f586ed7d))
+
+# [1.0.0-rc.9](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.8...v1.0.0-rc.9) (2023-02-14)
+
+
+### Bug Fixes
+
 * import from ESM only environments ([993dee9](https://github.com/peers/peerjs-server/commit/993dee95a1f321322a15db6788275e39f586ed7d))
 
 # [1.0.0-rc.8](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.7...v1.0.0-rc.8) (2023-01-23)
