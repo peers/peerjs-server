@@ -1,7 +1,8 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import { MessageQueue } from '../../src/models/messageQueue';
 import { MessageType } from '../../src/enums';
-import { IMessage } from '../../src/models/message';
+import type { IMessage } from '../../src/models/message';
 import { wait } from '../utils';
 
 describe('MessageQueue', () => {
@@ -17,14 +18,14 @@ describe('MessageQueue', () => {
     it('should add message to queue', () => {
       const queue = new MessageQueue();
       queue.addMessage(createTestMessage());
-      expect(queue.getMessages().length).to.eq(1);
+      expect(queue.getMessages().length).toBe(1);
     });
   });
 
   describe('#readMessage', () => {
     it('should return undefined for empty queue', () => {
       const queue = new MessageQueue();
-      expect(queue.readMessage()).to.be.undefined;
+      expect(queue.readMessage()).toBeUndefined();
     });
 
     it('should return message if any exists in queue', () => {
@@ -32,8 +33,8 @@ describe('MessageQueue', () => {
       const message = createTestMessage();
       queue.addMessage(message);
 
-      expect(queue.readMessage()).to.deep.eq(message);
-      expect(queue.readMessage()).to.be.undefined;
+      expect(queue.readMessage()).toEqual(message);
+      expect(queue.readMessage()).toBeUndefined();
     });
   });
 
@@ -42,7 +43,7 @@ describe('MessageQueue', () => {
       const queue = new MessageQueue();
       const lastReadAt = queue.getLastReadAt();
       queue.readMessage();
-      expect(queue.getLastReadAt()).to.be.eq(lastReadAt);
+      expect(queue.getLastReadAt()).toBe(lastReadAt);
     });
 
     it('should be changed when read message', async () => {
@@ -52,11 +53,11 @@ describe('MessageQueue', () => {
 
       await wait(10);
 
-      expect(queue.getLastReadAt()).to.be.eq(lastReadAt);
+      expect(queue.getLastReadAt()).toBe(lastReadAt);
 
       queue.readMessage();
 
-      expect(queue.getLastReadAt()).to.be.gte(lastReadAt + 10);
+      expect(queue.getLastReadAt()).toBeGreaterThanOrEqual(lastReadAt + 10);
     });
   });
 });

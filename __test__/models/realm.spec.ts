@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import { Realm } from '../../src/models/realm';
 import { Client } from '../../src/models/client';
 
@@ -6,8 +7,8 @@ describe('Realm', () => {
   describe('#generateClientId', () => {
     it('should generate a 36-character UUID, or return function value', () => {
       const realm = new Realm();
-      expect(realm.generateClientId().length).to.eq(36);
-      expect(realm.generateClientId(() => 'abcd')).to.eq('abcd');
+      expect(realm.generateClientId().length).toBe(36);
+      expect(realm.generateClientId(() => 'abcd')).toBe('abcd');
     });
   });
 
@@ -17,7 +18,7 @@ describe('Realm', () => {
       const client = new Client({ id: 'id', token: '' });
 
       realm.setClient(client, 'id');
-      expect(realm.getClientsIds()).to.deep.eq(['id']);
+      expect(realm.getClientsIds()).toEqual(['id']);
     });
   });
 
@@ -29,7 +30,7 @@ describe('Realm', () => {
       realm.setClient(client, 'id');
       realm.removeClientById('id');
 
-      expect(realm.getClientById('id')).to.be.undefined;
+      expect(realm.getClientById('id')).toBeUndefined();
     });
   });
 
@@ -39,12 +40,12 @@ describe('Realm', () => {
       const client = new Client({ id: 'id', token: '' });
 
       realm.setClient(client, 'id');
-      expect(realm.getClientsIds()).to.deep.eq(['id']);
+      expect(realm.getClientsIds()).toEqual(['id']);
 
-      expect(realm.getClientById('id')).to.eq(client);
+      expect(realm.getClientById('id')).toBe(client);
 
       realm.removeClientById('id');
-      expect(realm.getClientsIds()).to.deep.eq([]);
+      expect(realm.getClientsIds()).toEqual([]);
     });
   });
 });

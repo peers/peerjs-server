@@ -5,10 +5,11 @@ import {version} from "../package.json";
 import fs from "node:fs";
 const optimistUsageLength = 98;
 import yargs from "yargs";
+import { hideBin } from 'yargs/helpers'
 import { PeerServer} from "../src";
 import type { AddressInfo } from "node:net";
 
-const y = yargs();
+const y = yargs(hideBin(process.argv));
 
 const opts =  y
   .usage("Usage: $0")

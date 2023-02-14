@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import { describe, expect, it } from "@jest/globals";
+
 import { Client } from '../../../../src/models/client';
 import { HeartbeatHandler } from '../../../../src/messageHandler/handlers';
 
@@ -11,6 +12,6 @@ describe('Heartbeat handler', () => {
 
         HeartbeatHandler(client);
 
-        expect(client.getLastPing()).to.be.closeTo(nowTime, 2);
+		expect(client.getLastPing()).toBeCloseTo(nowTime, 2);
     });
 });
