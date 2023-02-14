@@ -66,7 +66,7 @@ const opts =  y
       type: "string",
       demandOption: false,
       describe: "custom path",
-      default: "/",
+      default: process.env["PEERSERVER_PATH"] || "/",
     },
     allow_discovery: {
       type: "boolean",
