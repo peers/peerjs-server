@@ -1,6 +1,5 @@
-import type { Config } from "jest";
-
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
   transform: {
     "^.+\\.(t|j)sx?$": "@swc/jest",
   },
