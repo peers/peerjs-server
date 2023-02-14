@@ -22,7 +22,7 @@
                     "{{major}}.{{minor}}-{{#if prerelease.[0]}}{{prerelease.[0]}}{{else}}latest{{/if}}",
                     "{{version}}"
                 ],
-                "dockerImage": "peerjs-server-test",
+                "dockerImage": "peerjs-server",
                 "dockerFile": "Dockerfile",
                 "dockerProject": "peerjs"
             }
