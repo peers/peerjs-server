@@ -1,6 +1,0 @@
-{
-  "$schema": "https://json.schemastore.org/nycrc.json",
-  "extends": "@istanbuljs/nyc-config-typescript",
-  "all": true,
-  "include": ["src/**/*.ts"]
-}
