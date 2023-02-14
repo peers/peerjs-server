@@ -1,3 +1,12 @@
+# [1.0.0-rc.10](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.9...v1.0.0-rc.10) (2023-02-14)
+
+
+### Features
+
+* set the PEERSERVER_PATH with an environment variable ([084fb8a](https://github.com/peers/peerjs-server/commit/084fb8a4bddfcb153a4cb861ba700c8352cd4b35)), closes [#213](https://github.com/peers/peerjs-server/issues/213)
+* set the PORT with an environment variable ([68a3398](https://github.com/peers/peerjs-server/commit/68a3398f54b0f45bfe8c501c627f531980823ec1)), closes [#213](https://github.com/peers/peerjs-server/issues/213)
+* specify cors options via cli or js ([05f12cd](https://github.com/peers/peerjs-server/commit/05f12cdc562b1a5eb9481f5116da7c001105793a)), closes [#196](https://github.com/peers/peerjs-server/issues/196) [#221](https://github.com/peers/peerjs-server/issues/221)
+
 # [1.0.0-rc.9](https://github.com/peers/peerjs-server/compare/v1.0.0-rc.8...v1.0.0-rc.9) (2023-02-14)
 
 
