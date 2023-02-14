@@ -1,4 +1,5 @@
 import type {WebSocketServer, ServerOptions} from 'ws';
+import type {CorsOptions} from "cors";
 
 export interface IConfig {
   readonly host: string;
@@ -17,6 +18,7 @@ export interface IConfig {
   };
   readonly generateClientId?: () => string;
   readonly createWebSocketServer?: (options: ServerOptions) => WebSocketServer;
+  readonly corsOptions : CorsOptions;
 }
 
 const defaultConfig: IConfig = {
@@ -30,6 +32,7 @@ const defaultConfig: IConfig = {
   allow_discovery: false,
   proxied: false,
   cleanup_out_msgs: 1000,
+  corsOptions: {origin: true},
 };
 
 export default defaultConfig;

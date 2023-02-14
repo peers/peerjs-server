@@ -1,9 +1,13 @@
 /** @type {import('jest').Config} */
 const config = {
-  transform: {
-    "^.+\\.(t|j)sx?$": "@swc/jest",
-  },
-  collectCoverageFrom: ["./src/**"]
+    testEnvironment: "node",
+    transform: {
+        "^.+\\.(t|j)sx?$": "@swc/jest",
+    },
+    transformIgnorePatterns: [
+        // "node_modules"
+    ],
+    collectCoverageFrom: ["./src/**"]
 };
 
 export default config;

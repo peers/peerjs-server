@@ -8,6 +8,7 @@ import yargs from "yargs";
 import { hideBin } from 'yargs/helpers'
 import { PeerServer} from "../src";
 import type { AddressInfo } from "node:net";
+import type {CorsOptions} from "cors";
 
 const y = yargs(hideBin(process.argv));
 
@@ -73,17 +74,27 @@ const opts =  y
       demandOption: false,
       describe: "allow discovery of peers",
     },
-    proxied: {
-      type: "boolean",
-      demandOption: false,
-      describe: "Set true if PeerServer stays behind a reverse proxy",
-      default: false,
-    },
+      proxied: {
+          type: "boolean",
+          demandOption: false,
+          describe: "Set true if PeerServer stays behind a reverse proxy",
+          default: false,
+      },
+      cors: {
+          type: "string",
+          array: true,
+          describe: "Set the list of CORS origins",
+      },
   })
   .boolean("allow_discovery").parseSync();
 
 if(!opts.port){
     opts.port= parseInt(process.env["PORT"] as string)
+}
+if(opts.cors){
+    opts["corsOptions"] = {
+        origin: opts.cors
+    } satisfies CorsOptions;
 }
 process.on("uncaughtException", function (e) {
   console.error("Error: " + e);
