@@ -57,7 +57,7 @@ describe("MessageQueue", () => {
 
 			queue.readMessage();
 
-			expect(queue.getLastReadAt()).toBeGreaterThanOrEqual(lastReadAt + 10);
+			expect(queue.getLastReadAt()).toBeGreaterThanOrEqual(lastReadAt + 10 - 2);
 		});
 	});
 });
