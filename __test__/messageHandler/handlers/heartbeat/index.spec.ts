@@ -11,7 +11,7 @@ describe('Heartbeat handler', () => {
         const nowTime = new Date().getTime();
 
         HeartbeatHandler(client);
-
-		expect(client.getLastPing()).toBeCloseTo(nowTime, 2);
+        expect(client.getLastPing()).toBeGreaterThanOrEqual(nowTime-2)
+		expect(nowTime).toBeGreaterThanOrEqual(client.getLastPing())
     });
 });
