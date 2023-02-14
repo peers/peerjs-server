@@ -1,6 +1,6 @@
-import express from "express";
-import {Server as HttpServer} from "node:http";
-import {Server as HttpsServer} from "node:https";
+import type express from "express";
+import type {Server as HttpServer} from "node:http";
+import type {Server as HttpsServer} from "node:https";
 import path from "node:path";
 import type {IRealm} from "./models/realm";
 import {Realm} from "./models/realm";

@@ -75,7 +75,7 @@ export class MessagesExpire implements IMessagesExpire {
           this.messageHandler.handle(undefined, {
             type: MessageType.EXPIRE,
             src: message.dst,
-            dst: message.src
+            dst: message.src,
           });
 
           seen[seenKey] = true;

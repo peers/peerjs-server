@@ -1,4 +1,4 @@
-import {MessageType} from "../enums";
+import type {MessageType} from "../enums";
 import type {IClient} from "../models/client";
 import type {IMessage} from "../models/message";
 import type {Handler} from "./handler";
