@@ -21,7 +21,7 @@ export default ({ config, realm }: {
       return res.send(clientsIds);
     }
 
-    res.sendStatus(401);
+    return res.sendStatus(401);
   });
 
   return app;

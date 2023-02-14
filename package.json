@@ -18,8 +18,21 @@
   },
   "license": "MIT",
   "contributors": [],
-  "main": "dist/index.js",
-  "module": "dist/module.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/peer.d.ts",
+        "default": "./dist/module.mjs"
+      },
+      "require":{
+        "types": "./dist/peer.d.ts",
+        "default":  "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/module.mjs",
   "source": "src/index.ts",
   "binary": "dist/bin/peerjs.js",
   "types": "dist/peer.d.ts",
@@ -73,6 +86,7 @@
     "@parcel/transformer-typescript-types": "^2.8.2",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
+    "@tsconfig/node16-strictest-esm": "^1.0.3",
     "@types/chai": "^4.2.11",
     "@types/cors": "^2.8.6",
     "@types/mocha": "^10.0.0",
