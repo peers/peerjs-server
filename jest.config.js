@@ -3,6 +3,7 @@ const config = {
   transform: {
     "^.+\\.(t|j)sx?$": "@swc/jest",
   },
+  collectCoverageFrom: ["./src/**"]
 };
 
 export default config;
