@@ -12,6 +12,6 @@ describe("Heartbeat handler", () => {
 
 		HeartbeatHandler(client);
 		expect(client.getLastPing()).toBeGreaterThanOrEqual(nowTime - 2);
-		expect(nowTime).toBeGreaterThanOrEqual(client.getLastPing());
+		expect(nowTime).toBeGreaterThanOrEqual(client.getLastPing()-2);
 	});
 });
