@@ -13,6 +13,6 @@ WORKDIR /peer-server
 COPY package.json package-lock.json ./
 RUN npm clean-install --omit=dev
 COPY --from=build /peer-server/dist/bin/peerjs.js ./
-ENV PORT 9000
+ENV PORT 443
 EXPOSE ${PORT}
 ENTRYPOINT ["node", "peerjs.js"]
