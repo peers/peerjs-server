@@ -19,10 +19,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build
         if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
       - name: Build & publish
         if: ${{ github.event_name == 'push' }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           tags: peerjs/peerjs-server-test:nightly
