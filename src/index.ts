@@ -1,70 +1,79 @@
-import express from "express";
-import http from "http";
-import https from "https";
-import { Server } from "net";
+import express, { type Express } from "express";
+import http from "node:http";
+import https from "node:https";
 
-import defaultConfig, { IConfig } from "./config";
+import type { IConfig } from "./config";
+import defaultConfig from "./config";
+import type { PeerServerEvents } from "./instance";
 import { createInstance } from "./instance";
+import type { IClient } from "./models/client";
+import type { IMessage } from "./models/message";
 
-type Optional<T> = {
-  [P in keyof T]?: (T[P] | undefined);
-};
+export type { MessageType } from "./enums";
+export type { IConfig, PeerServerEvents, IClient, IMessage };
 
-function ExpressPeerServer(server: Server, options?: IConfig) {
-  const app = express();
+function ExpressPeerServer(
+	server: https.Server | http.Server,
+	options?: Partial<IConfig>,
+) {
+	const app = express();
 
-  const newOptions: IConfig = {
-    ...defaultConfig,
-    ...options
-  };
+	const newOptions: IConfig = {
+		...defaultConfig,
+		...options,
+	};
 
-  if (newOptions.proxied) {
-    app.set("trust proxy", newOptions.proxied === "false" ? false : !!newOptions.proxied);
-  }
+	if (newOptions.proxied) {
+		app.set(
+			"trust proxy",
+			newOptions.proxied === "false" ? false : !!newOptions.proxied,
+		);
+	}
 
-  app.on("mount", () => {
-    if (!server) {
-      throw new Error("Server is not passed to constructor - " +
-        "can't start PeerServer");
-    }
+	app.on("mount", () => {
+		if (!server) {
+			throw new Error(
+				"Server is not passed to constructor - " + "can't start PeerServer",
+			);
+		}
 
-    createInstance({ app, server, options: newOptions });
-  });
+		createInstance({ app, server, options: newOptions });
+	});
 
-  return app;
+	return app as Express & PeerServerEvents;
 }
 
-function PeerServer(options: Optional<IConfig> = {}, callback?: (server: Server) => void) {
-  const app = express();
+function PeerServer(
+	options: Partial<IConfig> = {},
+	callback?: (server: https.Server | http.Server) => void,
+) {
+	const app = express();
 
-  let newOptions: IConfig = {
-    ...defaultConfig,
-    ...options
-  };
+	let newOptions: IConfig = {
+		...defaultConfig,
+		...options,
+	};
 
-  const port = newOptions.port;
-  const host = newOptions.host;
+	const port = newOptions.port;
+	const host = newOptions.host;
 
-  let server: Server;
+	let server: https.Server | http.Server;
 
-  const { ssl, ...restOptions } = newOptions;
-  if (ssl && Object.keys(ssl).length) {
-    server = https.createServer(ssl, app);
+	const { ssl, ...restOptions } = newOptions;
+	if (ssl && Object.keys(ssl).length) {
+		server = https.createServer(ssl, app);
 
-    newOptions = restOptions;
-  } else {
-    server = http.createServer(app);
-  }
+		newOptions = restOptions;
+	} else {
+		server = http.createServer(app);
+	}
 
-  const peerjs = ExpressPeerServer(server, newOptions);
-  app.use(peerjs);
+	const peerjs = ExpressPeerServer(server, newOptions);
+	app.use(peerjs);
 
-  server.listen(port, host, () => callback?.(server));
+	server.listen(port, host, () => callback?.(server));
 
-  return peerjs;
+	return peerjs;
 }
 
-export {
-  ExpressPeerServer,
-  PeerServer
-};
+export { ExpressPeerServer, PeerServer };

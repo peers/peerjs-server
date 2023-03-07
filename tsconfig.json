@@ -1,27 +1,11 @@
 {
-    "compilerOptions": {
-        "lib": [
-            "esnext"
-        ],
-        "target": "es2016",
-        "module": "commonjs",
-        "strict": true,
-        "esModuleInterop": true,
-        "downlevelIteration": true,
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "sourceMap": false,
-        "outDir": "dist"
-    },
-    "include": [
-        "./src/**/*",
-    ],
-    "exclude": [
-        "test",
-        "bin",
-    ]
+	"extends": "@tsconfig/node16-strictest-esm/tsconfig.json",
+	"compilerOptions": {
+		"lib": ["esnext"],
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"exactOptionalPropertyTypes": false
+	},
+	"include": ["./src/**/*", "__test__/**/*"],
+	"exclude": ["test", "bin"]
 }

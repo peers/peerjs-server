@@ -1,11 +1,31 @@
 {
-	"branches": ["stable", { "name": "rc", "prerelease": true }],
+	"branches": [
+		"stable",
+		{
+			"name": "rc",
+			"prerelease": true
+		}
+	],
 	"plugins": [
 		"@semantic-release/commit-analyzer",
 		"@semantic-release/release-notes-generator",
 		"@semantic-release/changelog",
 		"@semantic-release/npm",
 		"@semantic-release/git",
-		"@semantic-release/github"
+		"@semantic-release/github",
+		[
+			"@codedependant/semantic-release-docker",
+			{
+				"dockerTags": [
+					"{{#if prerelease.[0]}}{{prerelease.[0]}}{{else}}latest{{/if}}",
+					"{{major}}-{{#if prerelease.[0]}}{{prerelease.[0]}}{{else}}latest{{/if}}",
+					"{{major}}.{{minor}}-{{#if prerelease.[0]}}{{prerelease.[0]}}{{else}}latest{{/if}}",
+					"{{version}}"
+				],
+				"dockerImage": "peerjs-server",
+				"dockerFile": "Dockerfile",
+				"dockerProject": "peerjs"
+			}
+		]
 	]
 }

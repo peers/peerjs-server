@@ -1,37 +1,37 @@
-import { IMessage } from "./message";
+import type { IMessage } from "./message";
 
 export interface IMessageQueue {
-  getLastReadAt(): number;
+	getLastReadAt(): number;
 
-  addMessage(message: IMessage): void;
+	addMessage(message: IMessage): void;
 
-  readMessage(): IMessage | undefined;
+	readMessage(): IMessage | undefined;
 
-  getMessages(): IMessage[];
+	getMessages(): IMessage[];
 }
 
 export class MessageQueue implements IMessageQueue {
-  private lastReadAt: number = new Date().getTime();
-  private readonly messages: IMessage[] = [];
+	private lastReadAt: number = new Date().getTime();
+	private readonly messages: IMessage[] = [];
 
-  public getLastReadAt(): number {
-    return this.lastReadAt;
-  }
+	public getLastReadAt(): number {
+		return this.lastReadAt;
+	}
 
-  public addMessage(message: IMessage): void {
-    this.messages.push(message);
-  }
+	public addMessage(message: IMessage): void {
+		this.messages.push(message);
+	}
 
-  public readMessage(): IMessage | undefined {
-    if (this.messages.length > 0) {
-      this.lastReadAt = new Date().getTime();
-      return this.messages.shift();
-    }
+	public readMessage(): IMessage | undefined {
+		if (this.messages.length > 0) {
+			this.lastReadAt = new Date().getTime();
+			return this.messages.shift();
+		}
 
-    return undefined;
-  }
+		return undefined;
+	}
 
-  public getMessages(): IMessage[] {
-    return this.messages;
-  }
+	public getMessages(): IMessage[] {
+		return this.messages;
+	}
 }
