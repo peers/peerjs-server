@@ -338,6 +338,6 @@ See [PRIVACY.md](https://github.com/peers/peerjs-server/blob/master/PRIVACY.md)
 ## Problems?
 
 Discuss PeerJS on our Telegram chat:
-https://t.me/joinchat/ENhPuhTvhm8WlIxTjQf7Og
+https://t.me/joinchat/VWI0UBxnG7f7_DV7
 
 Please post any bugs as a Github issue.
