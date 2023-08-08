@@ -1,6 +1,6 @@
 import express from "express";
-import type { IConfig } from "../../../config";
-import type { IRealm } from "../../../models/realm";
+import type { IConfig } from "../../../config/index.ts";
+import type { IRealm } from "../../../models/realm.ts";
 
 export default ({
 	config,

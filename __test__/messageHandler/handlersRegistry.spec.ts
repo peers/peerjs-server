@@ -1,8 +1,8 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { HandlersRegistry } from "../../src/messageHandler/handlersRegistry";
-import type { Handler } from "../../src/messageHandler/handler";
-import { MessageType } from "../../src/enums";
+import { HandlersRegistry } from "../../src/messageHandler/handlersRegistry.ts";
+import type { Handler } from "../../src/messageHandler/handler.ts";
+import { MessageType } from "../../src/enums.ts";
 
 describe("HandlersRegistry", () => {
 	it("should execute handler for message type", () => {

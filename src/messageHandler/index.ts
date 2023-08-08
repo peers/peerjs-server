@@ -1,11 +1,11 @@
-import { MessageType } from "../enums";
-import { HeartbeatHandler, TransmissionHandler } from "./handlers";
-import type { IHandlersRegistry } from "./handlersRegistry";
-import { HandlersRegistry } from "./handlersRegistry";
-import type { IClient } from "../models/client";
-import type { IMessage } from "../models/message";
-import type { IRealm } from "../models/realm";
-import type { Handler } from "./handler";
+import { MessageType } from "../enums.ts";
+import { HeartbeatHandler, TransmissionHandler } from "./handlers/index.ts";
+import type { IHandlersRegistry } from "./handlersRegistry.ts";
+import { HandlersRegistry } from "./handlersRegistry.ts";
+import type { IClient } from "../models/client.ts";
+import type { IMessage } from "../models/message.ts";
+import type { IRealm } from "../models/realm.ts";
+import type { Handler } from "./handler.ts";
 
 export interface IMessageHandler {
 	handle(client: IClient | undefined, message: IMessage): boolean;

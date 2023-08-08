@@ -1,9 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { MessageQueue } from "../../src/models/messageQueue";
-import { MessageType } from "../../src/enums";
-import type { IMessage } from "../../src/models/message";
-import { wait } from "../utils";
+import { MessageQueue } from "../../src/models/messageQueue.ts";
+import { MessageType } from "../../src/enums.ts";
+import type { IMessage } from "../../src/models/message.ts";
+import { wait } from "../utils.ts";
 
 describe("MessageQueue", () => {
 	const createTestMessage = (): IMessage => {
