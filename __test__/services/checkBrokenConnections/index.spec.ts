@@ -1,9 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Client } from "../../../src/models/client";
-import { Realm } from "../../../src/models/realm";
-import { CheckBrokenConnections } from "../../../src/services/checkBrokenConnections";
-import { wait } from "../../utils";
+import { Client } from "../../../src/models/client.ts";
+import { Realm } from "../../../src/models/realm.ts";
+import { CheckBrokenConnections } from "../../../src/services/checkBrokenConnections/index.ts";
+import { wait } from "../../utils.ts";
 
 describe("CheckBrokenConnections", () => {
 	it("should remove client after 2 checks", async () => {

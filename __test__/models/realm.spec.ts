@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Realm } from "../../src/models/realm";
-import { Client } from "../../src/models/client";
+import { Realm } from "../../src/models/realm.ts";
+import { Client } from "../../src/models/client.ts";
 
 describe("Realm", () => {
 	describe("#generateClientId", () => {

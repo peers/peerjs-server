@@ -1,12 +1,12 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Client } from "../../../src/models/client";
-import { Realm } from "../../../src/models/realm";
-import type { IMessage } from "../../../src/models/message";
-import { MessagesExpire } from "../../../src/services/messagesExpire";
-import { MessageHandler } from "../../../src/messageHandler";
-import { MessageType } from "../../../src/enums";
-import { wait } from "../../utils";
+import { Client } from "../../../src/models/client.ts";
+import { Realm } from "../../../src/models/realm.ts";
+import type { IMessage } from "../../../src/models/message.ts";
+import { MessagesExpire } from "../../../src/services/messagesExpire/index.ts";
+import { MessageHandler } from "../../../src/messageHandler/index.ts";
+import { MessageType } from "../../../src/enums.ts";
+import { wait } from "../../utils.ts";
 
 describe("MessagesExpire", () => {
 	const createTestMessage = (dst: string): IMessage => {

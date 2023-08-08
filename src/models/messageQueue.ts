@@ -1,4 +1,4 @@
-import type { IMessage } from "./message";
+import type { IMessage } from "./message.ts";
 
 export interface IMessageQueue {
 	getLastReadAt(): number;

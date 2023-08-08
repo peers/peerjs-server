@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Client } from "../../../../src/models/client";
-import { HeartbeatHandler } from "../../../../src/messageHandler/handlers";
+import { Client } from "../../../../src/models/client.ts";
+import { HeartbeatHandler } from "../../../../src/messageHandler/handlers/index.ts";
 
 describe("Heartbeat handler", () => {
 	it("should update last ping time", () => {

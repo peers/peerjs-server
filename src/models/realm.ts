@@ -1,8 +1,8 @@
-import type { IMessageQueue } from "./messageQueue";
-import { MessageQueue } from "./messageQueue";
+import type { IMessageQueue } from "./messageQueue.ts";
+import { MessageQueue } from "./messageQueue.ts";
 import { randomUUID } from "node:crypto";
-import type { IClient } from "./client";
-import type { IMessage } from "./message";
+import type { IClient } from "./client.ts";
+import type { IMessage } from "./message.ts";
 
 export interface IRealm {
 	getClientsIds(): string[];
