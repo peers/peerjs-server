@@ -9,7 +9,7 @@ export interface IHandlersRegistry {
 }
 
 export class HandlersRegistry implements IHandlersRegistry {
-	private readonly handlers: Map<MessageType, Handler> = new Map();
+	private readonly handlers = new Map<MessageType, Handler>();
 
 	public registerHandler(messageType: MessageType, handler: Handler): void {
 		if (this.handlers.has(messageType)) return;

@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 
 import { MessageQueue } from "../../src/models/messageQueue.ts";
 import { MessageType } from "../../src/enums.ts";
-import type { IMessage } from "../../src/models/message.ts";
+import type { IMessage } from "../../src/index.js";
 import { wait } from "../utils.ts";
 
 describe("MessageQueue", () => {

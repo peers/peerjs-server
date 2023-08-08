@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 
 import { Client } from "../../../src/models/client.ts";
 import { Realm } from "../../../src/models/realm.ts";
-import type { IMessage } from "../../../src/models/message.ts";
+import type { IMessage } from "../../../src/index.js";
 import { MessagesExpire } from "../../../src/services/messagesExpire/index.ts";
 import { MessageHandler } from "../../../src/messageHandler/index.ts";
 import { MessageType } from "../../../src/enums.ts";

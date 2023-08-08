@@ -7,6 +7,5 @@
 		"exactOptionalPropertyTypes": false,
 		"allowImportingTsExtensions": true
 	},
-	"include": ["./src/**/*", "__test__/**/*"],
-	"exclude": ["test", "bin"]
+	"include": ["./src/**/*", "__test__/**/*", "bin/**/*"]
 }
