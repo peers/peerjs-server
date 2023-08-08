@@ -5,7 +5,7 @@ import fs from "node:fs";
 const optimistUsageLength = 98;
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { PeerServer } from "../src";
+import { PeerServer } from "../src/index.js";
 import type { AddressInfo } from "node:net";
 import type { CorsOptions } from "cors";
 
@@ -66,7 +66,7 @@ const opts = y
 			type: "string",
 			demandOption: false,
 			describe: "custom path",
-			default: process.env["PEERSERVER_PATH"] || "/",
+			default: process.env["PEERSERVER_PATH"] ?? "/",
 		},
 		allow_discovery: {
 			type: "boolean",
@@ -89,7 +89,9 @@ const opts = y
 	.parseSync();
 
 if (!opts.port) {
-	opts.port = parseInt(process.env["PORT"] as string);
+	// .port is only not set if the PORT env var is set
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	opts.port = parseInt(process.env["PORT"]!);
 }
 if (opts.cors) {
 	opts["corsOptions"] = {
@@ -97,10 +99,10 @@ if (opts.cors) {
 	} satisfies CorsOptions;
 }
 process.on("uncaughtException", function (e) {
-	console.error("Error: " + e);
+	console.error("Error: " + e.toString());
 });
 
-if (opts.sslkey || opts.sslcert) {
+if (opts.sslkey ?? opts.sslcert) {
 	if (opts.sslkey && opts.sslcert) {
 		opts["ssl"] = {
 			key: fs.readFileSync(path.resolve(opts.sslkey)),
