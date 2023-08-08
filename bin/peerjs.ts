@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import path from "node:path";
-import { version } from "../package.json";
 import fs from "node:fs";
 const optimistUsageLength = 98;
 import yargs from "yargs";
@@ -121,11 +120,10 @@ const server = PeerServer(opts, (server) => {
 	const { address: host, port } = server.address() as AddressInfo;
 
 	console.log(
-		"Started PeerServer on %s, port: %s, path: %s (v. %s)",
+		"Started PeerServer on %s, port: %s, path: %s",
 		host,
 		port,
 		userPath || "/",
-		version,
 	);
 
 	const shutdownApp = () => {
