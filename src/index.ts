@@ -31,6 +31,7 @@ function ExpressPeerServer(
 	}
 
 	app.on("mount", () => {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (!server) {
 			throw new Error(
 				"Server is not passed to constructor - " + "can't start PeerServer",

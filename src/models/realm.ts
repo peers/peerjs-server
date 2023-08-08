@@ -25,8 +25,8 @@ export interface IRealm {
 }
 
 export class Realm implements IRealm {
-	private readonly clients: Map<string, IClient> = new Map();
-	private readonly messageQueues: Map<string, IMessageQueue> = new Map();
+	private readonly clients = new Map<string, IClient>();
+	private readonly messageQueues = new Map<string, IMessageQueue>();
 
 	public getClientsIds(): string[] {
 		return [...this.clients.keys()];

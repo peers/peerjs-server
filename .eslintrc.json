@@ -2,15 +2,16 @@
 	"parser": "@typescript-eslint/parser",
 	"extends": [
 		"eslint:recommended",
-		"plugin:@typescript-eslint/eslint-recommended",
-		"plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended-type-checked",
+		"plugin:@typescript-eslint/strict-type-checked",
+		"plugin:@typescript-eslint/stylistic-type-checked"
 	],
+	"ignorePatterns": ["coverage", "jest.config.js", "dist", "__test__"],
 	"env": {
 		"node": true,
 		"es6": true
 	},
 	"parserOptions": {
-		"ecmaVersion": 2018,
-		"sourceType": "module"
+		"project": true
 	}
 }

@@ -21,6 +21,7 @@ export interface PeerServerEvents {
 		event: "message",
 		listener: (client: IClient, message: IMessage) => void,
 	): this;
+	// eslint-disable-next-line @typescript-eslint/unified-signatures
 	on(event: "disconnect", listener: (client: IClient) => void): this;
 	on(event: "error", listener: (client: Error) => void): this;
 }

@@ -204,11 +204,11 @@ describe("WebSocketServer", () => {
 			ws.destroy = async (): Promise<void> => {
 				ws.close();
 
-				wait(10);
+				await wait(10);
 
 				webSocketServer.destroy?.();
 
-				wait(10);
+				await wait(10);
 
 				ws.destroy = undefined;
 			};
