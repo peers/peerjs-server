@@ -84,6 +84,7 @@
 	"devDependencies": {
 		"@codedependant/semantic-release-docker": "^4.3.0",
 		"@parcel/packager-ts": "~2.8.3",
+		"@parcel/core": "~2.8.3",
 		"@parcel/transformer-typescript-types": "~2.8.3",
 		"@semantic-release/changelog": "^6.0.1",
 		"@semantic-release/git": "^10.0.1",
