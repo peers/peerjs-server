@@ -104,7 +104,7 @@
 		"mock-socket": "^9.1.5",
 		"parcel": "~2.8.3",
 		"prettier": "^3.0.0",
-		"semantic-release": "^20.0.0",
+		"semantic-release": "^21.0.0",
 		"typescript": "^5.1.6"
 	}
 }
