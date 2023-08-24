@@ -70,10 +70,9 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 			this._onSocketError(error);
 		});
 
-		const { searchParams } = new URL(req.url ?? "");
-		const id = searchParams.get("id");
-		const token = searchParams.get("token");
-		const key = searchParams.get("key");
+		// We are only interested in the query, the base url is therefore not relevant
+		const { searchParams } = new URL(req.url ?? "", "https://peerjs");
+		const { id, token, key } = Object.fromEntries(searchParams.entries());
 
 		if (!id || !token || !key) {
 			this._sendErrorAndClose(socket, Errors.INVALID_WS_PARAMETERS);
