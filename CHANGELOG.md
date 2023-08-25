@@ -1,3 +1,19 @@
+## [1.0.1](https://github.com/peers/peerjs-server/compare/v1.0.0...v1.0.1) (2023-08-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency node-fetch to v3.3.1 ([2275ce3](https://github.com/peers/peerjs-server/commit/2275ce35eb3c44e0a22fd4a4e0d2dca66ebd1219))
+* **deps:** update dependency node-fetch to v3.3.2 ([05a1833](https://github.com/peers/peerjs-server/commit/05a1833363b0592ee7941dd295c3ca9ac64d9d04))
+* **deps:** update dependency yargs to v17.7.2 ([23b4e47](https://github.com/peers/peerjs-server/commit/23b4e47fb32a773d48027b0cdd0c10be7fad27cb))
+* remove confusing version number ([f6314df](https://github.com/peers/peerjs-server/commit/f6314df40c37add66deac5dd8487ad54e4814237))
+
+
+### Reverts
+
+* Revert "build: deploy to fly.io" ([c3de627](https://github.com/peers/peerjs-server/commit/c3de627fad9ddd22230793fb3f6757d402a052a5))
+* Revert "chore: Configure Mend Bolt for GitHub (#349)" ([fd00aef](https://github.com/peers/peerjs-server/commit/fd00aef9809dd60bb7e36b2fdc58e47a1e4b036c)), closes [#349](https://github.com/peers/peerjs-server/issues/349)
+
 # [1.0.0](https://github.com/peers/peerjs-server/compare/v0.6.1...v1.0.0) (2023-03-07)
 
 
