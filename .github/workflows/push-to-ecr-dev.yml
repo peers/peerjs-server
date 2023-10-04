@@ -1,0 +1,55 @@
+name: dev-push-to-ecr
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+
+env:
+  AWS_REGION: ap-northeast-2
+  SERVER_PROFILE: development
+  ORG_NAME: episoden
+  APP_NAME: peerjs-dev
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build and push to ecr
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.ACTION_ENV_DEV_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.ACTION_ENV_DEV_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Development build, latest tag, and push image to Amazon ECR
+      id: build-image-to-ecr
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.ORG_NAME }}/${{ env.APP_NAME }}
+        RELEASE_VERSION: latest
+        SERVER_PROFILE: ${{ env.SERVER_PROFILE }}
+      run: |
+        BUILD_ARGS="--build-arg SERVER_PROFILE=$SERVER_PROFILE \
+                        --build-arg APP_VERSION=$RELEASE_VERSION"
+        docker buildx build --platform linux/arm64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$RELEASE_VERSION $BUILD_ARGS --load .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$RELEASE_VERSION
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$RELEASE_VERSION" >> $GITHUB_OUTPUT
+
