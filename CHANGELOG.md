@@ -1,3 +1,14 @@
+## [1.0.2](https://github.com/peers/peerjs-server/compare/v1.0.1...v1.0.2) (2023-12-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/express to v4.17.18 ([f4bcc16](https://github.com/peers/peerjs-server/commit/f4bcc1651598f349626b67099c7a39b01b417f6c))
+* **deps:** update dependency @types/express to v4.17.19 ([ebec5b0](https://github.com/peers/peerjs-server/commit/ebec5b07aa29e951058d64a5c98efa238ce0069a))
+* **deps:** update dependency @types/express to v4.17.20 ([a6c01fd](https://github.com/peers/peerjs-server/commit/a6c01fd47bfd89fa74a716650a44643612a659aa))
+* **deps:** update dependency @types/express to v4.17.21 ([80df87f](https://github.com/peers/peerjs-server/commit/80df87f3da63624e6c7107453f3789e76d688798))
+* reduce unnecessary timeouts ([638af56](https://github.com/peers/peerjs-server/commit/638af56f679881194f60b29ae7f7bb7b5756662a)), closes [#431](https://github.com/peers/peerjs-server/issues/431)
+
 ## [1.0.1](https://github.com/peers/peerjs-server/compare/v1.0.0...v1.0.1) (2023-08-25)
 
 
