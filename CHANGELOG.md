@@ -1,3 +1,37 @@
+# [1.1.0-rc.1](https://github.com/peers/peerjs-server/compare/v1.0.0...v1.1.0-rc.1) (2024-04-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/express to v4.17.18 ([f4bcc16](https://github.com/peers/peerjs-server/commit/f4bcc1651598f349626b67099c7a39b01b417f6c))
+* **deps:** update dependency @types/express to v4.17.19 ([ebec5b0](https://github.com/peers/peerjs-server/commit/ebec5b07aa29e951058d64a5c98efa238ce0069a))
+* **deps:** update dependency @types/express to v4.17.20 ([a6c01fd](https://github.com/peers/peerjs-server/commit/a6c01fd47bfd89fa74a716650a44643612a659aa))
+* **deps:** update dependency @types/express to v4.17.21 ([80df87f](https://github.com/peers/peerjs-server/commit/80df87f3da63624e6c7107453f3789e76d688798))
+* **deps:** update dependency express to v4.18.3 ([ff0b83a](https://github.com/peers/peerjs-server/commit/ff0b83affc3772402638dd44be521cb2d4c55417))
+* **deps:** update dependency express to v4.19.0 ([208f108](https://github.com/peers/peerjs-server/commit/208f1088a59b33fb6848089f1708cbcd96655a61))
+* **deps:** update dependency express to v4.19.1 ([3a67b5d](https://github.com/peers/peerjs-server/commit/3a67b5d30cafa1efcb33a35daebbc00766cbf1b6))
+* **deps:** update dependency express to v4.19.2 ([ec993f6](https://github.com/peers/peerjs-server/commit/ec993f6b7492858f61541e2ffb37110aabc6140b))
+* **deps:** update dependency node-fetch to v3.3.1 ([2275ce3](https://github.com/peers/peerjs-server/commit/2275ce35eb3c44e0a22fd4a4e0d2dca66ebd1219))
+* **deps:** update dependency node-fetch to v3.3.2 ([05a1833](https://github.com/peers/peerjs-server/commit/05a1833363b0592ee7941dd295c3ca9ac64d9d04))
+* **deps:** update dependency yargs to v17.7.2 ([23b4e47](https://github.com/peers/peerjs-server/commit/23b4e47fb32a773d48027b0cdd0c10be7fad27cb))
+* empty npm package ([f4c359a](https://github.com/peers/peerjs-server/commit/f4c359a351e115ba91742b4d703d9d94ec7d395e)), closes [#318](https://github.com/peers/peerjs-server/issues/318)
+* force new version ([26877ca](https://github.com/peers/peerjs-server/commit/26877caac26ccfd9541624ca68b58488c70e05c0))
+* import from ESM only environments ([993dee9](https://github.com/peers/peerjs-server/commit/993dee95a1f321322a15db6788275e39f586ed7d))
+* reduce unnecessary timeouts ([638af56](https://github.com/peers/peerjs-server/commit/638af56f679881194f60b29ae7f7bb7b5756662a)), closes [#431](https://github.com/peers/peerjs-server/issues/431)
+* remove confusing version number ([f6314df](https://github.com/peers/peerjs-server/commit/f6314df40c37add66deac5dd8487ad54e4814237))
+* the server could crash if a client sends invalid frames ([33e6d75](https://github.com/peers/peerjs-server/commit/33e6d755cc8511954ac0094cb28ae92af95cfe12)), closes [#290](https://github.com/peers/peerjs-server/issues/290)
+
+
+### Features
+
+* build Docker image for `arm64` ([a61f103](https://github.com/peers/peerjs-server/commit/a61f103abdee352589758bfc34d8554538ff447a))
+
+
+### Reverts
+
+* Revert "build: deploy to fly.io" ([c3de627](https://github.com/peers/peerjs-server/commit/c3de627fad9ddd22230793fb3f6757d402a052a5))
+* Revert "chore: Configure Mend Bolt for GitHub (#349)" ([fd00aef](https://github.com/peers/peerjs-server/commit/fd00aef9809dd60bb7e36b2fdc58e47a1e4b036c)), closes [#349](https://github.com/peers/peerjs-server/issues/349)
+
 # [1.0.0](https://github.com/peers/peerjs-server/compare/v0.6.1...v1.0.0) (2023-03-07)
 
 
