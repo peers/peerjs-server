@@ -1,24 +1,18 @@
 import { EventEmitter } from "node:events";
 import type { IncomingMessage } from "node:http";
-import url from "node:url";
 import type WebSocket from "ws";
-import { Errors, MessageType } from "../../enums";
-import type { IClient } from "../../models/client";
-import { Client } from "../../models/client";
-import type { IConfig } from "../../config";
-import type { IRealm } from "../../models/realm";
+import { Errors, MessageType } from "../../enums.ts";
+import type { IClient } from "../../models/client.ts";
+import { Client } from "../../models/client.ts";
+import type { IConfig } from "../../config/index.ts";
+import type { IRealm } from "../../models/realm.ts";
 import { WebSocketServer as Server } from "ws";
 import type { Server as HttpServer } from "node:http";
 import type { Server as HttpsServer } from "node:https";
+import { IMessage } from "../../models/message.js";
 
 export interface IWebSocketServer extends EventEmitter {
 	readonly path: string;
-}
-
-interface IAuthParams {
-	id?: string;
-	token?: string;
-	key?: string;
 }
 
 type CustomConfig = Pick<
@@ -62,26 +56,32 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 			? config.createWebSocketServer(options)
 			: new Server(options);
 
-		this.socketServer.on("connection", (socket, req) =>
-			this._onSocketConnection(socket, req),
-		);
-		this.socketServer.on("error", (error: Error) => this._onSocketError(error));
+		this.socketServer.on("connection", (socket, req) => {
+			this._onSocketConnection(socket, req);
+		});
+		this.socketServer.on("error", (error: Error) => {
+			this._onSocketError(error);
+		});
 	}
 
 	private _onSocketConnection(socket: WebSocket, req: IncomingMessage): void {
 		// An unhandled socket error might crash the server. Handle it first.
-		socket.on("error", (error) => this._onSocketError(error));
+		socket.on("error", (error) => {
+			this._onSocketError(error);
+		});
 
-		const { query = {} } = url.parse(req.url ?? "", true);
-
-		const { id, token, key }: IAuthParams = query;
+		// We are only interested in the query, the base url is therefore not relevant
+		const { searchParams } = new URL(req.url ?? "", "https://peerjs");
+		const { id, token, key } = Object.fromEntries(searchParams.entries());
 
 		if (!id || !token || !key) {
-			return this._sendErrorAndClose(socket, Errors.INVALID_WS_PARAMETERS);
+			this._sendErrorAndClose(socket, Errors.INVALID_WS_PARAMETERS);
+			return;
 		}
 
 		if (key !== this.config.key) {
-			return this._sendErrorAndClose(socket, Errors.INVALID_KEY);
+			this._sendErrorAndClose(socket, Errors.INVALID_KEY);
+			return;
 		}
 
 		const client = this.realm.getClientById(id);
@@ -96,10 +96,12 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 					}),
 				);
 
-				return socket.close();
+				socket.close();
+				return;
 			}
 
-			return this._configureWS(socket, client);
+			this._configureWS(socket, client);
+			return;
 		}
 
 		this._registerClient({ socket, id, token });
@@ -123,7 +125,8 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 		const clientsCount = this.realm.getClientsIds().length;
 
 		if (clientsCount >= this.config.concurrent_limit) {
-			return this._sendErrorAndClose(socket, Errors.CONNECTION_LIMIT_EXCEED);
+			this._sendErrorAndClose(socket, Errors.CONNECTION_LIMIT_EXCEED);
+			return;
 		}
 
 		const newClient: IClient = new Client({ id, token });
@@ -147,7 +150,8 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 		// Handle messages from peers.
 		socket.on("message", (data) => {
 			try {
-				const message = JSON.parse(data.toString());
+				// eslint-disable-next-line @typescript-eslint/no-base-to-string
+				const message = JSON.parse(data.toString()) as Writable<IMessage>;
 
 				message.src = client.getId();
 
@@ -171,3 +175,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 		socket.close();
 	}
 }
+
+type Writable<T> = {
+	-readonly [K in keyof T]: T[K];
+};

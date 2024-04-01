@@ -1,2 +1,2 @@
-export { HeartbeatHandler } from "./heartbeat";
-export { TransmissionHandler } from "./transmission";
+export { HeartbeatHandler } from "./heartbeat/index.ts";
+export { TransmissionHandler } from "./transmission/index.ts";

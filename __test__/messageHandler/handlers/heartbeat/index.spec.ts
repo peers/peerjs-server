@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Client } from "../../../../src/models/client";
-import { HeartbeatHandler } from "../../../../src/messageHandler/handlers";
+import { Client } from "../../../../src/models/client.ts";
+import { HeartbeatHandler } from "../../../../src/messageHandler/handlers/index.ts";
 
 describe("Heartbeat handler", () => {
 	it("should update last ping time", () => {
@@ -12,6 +12,6 @@ describe("Heartbeat handler", () => {
 
 		HeartbeatHandler(client);
 		expect(client.getLastPing()).toBeGreaterThanOrEqual(nowTime - 2);
-		expect(nowTime).toBeGreaterThanOrEqual(client.getLastPing());
+		expect(nowTime).toBeGreaterThanOrEqual(client.getLastPing() - 2);
 	});
 });

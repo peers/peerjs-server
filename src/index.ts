@@ -2,14 +2,14 @@ import express, { type Express } from "express";
 import http from "node:http";
 import https from "node:https";
 
-import type { IConfig } from "./config";
-import defaultConfig from "./config";
-import type { PeerServerEvents } from "./instance";
-import { createInstance } from "./instance";
-import type { IClient } from "./models/client";
-import type { IMessage } from "./models/message";
+import type { IConfig } from "./config/index.ts";
+import defaultConfig from "./config/index.ts";
+import type { PeerServerEvents } from "./instance.ts";
+import { createInstance } from "./instance.ts";
+import type { IClient } from "./models/client.ts";
+import type { IMessage } from "./models/message.ts";
 
-export type { MessageType } from "./enums";
+export type { MessageType } from "./enums.ts";
 export type { IConfig, PeerServerEvents, IClient, IMessage };
 
 function ExpressPeerServer(
@@ -31,6 +31,7 @@ function ExpressPeerServer(
 	}
 
 	app.on("mount", () => {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (!server) {
 			throw new Error(
 				"Server is not passed to constructor - " + "can't start PeerServer",

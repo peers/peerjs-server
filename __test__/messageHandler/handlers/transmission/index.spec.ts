@@ -1,9 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Client } from "../../../../src/models/client";
-import { TransmissionHandler } from "../../../../src/messageHandler/handlers";
-import { Realm } from "../../../../src/models/realm";
-import { MessageType } from "../../../../src/enums";
+import { Client } from "../../../../src/models/client.ts";
+import { TransmissionHandler } from "../../../../src/messageHandler/handlers/index.ts";
+import { Realm } from "../../../../src/models/realm.ts";
+import { MessageType } from "../../../../src/enums.ts";
 import type WebSocket from "ws";
 
 const createFakeSocket = (): WebSocket => {

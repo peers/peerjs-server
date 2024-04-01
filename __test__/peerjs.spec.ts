@@ -4,7 +4,7 @@ import http from "http";
 import expectedJson from "../app.json";
 import fetch from "node-fetch";
 import * as crypto from "crypto";
-import { startServer } from "./utils";
+import { startServer } from "./utils.ts";
 
 const PORT = "9000";
 

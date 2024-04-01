@@ -2,10 +2,10 @@ import { describe, expect, it } from "@jest/globals";
 
 import { Server, WebSocket } from "mock-socket";
 import type { Server as HttpServer } from "node:http";
-import { Realm } from "../../../src/models/realm";
-import { WebSocketServer } from "../../../src/services/webSocketServer";
-import { Errors, MessageType } from "../../../src/enums";
-import { wait } from "../../utils";
+import { Realm } from "../../../src/models/realm.ts";
+import { WebSocketServer } from "../../../src/services/webSocketServer/index.ts";
+import { Errors, MessageType } from "../../../src/enums.ts";
+import { wait } from "../../utils.ts";
 
 type Destroyable<T> = T & { destroy?: () => Promise<void> };
 
@@ -204,11 +204,11 @@ describe("WebSocketServer", () => {
 			ws.destroy = async (): Promise<void> => {
 				ws.close();
 
-				wait(10);
+				await wait(10);
 
 				webSocketServer.destroy?.();
 
-				wait(10);
+				await wait(10);
 
 				ws.destroy = undefined;
 			};
