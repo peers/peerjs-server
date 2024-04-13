@@ -344,7 +344,7 @@ See [PRIVACY.md](https://github.com/peers/peerjs-server/blob/master/PRIVACY.md)
 
 ## Problems?
 
-Discuss PeerJS on our Telegram chat:
-https://t.me/joinchat/ENhPuhTvhm8WlIxTjQf7Og
+Discuss PeerJS on our Discord community:
+https://discord.gg/Ud2PvAtK37
 
 Please post any bugs as a Github issue.
