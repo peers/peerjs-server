@@ -1,3 +1,11 @@
+# [1.1.0-rc.2](https://github.com/peers/peerjs-server/compare/v1.1.0-rc.1...v1.1.0-rc.2) (2024-04-27)
+
+
+### Bug Fixes
+
+* bump version ([0ceb257](https://github.com/peers/peerjs-server/commit/0ceb25753db3e4e86aa00f7dd3a23fc15bebbf32))
+* bump version ([86a2144](https://github.com/peers/peerjs-server/commit/86a214455f9fbb093b949cddcf52da698e41eed1))
+
 # [1.1.0-rc.2](https://github.com/peers/peerjs-server/compare/v1.1.0-rc.1...v1.1.0-rc.2) (2024-04-01)
 
 
