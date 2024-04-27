@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -23,11 +23,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm ci
-      - run: npm run build
-      - run: npm run lint
-      - run: npm run coverage
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn run build
+      - run: yarn run lint
+      - run: yarn run coverage
       - name: Publish code coverage to CodeClimate
         uses: paambaati/codeclimate-action@v5.0.0
         env:
