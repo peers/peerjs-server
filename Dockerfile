@@ -1,4 +1,6 @@
-FROM docker.io/library/node:18.20.0 as build
+FROM --platform=$BUILDPLATFORM docker.io/library/node:18.20.0 as build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 RUN mkdir /peer-server
 WORKDIR /peer-server
 COPY package.json yarn.lock .yarnrc.yml ./
