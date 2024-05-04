@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/peers/peerjs-server/compare/v1.0.2...v1.1.0) (2024-05-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency express to v4.18.3 ([ff0b83a](https://github.com/peers/peerjs-server/commit/ff0b83affc3772402638dd44be521cb2d4c55417))
+* **deps:** update dependency express to v4.19.0 ([208f108](https://github.com/peers/peerjs-server/commit/208f1088a59b33fb6848089f1708cbcd96655a61))
+* **deps:** update dependency express to v4.19.1 ([3a67b5d](https://github.com/peers/peerjs-server/commit/3a67b5d30cafa1efcb33a35daebbc00766cbf1b6))
+* **deps:** update dependency express to v4.19.2 ([ec993f6](https://github.com/peers/peerjs-server/commit/ec993f6b7492858f61541e2ffb37110aabc6140b))
+
+
+### Features
+
+* build Docker image for `arm64` ([#451](https://github.com/peers/peerjs-server/issues/451)) ([6c37e49](https://github.com/peers/peerjs-server/commit/6c37e49d66848447635988dd1187416bdeeb7683))
+
 ## [1.0.2](https://github.com/peers/peerjs-server/compare/v1.0.1...v1.0.2) (2023-12-05)
 
 
