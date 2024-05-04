@@ -14,8 +14,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 16
-      - run: corepack enable
-      - run: yarn install --immutable
+          cache: "npm"
+      - run: npm ci
       - name: Run prettier
         run: |-
-          yarn run format:check
+          npm run format:check

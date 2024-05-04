@@ -19,11 +19,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - run: corepack enable
       - name: Install dependencies
-        run: yarn install --immutable
+        run: npm ci
       - name: Build
-        run: yarn run build
+        run: npm run build
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -40,4 +39,4 @@ jobs:
           GIT_COMMITTER_EMAIL: ${{ steps.import_gpg.outputs.email }}
           DOCKER_REGISTRY_USER: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: yarn dlx semantic-release
+        run: npx semantic-release
