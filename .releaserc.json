@@ -23,6 +23,7 @@
 					"{{version}}"
 				],
 				"dockerImage": "peerjs-server",
+				"dockerPlatform": ["linux/amd64", "linux/arm64"],
 				"dockerFile": "Dockerfile",
 				"dockerProject": "peerjs"
 			}

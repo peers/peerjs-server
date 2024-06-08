@@ -1,6 +1,6 @@
 {
 	"name": "peer",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"keywords": [
 		"peerjs",
 		"webrtc",
@@ -82,7 +82,7 @@
 		"yargs": "^17.6.2"
 	},
 	"devDependencies": {
-		"@codedependant/semantic-release-docker": "^4.3.0",
+		"@codedependant/semantic-release-docker": "^5.0.3",
 		"@parcel/core": "~2.12.0",
 		"@parcel/packager-ts": "~2.12.0",
 		"@parcel/transformer-typescript-types": "~2.12.0",
