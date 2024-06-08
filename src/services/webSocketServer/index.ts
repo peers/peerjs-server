@@ -154,14 +154,18 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 				const message = JSON.parse(data.toString()) as Writable<IMessage>;
 
 				message.src = client.getId();
-
-				this.emit("message", client, message);
+				const _emit = this.customEmit.bind(null, socket);
+				this.emit("message", client, message, { _emit } );
 			} catch (e) {
 				this.emit("error", e);
 			}
 		});
 
 		this.emit("connection", client);
+	}
+
+	customEmit(socket: WebSocket, type: string,payload:object): void {
+		socket.send(JSON.stringify({ type, payload }))
 	}
 
 	private _sendErrorAndClose(socket: WebSocket, msg: Errors): void {
