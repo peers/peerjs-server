@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM docker.io/library/node:18.20.3 as build
+FROM --platform=$BUILDPLATFORM docker.io/library/node:18.20.4 as build
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN mkdir /peer-server
@@ -9,7 +9,7 @@ COPY . ./
 RUN npm run build
 RUN npm run test
 
-FROM docker.io/library/node:18.20.3-alpine as production
+FROM docker.io/library/node:18.20.4-alpine as production
 RUN mkdir /peer-server
 WORKDIR /peer-server
 COPY package.json package-lock.json ./
