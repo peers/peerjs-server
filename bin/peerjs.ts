@@ -73,6 +73,11 @@ const opts = y
 			demandOption: false,
 			describe: "allow discovery of peers",
 		},
+		debug: {
+			type: "boolean",
+			demandOption: false,
+			describe: "enable debug",
+		},
 		proxied: {
 			type: "boolean",
 			demandOption: false,
@@ -86,6 +91,7 @@ const opts = y
 		},
 	})
 	.boolean("allow_discovery")
+	.boolean("debug")
 	.parseSync();
 
 if (!opts.port) {
