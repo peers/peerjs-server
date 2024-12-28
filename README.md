@@ -291,6 +291,13 @@ runtime: nodejs
 # Flex environment required for WebSocket support, which is required for PeerJS.
 env: flex
 
+# Node Runtime Version >14 is required.
+# for more info refer: https://cloud.google.com/appengine/docs/flexible/nodejs/runtime
+# not specifying runtime_config will result in node 12 to be used.
+runtime_config:
+  operating_system: "ubuntu22"
+  runtime_version: "20"
+
 # Limit resources to one instance, one CPU, very little memory or disk.
 manual_scaling:
   instances: 1
