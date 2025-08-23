@@ -35,7 +35,7 @@ describe("Realm", () => {
 	});
 
 	describe("#getClientsIds", () => {
-		it("should reflects on add/remove childs", () => {
+		it("should reflects on add/remove children", () => {
 			const realm = new Realm();
 			const client = new Client({ id: "id", token: "" });
 
