@@ -14,6 +14,8 @@ import { Api } from "./api/index.ts";
 import type { IClient } from "./models/client.ts";
 import type { IMessage } from "./models/message.ts";
 import type { IConfig } from "./config/index.ts";
+import { MessageType } from "./enums.ts";
+import type WebSocket from "ws";
 
 export interface PeerServerEvents {
 	on(event: "connection", listener: (client: IClient) => void): this;
@@ -24,7 +26,9 @@ export interface PeerServerEvents {
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
 	on(event: "disconnect", listener: (client: IClient) => void): this;
 	on(event: "error", listener: (client: Error) => void): this;
+	on(event: string, listener: (socket: WebSocket, message: IMessage) => void): this;
 }
+    type CustomEmitFn = (type: string, payload: object) => void;
 
 export const createInstance = ({
 	app,
@@ -38,6 +42,7 @@ export const createInstance = ({
 	const config = options;
 	const realm: IRealm = new Realm();
 	const messageHandler = new MessageHandler(realm);
+	const defaultMessageType:Set<MessageType> = new Set(Object.values(MessageType));
 
 	const api = Api({ config, realm, corsOptions: options.corsOptions });
 	const messagesExpire: IMessagesExpire = new MessagesExpire({
@@ -82,9 +87,14 @@ export const createInstance = ({
 		app.emit("connection", client);
 	});
 
-	wss.on("message", (client: IClient, message: IMessage) => {
-		app.emit("message", client, message);
-		messageHandler.handle(client, message);
+	wss.on("message", (client: IClient, message: IMessage,socket: CustomEmitFn) => {
+		if(defaultMessageType.has(message.type)){
+			app.emit("message", client, message);
+			messageHandler.handle(client, message);
+		} else {
+			app.emit(message.type,socket,message.payload)
+		}
+		
 	});
 
 	wss.on("close", (client: IClient) => {
