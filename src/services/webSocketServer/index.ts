@@ -100,6 +100,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 				return;
 			}
 
+			socket.send(JSON.stringify({ type: MessageType.OPEN }));
 			this._configureWS(socket, client);
 			return;
 		}
