@@ -2,7 +2,7 @@
 NODE_ENV=production
 
 # Host Configuration
-HOST_DOMAIN=peerjs.emaily.re
+HOST_DOMAIN=peerjs.texlyre.org
 
 # Cloudflare Tunnel Configuration
 CLOUDFLARE_API_KEY=your_cloudflare_api_key
