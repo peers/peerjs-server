@@ -1,0 +1,20 @@
+# PeerJS Environment Variables
+NODE_ENV=production
+
+# Host Configuration
+HOST_DOMAIN=peerjs.texlyre.org
+
+# Cloudflare Tunnel Configuration
+CLOUDFLARE_API_KEY=your_cloudflare_api_key
+
+# Skip Tests in Docker build
+SKIP_TESTS=true
+
+# PeerJS Configuration
+PEERJS_PORT=9000
+PEERJS_PATH=/myapp
+PEERJS_KEY=peerjs
+PEERJS_PROXIED=true
+PEERJS_ALLOW_DISCOVERY=false
+PEERJS_CONCURRENT_LIMIT=5000
+

@@ -93,20 +93,21 @@ If you have your own server, you can attach PeerServer.
 
 You can provide config object to `PeerServer` function or specify options for `peerjs` CLI.
 
-| CLI option               | JS option          | Description                                                                                                                                                                                                                                           | Required |  Default   |
-| ------------------------ | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: | :--------: |
-| `--port, -p`             | `port`             | Port to listen (number)                                                                                                                                                                                                                               | **Yes**  |            |
-| `--key, -k`              | `key`              | Connection key (string). Client must provide it to call API methods                                                                                                                                                                                   |    No    | `"peerjs"` |
-| `--path`                 | `path`             | Path (string). The server responds for requests to the root URL + path. **E.g.** Set the `path` to `/myapp` and run server on 9000 port via `peerjs --port 9000 --path /myapp` Then open http://127.0.0.1:9000/myapp - you should see a JSON reponse. |    No    |   `"/"`    |
-| `--proxied`              | `proxied`          | Set `true` if PeerServer stays behind a reverse proxy (boolean)                                                                                                                                                                                       |    No    |  `false`   |
-| `--expire_timeout, -t`   | `expire_timeout`   | The amount of time after which a message sent will expire, the sender will then receive a `EXPIRE` message (milliseconds).                                                                                                                            |    No    |   `5000`   |
-| `--alive_timeout`        | `alive_timeout`    | Timeout for broken connection (milliseconds). If the server doesn't receive any data from client (includes `pong` messages), the client's connection will be destroyed.                                                                               |    No    |  `60000`   |
-| `--concurrent_limit, -c` | `concurrent_limit` | Maximum number of clients' connections to WebSocket server (number)                                                                                                                                                                                   |    No    |   `5000`   |
-| `--sslkey`               | `sslkey`           | Path to SSL key (string)                                                                                                                                                                                                                              |    No    |            |
-| `--sslcert`              | `sslcert`          | Path to SSL certificate (string)                                                                                                                                                                                                                      |    No    |            |
-| `--allow_discovery`      | `allow_discovery`  | Allow to use GET `/peers` http API method to get an array of ids of all connected clients (boolean)                                                                                                                                                   |    No    |            |
-| `--cors`                 | `corsOptions`      | The CORS origins that can access this server                                                                                                                                                                                                          |
-|                          | `generateClientId` | A function which generate random client IDs when calling `/id` API method (`() => string`)                                                                                                                                                            |    No    | `uuid/v4`  |
+| CLI option               | JS option          | Environment Variable       | Description                                                                                                                                                                                                                                           | Required |  Default   |
+| ------------------------ | ------------------ | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: | :--------: |
+| `--port, -p`             | `port`             | `PEERJS_PORT`, `PORT`      | Port to listen (number)                                                                                                                                                                                                                               | **Yes**  |   `9000`   |
+| `--key, -k`              | `key`              | `PEERJS_KEY`               | Connection key (string). Client must provide it to call API methods                                                                                                                                                                                   |    No    | `"peerjs"` |
+| `--path`                 | `path`             | `PEERJS_PATH`              | Path (string). The server responds for requests to the root URL + path. **E.g.** Set the `path` to `/myapp` and run server on 9000 port via `peerjs --port 9000 --path /myapp` Then open http://127.0.0.1:9000/myapp - you should see a JSON reponse. |    No    |   `"/"`    |
+| `--proxied`              | `proxied`          | `PEERJS_PROXIED`           | Set `true` if PeerServer stays behind a reverse proxy (boolean)                                                                                                                                                                                       |    No    |  `false`   |
+| `--expire_timeout, -t`   | `expire_timeout`   | `PEERJS_EXPIRE_TIMEOUT`    | The amount of time after which a message sent will expire, the sender will then receive a `EXPIRE` message (milliseconds).                                                                                                                            |    No    |   `5000`   |
+| `--alive_timeout`        | `alive_timeout`    | `PEERJS_ALIVE_TIMEOUT`     | Timeout for broken connection (milliseconds). If the server doesn't receive any data from client (includes `pong` messages), the client's connection will be destroyed.                                                                               |    No    |  `60000`   |
+| `--concurrent_limit, -c` | `concurrent_limit` | `PEERJS_CONCURRENT_LIMIT`  | Maximum number of clients' connections to WebSocket server (number)                                                                                                                                                                                   |    No    |   `5000`   |
+| `--sslkey`               | `sslkey`           | `PEERJS_SSL_KEY`           | Path to SSL key (string)                                                                                                                                                                                                                              |    No    |            |
+| `--sslcert`              | `sslcert`          | `PEERJS_SSL_CERT`          | Path to SSL certificate (string)                                                                                                                                                                                                                      |    No    |            |
+| `--allow_discovery`      | `allow_discovery`  | `PEERJS_ALLOW_DISCOVERY`   | Allow to use GET `/peers` http API method to get an array of ids of all connected clients (boolean)                                                                                                                                                   |    No    |  `false`   |
+| `--cors`                 | `corsOptions`      | `PEERJS_CORS`              | The CORS origins that can access this server (comma-separated)                                                                                                                                                                                        |    No    |            |
+| `--host, -H`             | `host`             | `PEERJS_HOST`              | Host to bind to (string)                                                                                                                                                                                                                              |    No    |   `::`     |
+|                          | `generateClientId` |                            | A function which generate random client IDs when calling `/id` API method (`() => string`)                                                                                                                                                            |    No    | `uuid/v4`  |
 
 ## Using HTTPS
 
@@ -269,6 +270,62 @@ $ docker run -p 9000:9000 -d myimage
 This will start a peerjs server on port 9000 exposed on port 9000 with key `peerjs` on path `/myapp`.
 
 Open your browser with http://localhost:9000/myapp It should returns JSON with name, description and website fields. http://localhost:9000/myapp/peerjs/id - should returns a random string (random client id)
+
+## Deployment with Cloudflare Tunnel
+
+1. Create a Cloudflare account and add your domain.
+2. Get the Global API token from Cloudflare.
+3. Copy the envfile to `.env` and fill in the required values including the `CLOUDFLARE_API_KEY` and `HOST_DOMAIN` (your desired subdomain).
+4. Run the following command to build the docker container:
+   ```bash
+   npm run docker:cloudflare:build
+   ```
+5. Run the following command to start the cloudflare deployment:
+   ```bash
+   npm run deploy:cloudflare
+   ```
+6. On the first usage, you will be directed to the Cloudflare login page. After logging in, you will have to authorize the domain you specified in the `.env` file `HOST_DOMAIN`.
+7. After the authorization, your PeerJS server will be accessible at your custom domain with HTTPS/WSS support.
+
+### Manual deployment commands
+
+```bash
+# Build and start containers
+npm run docker:cloudflare:up
+
+# Setup tunnel permissions
+npm run tunnel:setup
+
+# Start tunnel (uses .env file)
+npm run tunnel:start
+
+# Or start tunnel manually
+npm run tunnel:start:manual --apikey=your_api_key --domain=peerjs.emaily.re
+
+# Monitor logs
+npm run docker:cloudflare:logs
+
+# Stop deployment
+npm run docker:cloudflare:down
+```
+
+## Environment Variables
+
+For Cloudflare deployment, set these in your `.env` file:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `HOST_DOMAIN` | Your subdomain (e.g., peerjs.emaily.re) | - |
+| `CLOUDFLARE_API_KEY` | Your Cloudflare Global API Key | - |
+| `PEERJS_PORT` | Port for PeerJS server | 9000 |
+| `PEERJS_PATH` | Path for PeerJS endpoints | / |
+| `PEERJS_KEY` | Connection key | peerjs |
+| `PEERJS_PROXIED` | Set true when behind proxy | true |
+| `PEERJS_ALLOW_DISCOVERY` | Allow peer discovery | false |
+| `PEERJS_CONCURRENT_LIMIT` | Max concurrent connections | 5000 |
+| `PEERJS_EXPIRE_TIMEOUT` | Message expiration timeout (ms) | 5000 |
+| `PEERJS_ALIVE_TIMEOUT` | Connection alive timeout (ms) | 60000 |
+| `PEERJS_CORS` | CORS origins (comma-separated) | - |
 
 ## Running in Google App Engine
 

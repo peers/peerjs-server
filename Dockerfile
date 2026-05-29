@@ -1,13 +1,14 @@
 FROM --platform=$BUILDPLATFORM docker.io/library/node:18.20.8 as build
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
+ARG SKIP_TESTS=false
 RUN mkdir /peer-server
 WORKDIR /peer-server
 COPY package.json package-lock.json ./
 RUN npm clean-install
 COPY . ./
 RUN npm run build
-RUN npm run test
+RUN if [ "$SKIP_TESTS" != "true" ]; then npm run test; fi
 
 FROM docker.io/library/node:18.20.8-alpine as production
 RUN mkdir /peer-server

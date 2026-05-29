@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import path from "node:path";
 import fs from "node:fs";
 const optimistUsageLength = 98;
@@ -10,7 +9,6 @@ import type { AddressInfo } from "node:net";
 import type { CorsOptions } from "cors";
 
 const y = yargs(hideBin(process.argv));
-
 const portEnvIsSet = !!process.env["PORT"];
 
 const opts = y
@@ -21,68 +19,74 @@ const opts = y
 			demandOption: false,
 			alias: "t",
 			describe: "timeout (milliseconds)",
-			default: 5000,
+			default: parseInt(process.env["PEERJS_EXPIRE_TIMEOUT"] ?? "5000"),
 		},
 		concurrent_limit: {
 			demandOption: false,
 			alias: "c",
 			describe: "concurrent limit",
-			default: 5000,
+			default: parseInt(process.env["PEERJS_CONCURRENT_LIMIT"] ?? "5000"),
 		},
 		alive_timeout: {
 			demandOption: false,
 			describe: "broken connection check timeout (milliseconds)",
-			default: 60000,
+			default: parseInt(process.env["PEERJS_ALIVE_TIMEOUT"] ?? "60000"),
 		},
 		key: {
 			demandOption: false,
 			alias: "k",
 			describe: "connection key",
-			default: "peerjs",
+			default: process.env["PEERJS_KEY"] ?? "peerjs",
 		},
 		sslkey: {
 			type: "string",
 			demandOption: false,
 			describe: "path to SSL key",
+			default: process.env["PEERJS_SSL_KEY"],
 		},
 		sslcert: {
 			type: "string",
 			demandOption: false,
 			describe: "path to SSL certificate",
+			default: process.env["PEERJS_SSL_CERT"],
 		},
 		host: {
 			type: "string",
 			demandOption: false,
 			alias: "H",
 			describe: "host",
+			default: process.env["PEERJS_HOST"],
 		},
 		port: {
 			type: "number",
 			demandOption: !portEnvIsSet,
 			alias: "p",
 			describe: "port",
+			default: parseInt(process.env["PEERJS_PORT"] ?? "9000"),
 		},
 		path: {
 			type: "string",
 			demandOption: false,
 			describe: "custom path",
-			default: process.env["PEERSERVER_PATH"] ?? "/",
+			default: process.env["PEERJS_PATH"] ?? process.env["PEERSERVER_PATH"] ?? "/",
 		},
 		allow_discovery: {
 			type: "boolean",
 			demandOption: false,
 			describe: "allow discovery of peers",
+			default: process.env["PEERJS_ALLOW_DISCOVERY"] === "true",
 		},
 		proxied: {
 			type: "boolean",
 			demandOption: false,
 			describe: "Set true if PeerServer stays behind a reverse proxy",
-			default: false,
+			default: process.env["PEERJS_PROXIED"] === "true",
 		},
 		cors: {
 			type: "string",
 			array: true,
 			describe: "Set the list of CORS origins",
+			default: process.env["PEERJS_CORS"] ? process.env["PEERJS_CORS"].split(",") : undefined,
 		},
 	})
 	.boolean("allow_discovery")
@@ -90,14 +94,22 @@ const opts = y
 
 if (!opts.port) {
 	// .port is only not set if the PORT env var is set
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	opts.port = parseInt(process.env["PORT"]!);
+	opts.port = parseInt(process.env["PORT"] ?? "9000");
 }
+
+let corsOptions: CorsOptions = { origin: true }; // Default to allow all
+
 if (opts.cors) {
-	opts["corsOptions"] = {
-		origin: opts.cors,
-	} satisfies CorsOptions;
+	if (opts.cors.includes('*')) {
+		corsOptions = { origin: true };
+	} else {
+		corsOptions = { origin: opts.cors };
+	}
 }
+
+// Add corsOptions to the main configuration
+opts["corsOptions"] = corsOptions;
+
 process.on("uncaughtException", function (e) {
 	console.error("Error: " + e.toString());
 });
@@ -118,9 +130,11 @@ if (opts.sslkey ?? opts.sslcert) {
 }
 
 const userPath = opts.path;
+
+console.log("CORS configuration:", corsOptions);
+
 const server = PeerServer(opts, (server) => {
 	const { address: host, port } = server.address() as AddressInfo;
-
 	console.log(
 		"Started PeerServer on %s, port: %s, path: %s",
 		host,
@@ -128,10 +142,13 @@ const server = PeerServer(opts, (server) => {
 		userPath || "/",
 	);
 
+	if (process.env["CLOUDFLARE_TUNNEL"]) {
+		console.log("Running with Cloudflare Tunnel support");
+	}
+
 	const shutdownApp = () => {
 		server.close(() => {
 			console.log("Http server closed.");
-
 			process.exit(0);
 		});
 	};
